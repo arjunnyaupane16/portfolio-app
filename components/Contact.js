@@ -1,7 +1,6 @@
 import { Feather, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
 import {
-  Alert,
   Animated,
   Easing,
   Keyboard,
@@ -12,16 +11,12 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
+  View,
 } from 'react-native';
 import styles from '../styles/ContactStyles';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -45,14 +40,14 @@ export default function Contact() {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(slideUpAnim, {
         toValue: 0,
         duration: 600,
         easing: Easing.out(Easing.exp),
-        useNativeDriver: true
-      })
+        useNativeDriver: true,
+      }),
     ]).start();
   }, []);
 
@@ -73,9 +68,9 @@ export default function Contact() {
   };
 
   const handleChange = (name, value) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
@@ -84,14 +79,14 @@ export default function Contact() {
 
     setIsLoading(true);
 
-    // Simulate success animation and form reset, no backend call
     Animated.timing(successAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true
+      useNativeDriver: true,
     }).start();
 
     setIsSubmitted(true);
+
     setTimeout(() => {
       setFormData({ name: '', email: '', message: '' });
       setIsSubmitted(false);
@@ -109,7 +104,6 @@ export default function Contact() {
     }
   };
 
-  // Form inputs JSX extracted to reuse
   const FormInputs = (
     <>
       <View style={styles.inputContainer}>
@@ -119,6 +113,10 @@ export default function Contact() {
           value={formData.name}
           onChangeText={(text) => handleChange('name', text)}
           placeholderTextColor="#95a5a6"
+          editable={!isLoading}
+          autoCorrect={false}
+          autoComplete="name"
+          returnKeyType="next"
         />
         {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
       </View>
@@ -132,6 +130,10 @@ export default function Contact() {
           keyboardType="email-address"
           autoCapitalize="none"
           placeholderTextColor="#95a5a6"
+          editable={!isLoading}
+          autoCorrect={false}
+          autoComplete="email"
+          returnKeyType="next"
         />
         {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
       </View>
@@ -145,6 +147,9 @@ export default function Contact() {
           multiline
           numberOfLines={4}
           placeholderTextColor="#95a5a6"
+          editable={!isLoading}
+          autoCorrect={false}
+          returnKeyType="done"
         />
         {errors.message && <Text style={styles.errorText}>{errors.message}</Text>}
       </View>
@@ -170,9 +175,10 @@ export default function Contact() {
         styles.container,
         {
           opacity: fadeAnim,
-          transform: [{ translateY: slideUpAnim }]
-        }
+          transform: [{ translateY: slideUpAnim }],
+        },
       ]}
+      pointerEvents="auto" // explicitly enable pointer events
     >
       <Text style={styles.sectionTitle}>Get In Touch</Text>
 
@@ -186,11 +192,11 @@ export default function Contact() {
                 {
                   scale: successAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0.9, 1]
-                  })
-                }
-              ]
-            }
+                    outputRange: [0.9, 1],
+                  }),
+                },
+              ],
+            },
           ]}
         >
           <Ionicons name="checkmark-circle" size={50} color="#00b894" />
@@ -198,10 +204,10 @@ export default function Contact() {
           <Text style={styles.successSubtext}>I'll get back to you soon.</Text>
         </Animated.View>
       ) : Platform.OS === 'web' ? (
-        // On web, render inputs without KeyboardAvoidingView or TouchableWithoutFeedback
+        // For web: simple view without keyboard handling wrappers
         <View style={styles.formContainer}>{FormInputs}</View>
       ) : (
-        // On iOS/Android keep the KeyboardAvoidingView + TouchableWithoutFeedback wrapper
+        // For iOS and Android: wrap with keyboard handling and dismiss on outside tap
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

@@ -31,7 +31,6 @@ export default function Contact() {
   const slideUpAnim = useRef(new Animated.Value(30)).current;
   const successAnim = useRef(new Animated.Value(0)).current;
 
-  // Keyboard visibility
   useEffect(() => {
     const show = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardVisible(true));
     const hide = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardVisible(false));
@@ -41,7 +40,6 @@ export default function Contact() {
     };
   }, []);
 
-  // Entrance animation
   useEffect(() => {
     Animated.parallel([
       Animated.timing(fadeAnim, {
@@ -81,42 +79,25 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!validateForm()) return;
 
     setIsLoading(true);
 
-    try {
-     const response = await fetch('http://192.168.1.4:5000/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+    // Simulate success animation and form reset, no backend call
+    Animated.timing(successAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true
+    }).start();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        Animated.timing(successAnim, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: true
-        }).start();
-
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setFormData({ name: '', email: '', message: '' });
-          setIsSubmitted(false);
-          successAnim.setValue(0);
-        }, 3000);
-      } else {
-        Alert.alert('Error', data.error || 'Failed to send message.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      Alert.alert('Network Error', 'Unable to send message. Please try again.');
-    } finally {
+    setIsSubmitted(true);
+    setTimeout(() => {
+      setFormData({ name: '', email: '', message: '' });
+      setIsSubmitted(false);
+      successAnim.setValue(0);
       setIsLoading(false);
-    }
+    }, 3000);
   };
 
   const openLink = async (url) => {

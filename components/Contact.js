@@ -40,13 +40,13 @@ export default function Contact() {
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
       Animated.timing(slideUpAnim, {
         toValue: 0,
         duration: 600,
         easing: Easing.out(Easing.exp),
-        useNativeDriver: true,
+        useNativeDriver: false,
       }),
     ]).start();
   }, []);
@@ -82,7 +82,7 @@ export default function Contact() {
     Animated.timing(successAnim, {
       toValue: 1,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
 
     setIsSubmitted(true);

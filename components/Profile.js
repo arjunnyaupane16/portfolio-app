@@ -33,7 +33,7 @@ export default function Profile() {
           toValue: 1,
           friction: 5,
           tension: 70,
-          useNativeDriver: true,
+          useNativeDriver:false,
         }),
         Animated.timing(headerOpacity, {
           toValue: 1,

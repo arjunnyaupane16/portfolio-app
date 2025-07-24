@@ -4,14 +4,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#0B1220', // Outermost dark background
+  marginTop:0,
+      backgroundColor: '#0B1220', // Outermost dark background
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#F8FAFC',
+    color: '#00fb15d3',
     marginBottom: 8,
     textAlign: 'center',
+
   },
   subtitle: {
     fontSize: 16,
@@ -32,8 +34,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 5,
-    borderWidth: 8,
-    borderColor: '#1E293B', // Subtle separation from container
+    borderWidth: 3,
+    borderColor: '#f84343ff', // Subtle separation from container
   },
   sectionHeader: {
     flexDirection: 'row',

@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    padding: 10,
-    marginTop: 0, // 🔼 Moved to the top — remove spacing if not needed
+    padding: 20,
+    marginTop: 80, // 🔼 Moved to the top — remove spacing if not needed
     borderRadius: 15,
     backgroundColor: '#0B1220', // Matches outermost background
   },
@@ -12,15 +12,15 @@ export default StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 16,
-    color: '#F8FAFC',
+    color: '#00fb15d3',
     textAlign: 'center',
   },
 
   projectCard: {
     marginBottom: 24,
     borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#1E293B',
+    borderWidth: 5,
+    borderColor: 'purple',
     backgroundColor: '#10172A',
     overflow: 'hidden',
 

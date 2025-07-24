@@ -18,7 +18,7 @@ import styles from '../styles/ProjectsStyles';
 import driftAndSipImg from '../assets/images/drift-and-sip.jpg';
 import portfolioImg from '../assets/images/portfolio.jpg';
 import taskManagerImg from '../assets/images/task-manager.jpg';
-
+import adminappImg from '../assets/images/admin-app.jpg';
 // ✅ Project data using local images
 const projectsData = [
   {
@@ -38,7 +38,7 @@ const projectsData = [
     description: 'Responsive portfolio website showcasing skills and featured projects.',
     tech: 'React.js, CSS3, Vercel',
     image: portfolioImg,
-    demo: 'https://vercel.com/arjunnyaupane16s-projects',
+    demo: 'https://chandraprakashnyaupane.vercel.app/',
     stats:
       'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
   },
@@ -47,9 +47,20 @@ const projectsData = [
     title: 'Task Manager',
     description:
       'A task and project management app featuring drag & drop, reminders, and cloud sync.',
-    tech: 'React Native, Firebase, Redux',
+    tech: 'React Native,Firebase, Redux',
     image: taskManagerImg,
     demo: 'https://task-manager-demo.example.com',
+    stats:
+      'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
+  },
+  {
+    id: '4',
+    title: 'Admin App',
+    description:
+      'Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.',
+    tech: 'React.js, JavaScript, CSS3, Vercel',
+    image: adminappImg,
+    demo: 'https://admin-app-rose.vercel.app/',
     stats:
       'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
   },

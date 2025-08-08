@@ -1,79 +1,97 @@
-import { StyleSheet } from 'react-native';
+// styles/ProjectsStyles.js
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { isMobile, isTablet, isDesktop, responsiveFont } from '../utils/responsive';
+
+const { width } = Dimensions.get('window');
 
 const colors = {
-  primary: '#4ea8de',         // soft sky blue for CTA/buttons
-  primaryLight: '#73c2fb',    // lighter hover state
-
-accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accent/highlight
-  secondary: '#3f3d56',       // muted dark violet-grey (for depth)
-
-  background: '#1e293b',      // deep desaturated blue-grey (main bg)
-  backgroundLight: '#273349', // for cards/sections
-
-  text: '#dbeafe', // very soft, pastel blue (from Tailwind’s blue-10           // soft light text (not white)
-  textLight: '#94a3b8',       // muted text for descriptions/labels
-
-  border: '#334155',          // soft border shade
-  highlight: '#a5f3fc',       // for glow or focus states
-
-  error: '#f87171',           // calm red
-  success: '#34d399'          // smooth green
+  primary: '#4ea8de',
+  primaryLight: '#73c2fb',
+  accent: '#8acec4ff',
+  secondary: '#3f3d56',
+  background: '#1e293b',
+  backgroundLight: '#273349',
+  text: '#dbeafe',
+  textLight: '#94a3b8',
+  border: '#334155',
+  highlight: '#a5f3fc',
+  error: '#f87171',
+  success: '#34d399',
+  white: '#ffffff'
 };
 
-
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
-  },
-  scrollContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 40
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 30,
+    backgroundColor: colors.background,
+    paddingHorizontal: isDesktop ? 80 : isTablet ? 40 : 20,
     paddingTop: 20
   },
+
+  scrollContainer: {
+    paddingBottom: 40
+  },
+
+  header: {
+    alignItems: 'center',
+    marginBottom: 30
+  },
+
   title: {
-    fontSize: 32,
+    fontSize: responsiveFont(26, 30, 36),
     fontWeight: '700',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 10,
     letterSpacing: 1
   },
+
   subtitle: {
-    fontSize: 16,
+    fontSize: responsiveFont(14, 16, 18),
     color: colors.textLight,
     textAlign: 'center'
   },
+
   projectCard: {
     backgroundColor: colors.backgroundLight,
     borderRadius: 16,
     marginBottom: 25,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    elevation: 5,
-    borderWidth: 1
+    borderWidth: 1,
+    borderColor: colors.border,
+    width: isDesktop ? 700 : '100%',
+    alignSelf: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10
+      },
+      android: {
+        elevation: 5
+      }
+    })
   },
+
   imageContainer: {
     width: '100%',
-    height: 200,
+    height: isDesktop ? 300 : 200,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.background
   },
+
   loadingIndicator: {
     position: 'absolute',
     zIndex: 1
   },
+
   projectImage: {
     width: '100%',
-    height: '100%'
+    height: '100%',
+    resizeMode: 'cover'
   },
+
   projectHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -82,46 +100,59 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: colors.backgroundLight
   },
+
   projectTitle: {
-    fontSize: 20,
+    fontSize: responsiveFont(18, 20, 22),
     fontWeight: '700',
+    color: colors.text,
     flex: 1
   },
+
   projectDetails: {
     paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
     borderTopWidth: 1,
-    overflow: 'hidden'
+    borderColor: colors.border
   },
+
   projectDescription: {
-    fontSize: 15,
+    fontSize: responsiveFont(14, 15, 16),
     color: colors.textLight,
-    lineHeight: 24,
+    lineHeight: responsiveFont(22, 24, 26),
     marginBottom: 15
   },
+
   projectTech: {
-    fontSize: 14,
+    fontSize: responsiveFont(13, 14, 15),
     color: colors.textLight,
     marginBottom: 20,
     lineHeight: 20
   },
+
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: isMobile ? 'column' : 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
     gap: 15
   },
+
   actionButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 12,
-    borderRadius: 8,
-    gap: 8
+    paddingVertical: 14,
+    borderRadius: 10,
+    backgroundColor: colors.primary,
+    gap: 8,
+    marginBottom: isMobile ? 10 : 0
   },
+
   buttonText: {
     color: colors.white,
     fontWeight: '600',
-    fontSize: 14
+    fontSize: responsiveFont(13, 14, 15)
   }
 });
+
+export default styles;

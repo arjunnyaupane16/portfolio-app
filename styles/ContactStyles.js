@@ -121,7 +121,7 @@ export default StyleSheet.create({
   },
 
   socialButton: {
-    backgroundColor: colors.primary,
+    backgroundColor:'green',
     padding: 12,
     borderRadius: 50,
     alignItems: 'center',

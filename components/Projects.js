@@ -39,7 +39,7 @@ const projectsData = [
     image: portfolioImg,
     demo: 'https://chandraprakashnyaupane.vercel.app/',
     github: 'https://github.com/yourusername/portfolio',
-    color: '#4895ef' // Light blue
+    color: '#4cc9f0'// Light blue
   },
   {
     id: '3',
@@ -49,7 +49,7 @@ const projectsData = [
     image: taskManagerImg,
     demo: 'https://task-manager-demo.example.com',
     github: 'https://github.com/yourusername/task-manager',
-    color: '#4361ee' // Primary blue
+    color: '#4cc9f0' // Primary blue
   },
   {
     id: '4',
@@ -59,7 +59,7 @@ const projectsData = [
     image: adminappImg,
     demo: 'https://admin-app-rose.vercel.app/',
     github: 'https://github.com/yourusername/admin-app',
-    color: '#3f37c9' // Dark blue
+    color: '#4cc9f0' // Dark blue
   },
 ];
 

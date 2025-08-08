@@ -7,10 +7,10 @@ const colors = {
   primaryLight: '#4895ef',
   secondary: '#3f37c9',
   accent: '#4cc9f0',
-  background: '#f8f9fa',
+  background: '#c8d0d7ff',
   text: '#2b2d42',
   textLight: '#8d99ae',
-  white: '#ffffff',
+  white: '#e7e9e9ff',
   border: '#e9ecef',
 };
 

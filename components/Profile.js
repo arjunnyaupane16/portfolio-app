@@ -1,18 +1,20 @@
+import React, { useEffect, useRef, useState } from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Image,
   LayoutAnimation,
+  Linking,
   ScrollView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import profileImage from '../assets/images/profile.jpg';
 import styles from '../styles/profileStyles';
 
 export default function Profile() {
+  // Animation refs
   const headerScale = useRef(new Animated.Value(0.8)).current;
   const headerOpacity = useRef(new Animated.Value(0)).current;
   const imageScale = useRef(new Animated.Value(0.7)).current;
@@ -26,11 +28,36 @@ export default function Profile() {
   const [expandedBio, setExpandedBio] = useState(false);
   const [bioMeasuredHeight, setBioMeasuredHeight] = useState(0);
 
-  const bioText = `I am a passionate and detail-oriented full-stack developer pursuing my B.Tech in Computer Science from Quantum University, Roorkee.
+  // Function to calculate age dynamically from birthdate
+  function calculateAge(dob) {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const dayDiff = today.getDate() - birthDate.getDate();
 
-My journey into technology began with a curiosity for how things work, and it evolved into a love for building modern web and mobile apps.
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
+    }
+    return age;
+  }
 
-I enjoy crafting clean, scalable code and building intuitive experiences using tools like React, Node.js, and MongoDB.`;
+  // Calculate age based on Dec 29, 2006
+  const age = calculateAge('2006-12-29');
+
+  // Enhanced About Me bio text with dynamic age and full stack + mobile dev info
+  const bioText = `I am a passionate and detail-oriented Full Stack and Mobile App Developer, currently ${age} years old, pursuing my B.Tech in Computer Science from Quantum University, Roorkee.
+
+With expertise in building scalable web applications and native mobile experiences, I specialize in technologies such as React, React Native, Node.js, Express, and MongoDB.I enjoy crafting clean, maintainable code and delivering intuitive user experiences on both web and mobile platforms.
+
+My journey into software development is driven by curiosity and a love for creating impactful, efficient solutions that connect people and technology seamlessly.`;
+
+  // Function to open URL safely
+  const openURL = (url) => {
+    Linking.openURL(url).catch((err) => {
+      console.error("Failed to open URL:", err);
+    });
+  };
 
   useEffect(() => {
     // Animate on mount
@@ -39,46 +66,46 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
         toValue: 1,
         friction: 5,
         tension: 70,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(headerOpacity, {
         toValue: 1,
         duration: 600,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.spring(imageScale, {
         toValue: 1,
         friction: 6,
         tension: 60,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(imageOpacity, {
         toValue: 1,
         duration: 800,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.spring(contentSlide, {
         toValue: 0,
         friction: 7,
         tension: 40,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(contentOpacity, {
         toValue: 1,
         duration: 1000,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.spring(eduCardScale, {
         toValue: 1,
         friction: 6,
         tension: 50,
-        useNativeDriver: true
+        useNativeDriver: true,
       }),
       Animated.timing(eduCardOpacity, {
         toValue: 1,
         duration: 1200,
-        useNativeDriver: true
-      })
+        useNativeDriver: true,
+      }),
     ]).start();
   }, []);
 
@@ -86,23 +113,20 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
     Animated.spring(bioHeight, {
       toValue: expandedBio ? 1 : 0,
       friction: 8,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
   }, [expandedBio]);
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollContainer}
-      showsVerticalScrollIndicator={false}
-    >
+    <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <Animated.View
         style={[
           styles.header,
           {
             opacity: headerOpacity,
-            transform: [{ scale: headerScale }]
-          }
+            transform: [{ scale: headerScale }],
+          },
         ]}
       >
         <Text style={styles.headerText}>My Profile</Text>
@@ -114,8 +138,8 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
           styles.profileCard,
           {
             opacity: imageOpacity,
-            transform: [{ scale: imageScale }]
-          }
+            transform: [{ scale: imageScale }],
+          },
         ]}
       >
         {/* Profile Image */}
@@ -125,8 +149,8 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
               styles.circularBorder,
               {
                 transform: [{ scale: imageScale }],
-                opacity: imageOpacity
-              }
+                opacity: imageOpacity,
+              },
             ]}
           >
             <Image source={profileImage} style={styles.profileImage} />
@@ -139,12 +163,12 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
             styles.content,
             {
               opacity: contentOpacity,
-              transform: [{ translateY: contentSlide }]
-            }
+              transform: [{ translateY: contentSlide }],
+            },
           ]}
         >
           <Text style={styles.name}>Chandraprakash Nyaupane</Text>
-          <Text style={styles.title}>Mobile App Developer</Text>
+          <Text style={styles.title}>Full Stack & Mobile App Developer</Text>
 
           <View style={styles.divider} />
 
@@ -169,9 +193,10 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
 
           {/* Bio Section with animated height */}
           <View style={styles.bioContainer}>
+            {/* Invisible measure view to get height */}
             <View
               style={{ position: 'absolute', opacity: 0 }}
-              onLayout={event => {
+              onLayout={(event) => {
                 const { height } = event.nativeEvent.layout;
                 if (bioMeasuredHeight === 0) {
                   setBioMeasuredHeight(height);
@@ -181,13 +206,14 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
               <Text style={styles.bio}>{bioText}</Text>
             </View>
 
+            {/* Animated visible bio */}
             <Animated.View
               style={{
                 height: bioHeight.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, bioMeasuredHeight]
+                  outputRange: [0, bioMeasuredHeight],
                 }),
-                overflow: 'hidden'
+                overflow: 'hidden',
               }}
             >
               <Text style={styles.bio}>{bioText}</Text>
@@ -196,45 +222,67 @@ I enjoy crafting clean, scalable code and building intuitive experiences using t
         </Animated.View>
       </Animated.View>
 
-      {/* Education Section */}
-      <Animated.View
-        style={[
-          styles.educationCard,
-          {
-            opacity: eduCardOpacity,
-            transform: [{ scale: eduCardScale }]
-          }
-        ]}
+     {/* Education Section */}
+<Animated.View
+  style={[
+    styles.educationCard,
+    {
+      opacity: eduCardOpacity,
+      transform: [{ scale: eduCardScale }],
+    },
+  ]}
+>
+  <Text style={styles.sectionTitle}>Education</Text>
+
+  {/* +2 College Entry */}
+  <View style={styles.eduItem}>
+    <View style={styles.eduIcon}>
+      <MaterialIcons name="book" size={24} color="#4895ef" />
+    </View>
+    <View style={styles.eduDetails}>
+      <TouchableOpacity
+        onPress={() => openURL('https://whitehouse.edu.np/')}
+        activeOpacity={0.7}
       >
-        <Text style={styles.sectionTitle}>Education</Text>
+        <Text style={[styles.eduTitle, {  color: '#4cc9f0' }]}>
+          Himalayan WhiteHouse International College
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.eduDegree}>+2 Science (PCM‑B)</Text>
+      <Text style={styles.eduDate}>2021 – 2023</Text>
+    </View>
+  </View>
 
-        <View style={styles.eduItem}>
-          <View style={styles.eduIcon}>
-            <MaterialIcons name="school" size={24} color="#4cc9f0" />
-          </View>
-          <View style={styles.eduDetails}>
-            <Text style={styles.eduTitle}>Quantum University, Roorkee</Text>
-            <Text style={styles.eduDegree}>B.Tech in Computer Science & Engineering</Text>
-            <Text style={styles.eduDate}>2023 - 2027</Text>
-            <Text style={styles.eduHighlight}>
-              Coursework: DSA, Web Development, DBMS
-            </Text>
-          </View>
-        </View>
+  {/* Underline Divider Between Entries */}
+  <View
+    style={{
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc', // adjust color as needed
+      marginVertical: 10,         // space around divider
+      width: '100%',
+    }}
+  />
 
-        <View style={styles.eduItem}>
-          <View style={styles.eduIcon}>
-            <MaterialIcons name="book" size={24} color="#4895ef" />
-          </View>
-          <View style={styles.eduDetails}>
-            <Text style={styles.eduTitle}>
-              Himalayan WhiteHouse International College
-            </Text>
-            <Text style={styles.eduDegree}>+2 Science (PCM-B)</Text>
-            <Text style={styles.eduDate}>2021 - 2023</Text>
-          </View>
-        </View>
-      </Animated.View>
-    </ScrollView>
+  {/* Bachelor’s (B.Tech) Entry */}
+  <View style={styles.eduItem}>
+    <View style={styles.eduIcon}>
+      <MaterialIcons name="school" size={24} color="#4cc9f0" />
+    </View>
+    <View style={styles.eduDetails}>
+      <TouchableOpacity
+        onPress={() => openURL('https://quantumuniversity.edu.in/')}
+        activeOpacity={0.7}
+      >
+        <Text style={[styles.eduTitle, {  color: '#4cc9f0' }]}>
+          Quantum University, Roorkee
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.eduDegree}>B.Tech in Computer Science & Engineering</Text>
+      <Text style={styles.eduDate}>2023 – 2027</Text>
+      <Text style={styles.eduHighlight}>Coursework: DSA, Web Development, DBMS</Text>
+    </View>
+  </View>
+</Animated.View>
+   </ScrollView>
   );
 }

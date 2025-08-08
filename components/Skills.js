@@ -23,9 +23,8 @@ const skillsData = [
       { name: 'JavaScript', icon: require('../assets/icons/javascript.png'), level: 75 },
       { name: 'React', icon: require('../assets/icons/react.png'), level: 90 },
       { name: 'React Native', icon: require('../assets/icons/react-native.png'), level: 85 },
-        { name: 'TypeScript', icon: require('../assets/icons/typescript.png'), level: 65 },
+      { name: 'TypeScript', icon: require('../assets/icons/typescript.png'), level: 65 },
     ],
-
   },
   {
     category: 'Backend & Databases',
@@ -40,7 +39,7 @@ const skillsData = [
   {
     category: 'Tools & Platforms',
     icon: 'build',
-    color: '#4361ee',
+    color: '#4cc9f0',
     items: [
       { name: 'Git', icon: require('../assets/icons/git.png'), level: 90 },
       { name: 'GitHub', icon: require('../assets/icons/github.png'), level: 85 },
@@ -50,7 +49,7 @@ const skillsData = [
   },
 ];
 
-const INITIAL_VISIBLE_ITEMS = 4;
+const INITIAL_VISIBLE_ITEMS = 6;
 
 export default function Skills() {
   const titleFade = useRef(new Animated.Value(0)).current;
@@ -276,7 +275,19 @@ export default function Skills() {
                 size={24}
                 color={section.color}
               />
-              <Text style={[styles.sectionTitle, { color: section.color }]}>
+              <Text
+                style={[
+                  styles.sectionTitle,
+                  {
+                    color:
+                      section.category === 'Frontend Development' ||
+                      section.category === 'Backend & Databases' ||
+                      section.category === 'Tools & Platforms'
+                        ? '#ffffff'
+                        : section.color
+                  }
+                ]}
+              >
                 {section.category}
               </Text>
               <MaterialIcons

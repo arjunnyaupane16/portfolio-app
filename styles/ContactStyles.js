@@ -2,16 +2,27 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
+
 const colors = {
-  background: '#0a192f',
-  backgroundLight: '#112240',
-  primary: '#4361ee',
-  accent: '#4cc9f0',
-  text: '#e6f1ff',
-  textLight: '#a8b2d1',
-  error: '#ff6b6b',
-  success: '#00b894',
+  primary: '#4ea8de',         // soft sky blue for CTA/buttons
+  primaryLight: '#73c2fb',    // lighter hover state
+
+accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accent/highlight
+  secondary: '#3f3d56',       // muted dark violet-grey (for depth)
+
+  background: '#1e293b',      // deep desaturated blue-grey (main bg)
+  backgroundLight: '#273349', // for cards/sections
+
+  text: '#dbeafe', // very soft, pastel blue (from Tailwind’s blue-10           // soft light text (not white)
+  textLight: '#94a3b8',       // muted text for descriptions/labels
+
+  border: '#334155',          // soft border shade
+  highlight: '#a5f3fc',       // for glow or focus states
+
+  error: '#f87171',           // calm red
+  success: '#34d399'          // smooth green
 };
+
 
 export default StyleSheet.create({
   container: {

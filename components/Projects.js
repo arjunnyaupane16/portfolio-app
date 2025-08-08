@@ -14,52 +14,47 @@ import {
 } from 'react-native';
 import styles from '../styles/ProjectsStyles';
 
-// Import your project images
-import adminappImg from '../assets/images/admin-app.jpg';
-import driftAndSipImg from '../assets/images/drift-and-sip.jpg';
-import portfolioImg from '../assets/images/portfolio.jpg';
-import taskManagerImg from '../assets/images/task-manager.jpg';
-
+// Project data with public image URIs
 const projectsData = [
   {
     id: '1',
     title: 'Drift & Sip',
     description: 'Real-time order management app with live tracking, soft delete, dashboards, and API integration.',
     tech: 'React Native, Node.js, MongoDB',
-    image: driftAndSipImg,
+    image: { uri: '/images/drift-and-sip.jpg' },
     demo: 'https://drift-and-sip-user-app.vercel.app/',
     github: 'https://github.com/yourusername/drift-and-sip',
-    color: '#4cc9f0' // Teal
+    color: '#4cc9f0'
   },
   {
     id: '2',
     title: 'Personal Portfolio',
     description: 'Responsive portfolio website showcasing skills and featured projects.',
     tech: 'React.js, CSS3, Vercel',
-    image: portfolioImg,
+    image: { uri: '/images/portfolio.jpg' },
     demo: 'https://chandraprakashnyaupane.vercel.app/',
     github: 'https://github.com/yourusername/portfolio',
-    color: '#4cc9f0'// Light blue
+    color: '#4cc9f0'
   },
   {
     id: '3',
     title: 'Task Manager',
     description: 'A task and project management app featuring drag & drop, reminders, and cloud sync.',
     tech: 'React Native, Firebase, Redux',
-    image: taskManagerImg,
+    image: { uri: '/images/task-manager.jpg' },
     demo: 'https://task-manager-demo.example.com',
     github: 'https://github.com/yourusername/task-manager',
-    color: '#4cc9f0' // Primary blue
+    color: '#4cc9f0'
   },
   {
     id: '4',
     title: 'Admin App',
     description: 'Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.',
     tech: 'React.js, JavaScript, CSS3, Vercel',
-    image: adminappImg,
+    image: { uri: '/images/admin-app.jpg' },
     demo: 'https://admin-app-rose.vercel.app/',
     github: 'https://github.com/yourusername/admin-app',
-    color: '#4cc9f0' // Dark blue
+    color: '#4cc9f0'
   },
 ];
 
@@ -67,7 +62,6 @@ export default function Projects() {
   const [expandedId, setExpandedId] = useState(null);
   const [imageLoaded, setImageLoaded] = useState({});
 
-  // Animation refs
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
   const cardFades = useRef(projectsData.map(() => new Animated.Value(0))).current;
@@ -76,10 +70,8 @@ export default function Projects() {
   const detailHeights = useRef(projectsData.map(() => new Animated.Value(0))).current;
 
   useEffect(() => {
-    // Configure LayoutAnimation for smooth expand/collapse
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    // Header animation
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -93,29 +85,30 @@ export default function Projects() {
         useNativeDriver: true
       })
     ]).start();
-Animated.stagger(150, projectsData.map((_, i) =>
-    Animated.parallel([
-      Animated.spring(cardScales[i], {
-        toValue: 1,
-        friction: 5,
-        useNativeDriver: true
-      }),
-      Animated.timing(cardFades[i], {
-        toValue: 1,
-        duration: 500,
-        useNativeDriver: true
-      }),
-      Animated.spring(cardRotations[i], {
-        toValue: 0,
-        tension: 60,
-        friction: 7,
-        useNativeDriver: true
-      })
-    ])
-  )).start(); // ✅ This .start() now correctly closes the stagger block
-}, []);
+
+    Animated.stagger(150, projectsData.map((_, i) =>
+      Animated.parallel([
+        Animated.spring(cardScales[i], {
+          toValue: 1,
+          friction: 5,
+          useNativeDriver: true
+        }),
+        Animated.timing(cardFades[i], {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true
+        }),
+        Animated.spring(cardRotations[i], {
+          toValue: 0,
+          tension: 60,
+          friction: 7,
+          useNativeDriver: true
+        })
+      ])
+    )).start();
+  }, []);
+
   useEffect(() => {
-    // Animate details height when expandedId changes
     projectsData.forEach((_, i) => {
       Animated.timing(detailHeights[i], {
         toValue: expandedId === projectsData[i].id ? 1 : 0,
@@ -131,7 +124,7 @@ Animated.stagger(150, projectsData.map((_, i) =>
     if (supported) {
       await Linking.openURL(url);
     } else {
-      console.log("Don't know how to open this URL: " + url);
+      console.log("Can't open URL: " + url);
     }
   };
 
@@ -144,7 +137,7 @@ Animated.stagger(150, projectsData.map((_, i) =>
 
     const detailHeightInterpolate = detailHeights[index].interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 200] // Adjust based on your content height
+      outputRange: [0, 200]
     });
 
     return (
@@ -163,7 +156,6 @@ Animated.stagger(150, projectsData.map((_, i) =>
           }
         ]}
       >
-        {/* Image with loading indicator */}
         <View style={styles.imageContainer}>
           {!imageLoaded[project.id] && (
             <ActivityIndicator
@@ -181,7 +173,6 @@ Animated.stagger(150, projectsData.map((_, i) =>
           />
         </View>
 
-        {/* Project header with expand button */}
         <TouchableOpacity
           style={styles.projectHeader}
           onPress={() => setExpandedId(isExpanded ? null : project.id)}
@@ -197,7 +188,6 @@ Animated.stagger(150, projectsData.map((_, i) =>
           />
         </TouchableOpacity>
 
-        {/* Project details (animated height) */}
         <Animated.View
           style={[
             styles.projectDetails,
@@ -207,17 +197,13 @@ Animated.stagger(150, projectsData.map((_, i) =>
             }
           ]}
         >
-          <ScrollView
-            nestedScrollEnabled
-            showsVerticalScrollIndicator={false}
-          >
+          <ScrollView nestedScrollEnabled showsVerticalScrollIndicator={false}>
             <Text style={styles.projectDescription}>{project.description}</Text>
             <Text style={styles.projectTech}>
               <Text style={{ fontWeight: '700', color: project.color }}>Tech Stack: </Text>
               {project.tech}
             </Text>
 
-            {/* Action buttons */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: project.color }]}
@@ -256,10 +242,7 @@ Animated.stagger(150, projectsData.map((_, i) =>
         <Text style={styles.subtitle}>My best work and contributions</Text>
       </Animated.View>
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {projectsData.map((project, index) => renderProjectCard(project, index))}
       </ScrollView>
     </View>

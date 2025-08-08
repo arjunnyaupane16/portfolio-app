@@ -110,7 +110,7 @@ export default StyleSheet.create({
     lineHeight: 20,
   },
   buttonContainer: {
-    flexDirection: isLargeScreen ? 'row' : 'column',
+ flexDirection: 'row',  
     justifyContent: 'space-between',
     marginBottom: 20,
     gap: 15,

@@ -49,7 +49,7 @@ const skillsData = [
   },
 ];
 
-const INITIAL_VISIBLE_ITEMS = 6;
+const INITIAL_VISIBLE_ITEMS = 4;
 
 export default function Skills() {
   const titleFade = useRef(new Animated.Value(0)).current;

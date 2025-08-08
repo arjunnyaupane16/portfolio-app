@@ -1,158 +1,91 @@
-// styles/ProjectsStyles.js
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { isMobile, isTablet, isDesktop, responsiveFont } from '../utils/responsive';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
+const isTablet = width >= 768 && width < 1024;
+const isDesktop = width >= 1024;
+
+// ⬇️ Reduced card size here
+const baseCardSize = isDesktop ? 220 : isTablet ? 200 : 180;
+
 const colors = {
-  primary: '#4ea8de',
-  primaryLight: '#73c2fb',
-  accent: '#8acec4ff',
-  secondary: '#3f3d56',
-  background: '#1e293b',
-  backgroundLight: '#273349',
-  text: '#dbeafe',
-  textLight: '#94a3b8',
-  border: '#334155',
-  highlight: '#a5f3fc',
-  error: '#f87171',
-  success: '#34d399',
-  white: '#ffffff'
+  background: '#f9f9f9',
+  card: '#ffffff',
+  text: '#1e1e1e',
+  textLight: '#6b6b6b',
+  accent: '#4ea8de',
+  border: '#e0e0e0',
 };
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    paddingHorizontal: isDesktop ? 80 : isTablet ? 40 : 20,
-    paddingTop: 20
+    paddingHorizontal: isDesktop ? 50 : isTablet ? 30 : 20,
+    paddingTop: 20,
   },
-
-  scrollContainer: {
-    paddingBottom: 40
-  },
-
-  header: {
-    alignItems: 'center',
-    marginBottom: 30
-  },
-
   title: {
-    fontSize: responsiveFont(26, 30, 36),
-    fontWeight: '700',
+    fontSize: isDesktop ? 28 : isTablet ? 24 : 20,
+    fontWeight: 'bold',
     color: colors.text,
-    marginBottom: 10,
-    letterSpacing: 1
-  },
-
-  subtitle: {
-    fontSize: responsiveFont(14, 16, 18),
-    color: colors.textLight,
-    textAlign: 'center'
-  },
-
-  projectCard: {
-    backgroundColor: colors.backgroundLight,
-    borderRadius: 16,
-    marginBottom: 25,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: colors.border,
-    width: isDesktop ? 700 : '100%',
-    alignSelf: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.3,
-        shadowRadius: 10
-      },
-      android: {
-        elevation: 5
-      }
-    })
-  },
-
-  imageContainer: {
-    width: '100%',
-    height: isDesktop ? 300 : 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background
-  },
-
-  loadingIndicator: {
-    position: 'absolute',
-    zIndex: 1
-  },
-
-  projectImage: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover'
-  },
-
-  projectHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    backgroundColor: colors.backgroundLight
-  },
-
-  projectTitle: {
-    fontSize: responsiveFont(18, 20, 22),
-    fontWeight: '700',
-    color: colors.text,
-    flex: 1
-  },
-
-  projectDetails: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 20,
-    borderTopWidth: 1,
-    borderColor: colors.border
-  },
-
-  projectDescription: {
-    fontSize: responsiveFont(14, 15, 16),
-    color: colors.textLight,
-    lineHeight: responsiveFont(22, 24, 26),
-    marginBottom: 15
-  },
-
-  projectTech: {
-    fontSize: responsiveFont(13, 14, 15),
-    color: colors.textLight,
     marginBottom: 20,
-    lineHeight: 20
+    textAlign: 'center',
   },
-
-  buttonContainer: {
-    flexDirection: isMobile ? 'column' : 'row',
-    justifyContent: 'space-between',
-    gap: 15
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 16,
+    width: '100%',
+    maxWidth: baseCardSize,
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+    elevation: 2,
   },
-
-  actionButton: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 14,
+  image: {
+    width: '100%',
+    height: baseCardSize * 0.55, // smaller image height
     borderRadius: 10,
-    backgroundColor: colors.primary,
-    gap: 8,
-    marginBottom: isMobile ? 10 : 0
+    marginBottom: 8,
+    resizeMode: 'cover',
+    backgroundColor: colors.border,
   },
-
-  buttonText: {
-    color: colors.white,
+  projectTitle: {
+    fontSize: isDesktop ? 17 : isTablet ? 16 : 15,
     fontWeight: '600',
-    fontSize: responsiveFont(13, 14, 15)
-  }
+    color: colors.text,
+    marginBottom: 4,
+  },
+  description: {
+    fontSize: isDesktop ? 14 : 13,
+    color: colors.textLight,
+    lineHeight: 18,
+  },
+  readMore: {
+    color: colors.accent,
+    fontSize: 13,
+    marginTop: 6,
+    fontWeight: '500',
+  },
+  linkRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 8,
+    gap: 12,
+  },
+  iconButton: {
+    padding: 6,
+  },
+  scrollView: {
+    paddingBottom: 30,
+  },
+  rowWrap: {
+    flexDirection: isDesktop ? 'row' : 'column',
+    flexWrap: 'wrap',
+    justifyContent: isDesktop ? 'space-between' : 'center',
+    gap: 16,
+  },
 });
-
-export default styles;

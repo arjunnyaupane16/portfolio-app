@@ -286,7 +286,7 @@ export default function Contact() {
 
           <TouchableOpacity
             style={styles.socialButton}
-            onPress={() => openLink('https://github.com/arjunnyaupane16')}
+            onPress={() => openLink('https://github.com/arjunnyaupane16/Profile')}
             activeOpacity={0.7}
           >
             <FontAwesome name="github" size={24} color="#fff" />

@@ -12,10 +12,8 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-  findNodeHandle
 } from 'react-native';
 import styles from '../styles/ContactStyles';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const siteKey = '0x4AAAAAABo-AwfHASrMzqde';
 
@@ -199,8 +197,8 @@ export default function Contact() {
       </View>
 
       {Platform.OS === 'web' && (
-        <View style={styles.inputContainer}>
-          <View ref={turnstileRef} style={{ minHeight: 65 }} />
+        <View style={styles.turnstileContainer}>
+          <View ref={turnstileRef} />
           {errors.turnstile && <Text style={styles.errorText}>{errors.turnstile}</Text>}
         </View>
       )}

@@ -4,7 +4,7 @@ const colors = {
   primary: '#4ea8de',         // soft sky blue for CTA/buttons
   primaryLight: '#73c2fb',    // lighter hover state
 
-accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accent/highlight
+  accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accent/highlight
   secondary: '#3f3d56',       // muted dark violet-grey (for depth)
 
   background: '#1e293b',      // deep desaturated blue-grey (main bg)
@@ -19,7 +19,6 @@ accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accen
   error: '#f87171',           // calm red
   success: '#34d399'          // smooth green
 };
-
 
 export default StyleSheet.create({
   container: {
@@ -70,7 +69,8 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     flex: 1,
-    marginLeft: 10
+    marginLeft: 10,
+    color: colors.text // ensure text color here, override if needed
   },
   grid: {
     flexDirection: 'row',
@@ -84,6 +84,7 @@ export default StyleSheet.create({
     padding: 15,
     marginBottom: 15,
     borderWidth: 1,
+    borderColor: colors.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
@@ -96,16 +97,16 @@ export default StyleSheet.create({
     marginBottom: 12
   },
   iconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10
+    marginRight: 12
   },
   icon: {
-    width: 20,
-    height: 20
+    width: 32,
+    height: 32
   },
   cardText: {
     fontSize: 14,

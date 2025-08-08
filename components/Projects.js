@@ -22,7 +22,7 @@ const projectsData = [
     tech: 'React Native, Node.js, MongoDB',
     image: { uri: 'https://chandraprakashnyaupane.com.np/images/drift-and-sip.jpg' },
     demo: 'https://drift-and-sip-user-app.vercel.app/',
-    github: 'https://github.com/yourusername/drift-and-sip',
+    github: 'https://github.com/arjunnyaupane16/drift-and-sip',
     color: '#4cc9f0'
   },
   {
@@ -32,7 +32,7 @@ const projectsData = [
     tech: 'React.js, CSS3, Vercel',
     image: { uri: 'https://chandraprakashnyaupane.com.np/images/portfolio.jpg' },
     demo: 'https://chandraprakashnyaupane.vercel.app/',
-    github: 'https://github.com/yourusername/portfolio',
+    github: 'https://github.com/arjunnyaupane/portfolio',
     color: '#4cc9f0'
   },
   {
@@ -42,7 +42,7 @@ const projectsData = [
     tech: 'React Native, Firebase, Redux',
     image: { uri: 'https://chandraprakashnyaupane.com.np/images/task-manager.jpg' },
     demo: 'https://task-manager-demo.example.com',
-    github: 'https://github.com/yourusername/task-manager',
+    github: 'https://github.com/arjunnyaupane16/task-manager',
     color: '#4cc9f0'
   },
   {
@@ -52,7 +52,7 @@ const projectsData = [
     tech: 'React.js, JavaScript, CSS3, Vercel',
     image: { uri: 'https://chandraprakashnyaupane.com.np/images/admin-app.jpg' },
     demo: 'https://admin-app-rose.vercel.app/',
-    github: 'https://github.com/yourusername/admin-app',
+    github: 'https://github.com/arjunnyaupane16/admin-app',
     color: '#4cc9f0'
   },
 ];

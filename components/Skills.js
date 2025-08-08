@@ -16,7 +16,7 @@ const skillsData = [
   {
     category: 'Frontend Development',
     icon: 'code',
-    color: '#4cc9f0',
+    color: '#09b6eaff',
     items: [
       { name: 'HTML5', icon: require('../assets/icons/html.png'), level: 95 },
       { name: 'CSS3', icon: require('../assets/icons/css.png'), level: 90 },
@@ -42,7 +42,6 @@ const skillsData = [
     color: '#4cc9f0',
     items: [
       { name: 'Git', icon: require('../assets/icons/git.png'), level: 90 },
-      { name: 'GitHub', icon: require('../assets/icons/github.png'), level: 85 },
       { name: 'Firebase', icon: require('../assets/icons/firebase.png'), level: 75 },
       { name: 'Postman', icon: require('../assets/icons/postman.png'), level: 95 },
     ],
@@ -281,8 +280,8 @@ export default function Skills() {
                   {
                     color:
                       section.category === 'Frontend Development' ||
-                      section.category === 'Backend & Databases' ||
-                      section.category === 'Tools & Platforms'
+                        section.category === 'Backend & Databases' ||
+                        section.category === 'Tools & Platforms'
                         ? '#ffffff'
                         : section.color
                   }

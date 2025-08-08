@@ -1,29 +1,30 @@
 import { StyleSheet } from 'react-native';
-
 const colors = {
-  primary: '#4ea8de',         // soft sky blue for CTA/buttons
-  primaryLight: '#73c2fb',    // lighter hover state
+  primary: '#4ea8de',         // Sky blue - primary CTA
+  primaryLight: '#73c2fb',    // Light blue - hover/secondary CTA
+  accent: '#d92a0fff',          // Mint green - accent highlight
+  secondary: '#3f3d56',       // Muted violet-grey - contrast/dark elements
 
-  accent: '#8acec4ff', // minty green (subtle neon touch)     // minty fresh accent/highlight
-  secondary: '#3f3d56',       // muted dark violet-grey (for depth)
+  background: '#1e293b',      // Very dark blue - app background
+  backgroundLight: '#273349', // Slightly lighter bg for cards
 
-  background: '#1e293b',      // deep desaturated blue-grey (main bg)
-  backgroundLight: '#273349', // for cards/sections
+  text: '#a3e483ff',            // Lime-tinted pastel - primary readable text
+  textLight: '#baceecff',       // Muted blue-grey - secondary text
 
-  text: '#dbeafe', // very soft, pastel blue (from Tailwind’s blue-10           // soft light text (not white)
-  textLight: '#94a3b8',       // muted text for descriptions/labels
+  border: '#334155',          // Border color - subtle blue-grey
+  highlight: '#a5f3fc',       // Cyan glow - hover or focus highlight
 
-  border: '#334155',          // soft border shade
-  highlight: '#a5f3fc',       // for glow or focus states
-
-  error: '#f87171',           // calm red
-  success: '#34d399'          // smooth green
+  error: '#f87171',           // Soft red - error state
+  success: '#34d399',         // Soft green - success confirmation
+  white: '#f3ececff',           // Pure white
+  card: '#2c3e50',            // Dark card bg for better contrast
 };
+
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
   },
   scrollContainer: {
     paddingTop: 20,
@@ -32,19 +33,19 @@ export default StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   title: {
     fontSize: 32,
     fontWeight: '700',
     color: colors.text,
     marginBottom: 8,
-    letterSpacing: 1
+    letterSpacing: 1,
   },
   subtitle: {
     fontSize: 16,
     color: colors.textLight,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   section: {
     backgroundColor: colors.backgroundLight,
@@ -55,7 +56,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.2,
     shadowRadius: 10,
-    elevation: 5
+    elevation: 5,
   },
   sectionHeader: {
     flexDirection: 'row',
@@ -63,75 +64,87 @@ export default StyleSheet.create({
     marginBottom: 20,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: colors.primary + '20'
+    borderBottomColor: colors.primary + '20',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
     flex: 1,
     marginLeft: 10,
-    color: colors.text // ensure text color here, override if needed
+   color: '#b9fbc0' // Light pastel green (softer, yet visible on dark bg)
+
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
+
+  /** ✅ Final fixed card style */
   card: {
-    width: '48%',
-    backgroundColor: colors.backgroundLight,
+    width: '32%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.card,
     borderRadius: 12,
-    padding: 15,
-    marginBottom: 15,
+    padding: 12,
+    marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.border,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 3
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 2,
   },
+
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12
+    marginBottom: 10,
+    alignSelf: 'flex-start', // ✅ Aligns header to left of card
   },
+
+  cardText: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginRight: 12, // ✅ Slightly left aligned
+    color: colors.white, // ✅ White text
+  },
+
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 30,
+    height: 30,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 12
+    marginBottom: 10,
   },
   icon: {
-    width: 32,
-    height: 32
-  },
-  cardText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.text,
-    flexShrink: 1
+    width: 20,
+    height: 24,
   },
   progressContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 6,
   },
   progressBackground: {
     flex: 1,
-    height: 6,
+    height: 5,
     backgroundColor: colors.textLight + '30',
     borderRadius: 3,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
-    borderRadius: 3
+    borderRadius: 3,
   },
   percentText: {
-    fontSize: 12,
-    fontWeight: '700',
-    marginLeft: 8
-  }
+    fontSize: 11,
+    fontWeight: '600',
+    marginLeft: 6,
+    color: colors.textLight,
+  },
 });

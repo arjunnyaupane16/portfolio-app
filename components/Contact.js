@@ -275,6 +275,7 @@ export default function Contact() {
           >
             <MaterialIcons name="email" size={24} color="#fff" />
           </TouchableOpacity>
+          
 
           <TouchableOpacity
             style={styles.socialButton}

@@ -12,8 +12,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  findNodeHandle
 } from 'react-native';
 import styles from '../styles/ContactStyles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const siteKey = '0x4AAAAAABo-AwfHASrMzqde';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -21,11 +25,43 @@ export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState(null);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideUpAnim = useRef(new Animated.Value(30)).current;
   const successAnim = useRef(new Animated.Value(0)).current;
 
+  const turnstileRef = useRef(null);
+
+  // Inject Turnstile on web
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Create widget when loaded
+    script.onload = () => {
+      if (window.turnstile && turnstileRef.current) {
+        window.turnstile.render(turnstileRef.current, {
+          sitekey: siteKey,
+          callback: (token) => setTurnstileToken(token),
+          theme: 'light',
+        });
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+      if (window.turnstile && window.turnstile.reset) {
+        window.turnstile.reset();
+      }
+    };
+  }, []);
+
+  // Keyboard listeners
   useEffect(() => {
     const show = Keyboard.addListener('keyboardDidShow', () => setIsKeyboardVisible(true));
     const hide = Keyboard.addListener('keyboardDidHide', () => setIsKeyboardVisible(false));
@@ -63,6 +99,10 @@ export default function Contact() {
     }
     if (!formData.message.trim()) newErrors.message = 'Message is required';
 
+    if (Platform.OS === 'web' && !turnstileToken) {
+      newErrors.turnstile = 'Please verify that you’re human.';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -92,6 +132,10 @@ export default function Contact() {
       setIsSubmitted(false);
       successAnim.setValue(0);
       setIsLoading(false);
+      setTurnstileToken(null);
+      if (Platform.OS === 'web' && window.turnstile) {
+        window.turnstile.reset();
+      }
     }, 3000);
   };
 
@@ -154,6 +198,13 @@ export default function Contact() {
         {errors.message && <Text style={styles.errorText}>{errors.message}</Text>}
       </View>
 
+      {Platform.OS === 'web' && (
+        <View style={styles.inputContainer}>
+          <View ref={turnstileRef} style={{ minHeight: 65 }} />
+          {errors.turnstile && <Text style={styles.errorText}>{errors.turnstile}</Text>}
+        </View>
+      )}
+
       <TouchableOpacity
         style={[styles.submitButton, isLoading && styles.submitButtonDisabled]}
         onPress={handleSubmit}
@@ -178,7 +229,7 @@ export default function Contact() {
           transform: [{ translateY: slideUpAnim }],
         },
       ]}
-      pointerEvents="auto" // explicitly enable pointer events
+      pointerEvents="auto"
     >
       <Text style={styles.sectionTitle}>Get In Touch</Text>
 
@@ -204,10 +255,8 @@ export default function Contact() {
           <Text style={styles.successSubtext}>I'll get back to you soon.</Text>
         </Animated.View>
       ) : Platform.OS === 'web' ? (
-        // For web: simple view without keyboard handling wrappers
         <View style={styles.formContainer}>{FormInputs}</View>
       ) : (
-        // For iOS and Android: wrap with keyboard handling and dismiss on outside tap
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

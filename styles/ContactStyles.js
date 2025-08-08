@@ -1,24 +1,49 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+const colors = {
+  background: '#0a192f',
+  backgroundLight: '#112240',
+  primary: '#4361ee',
+  accent: '#4cc9f0',
+  text: '#e6f1ff',
+  textLight: '#a8b2d1',
+  error: '#ff6b6b',
+  success: '#00b894',
+};
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    padding:24,
-    marginTop:60,
-    marginBottom:160,
-    backgroundColor: '#0a192f',
+    backgroundColor: colors.background,
+    padding: 20,
+
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 
   sectionTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 24,
-    color: '#F8FAFC',
-    textAlign: 'center',
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: 20,
+    alignSelf: 'center',
   },
 
   formContainer: {
-    width: '100%',
+    width: '102%',
+    maxWidth: 600,
+    height:'55%',
+    backgroundColor: colors.backgroundLight,
+    borderRadius: 16,
+    padding: 20,
+    marginBotton:20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 8,
   },
 
   inputContainer: {
@@ -26,38 +51,42 @@ export default StyleSheet.create({
   },
 
   input: {
-    backgroundColor: '#112240',
-    color: '#F8FAFC',
+    backgroundColor: '#1c2b42',
+    color: colors.text,
+    paddingVertical: 12,
     paddingHorizontal: 16,
-    paddingVertical: 14,
     borderRadius: 10,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#112240',
-  },
-
-  messageInput: {
-    height: 120,
-    textAlignVertical: 'top',
+    borderColor: 'transparent',
   },
 
   inputError: {
-    borderColor: '#e74c3c',
+    borderColor: colors.error,
+  },
+
+  messageInput: {
+    minHeight: 100,
+    textAlignVertical: 'top',
   },
 
   errorText: {
-    color: '#e74c3c',
-    fontSize: 13,
     marginTop: 4,
-    marginLeft: 4,
+    color: colors.error,
+    fontSize: 13,
   },
 
   submitButton: {
-    backgroundColor: '#00b894',
-    paddingVertical: 16,
+    backgroundColor: colors.primary,
+    paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',
     marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    elevation: 5,
   },
 
   submitButtonText: {
@@ -71,37 +100,49 @@ export default StyleSheet.create({
   },
 
   loadingIcon: {
-    transform: [{ rotate: '360deg' }],
+    transform: [{ rotate: '90deg' }],
   },
 
   successMessage: {
     alignItems: 'center',
-    marginTop: 40,
+    backgroundColor: '#163248',
+    padding: 30,
+    borderRadius: 14,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5,
   },
 
   successText: {
-    fontSize: 22,
+    marginTop: 12,
+    fontSize: 20,
+    color: colors.success,
     fontWeight: 'bold',
-    color: '#00b894',
-    marginTop: 10,
   },
 
   successSubtext: {
+    marginTop: 6,
     fontSize: 16,
-    color: '#F8FAFC',
-    marginTop: 4,
+    color: colors.textLight,
+    textAlign: 'center',
   },
 
   socialLinks: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 30,
-    gap: 24,
+    gap: 20,
   },
 
   socialButton: {
-    backgroundColor: '#112240',
-    padding: 14,
-    borderRadius: 50,
+    backgroundColor: colors.primary,
+    padding: 12,
+    borderRadius: 100,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 5,
   },
 });
+

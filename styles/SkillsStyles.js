@@ -1,148 +1,125 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+const colors = {
+  background: '#0a192f',
+  backgroundLight: '#112240',
+  text: '#e6f1ff',
+  textLight: '#8892b0',
+  accent: '#4cc9f0',
+  primary: '#4361ee',
+  primaryLight: '#4895ef'
+};
+
+export default StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-  marginTop:0,
-      backgroundColor: '#0B1220', // Outermost dark background
+    backgroundColor: colors.background
+  },
+  scrollContainer: {
+    paddingTop: 20,
+    paddingBottom: 40,
+    paddingHorizontal: 15,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 30
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#00fb15d3',
+    fontSize: 32,
+    fontWeight: '700',
+    color: colors.text,
     marginBottom: 8,
-    textAlign: 'center',
-
+    letterSpacing: 1
   },
   subtitle: {
     fontSize: 16,
-    color: '#CBD5E1',
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  scrollContainer: {
-    paddingBottom: 40,
+    color: colors.textLight,
+    textAlign: 'center'
   },
   section: {
-    marginBottom: 30,
+    backgroundColor: colors.backgroundLight,
     borderRadius: 15,
-    backgroundColor: '#10172A', // Mid-layer darker than card
-    padding: 16,
+    padding: 20,
+    marginBottom: 25,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 5,
-    borderWidth: 3,
-    borderColor: '#f84343ff', // Subtle separation from container
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 5
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
-    paddingBottom: 8,
+    marginBottom: 20,
+    paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#334155',
-  },
-  sectionIcon: {
-    fontSize: 22,
-    marginRight: 10,
-    color: '#38BDF8',
+    borderBottomColor: colors.primary + '20'
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '600',
     flex: 1,
-    color: '#F1F5F9',
+    marginLeft: 10
   },
   grid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   card: {
     width: '48%',
-    backgroundColor: '#1E293B', // Lightest within inner content
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 16,
+    backgroundColor: colors.backgroundLight,
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 15,
     borderWidth: 1,
-    borderColor: '#334155',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowRadius: 5,
+    elevation: 3
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 12
   },
   iconContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10,
-    backgroundColor: '#0F172A',
+    marginRight: 10
   },
   icon: {
     width: 20,
-    height: 20,
-    tintColor: '#38BDF8',
+    height: 20
   },
   cardText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#E2E8F0',
-    flexShrink: 1,
+    color: colors.text,
+    flexShrink: 1
   },
   progressContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   progressBackground: {
     flex: 1,
     height: 6,
-    backgroundColor: '#334155',
+    backgroundColor: colors.textLight + '30',
     borderRadius: 3,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   progressBar: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: 3
   },
   percentText: {
     fontSize: 12,
-    fontWeight: 'bold',
-    marginLeft: 8,
-    color: '#94A3B8',
-  },
-  showMoreButton: {
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: '#CBD5E1',
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 8,
-    backgroundColor: '#FFFFFF',
-  },
-  showMoreText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#0F172A',
-    textDecorationLine: 'underline',
-  },
-  showLessText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#0F172A',
-    textDecorationLine: 'underline',
-    fontStyle: 'italic',
-  },
+    fontWeight: '700',
+    marginLeft: 8
+  }
 });
-
-export default styles;

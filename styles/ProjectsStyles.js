@@ -1,123 +1,114 @@
 import { StyleSheet } from 'react-native';
 
+const colors = {
+  background: '#0a192f',
+  backgroundLight: '#112240',
+  text: '#e6f1ff',
+  textLight: '#8892b0',
+  white: '#ffffff'
+};
+
 export default StyleSheet.create({
   container: {
-    padding: 20,
-    paddingBottom: 40,
-    marginTop: 60,
-    borderRadius: 15,
-    backgroundColor: '#0B1220',
+    flex: 1,
+    backgroundColor: colors.background
   },
-
-  sectionTitle: {
-    fontSize: 28,
+  scrollContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 40
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 30,
+    paddingTop: 20
+  },
+  title: {
+    fontSize: 32,
     fontWeight: '700',
-    marginBottom: 24,
-    color: '#00fb15d3',
-    textAlign: 'center',
-    letterSpacing: 0.8,
+    color: colors.text,
+    marginBottom: 8,
+    letterSpacing: 1
   },
-
+  subtitle: {
+    fontSize: 16,
+    color: colors.textLight,
+    textAlign: 'center'
+  },
   projectCard: {
-    marginBottom: 28,
+    backgroundColor: colors.backgroundLight,
     borderRadius: 16,
-    borderWidth: 2,
-    borderColor: '#6C2BD9',
-    backgroundColor: '#10172A',
+    marginBottom: 25,
     overflow: 'hidden',
-
     shadowColor: '#000',
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
+    borderWidth: 1
   },
-
-  imageWrapper: {
+  imageContainer: {
     width: '100%',
-    height: 180,
-    backgroundColor: '#1E293B',
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background
   },
-
+  loadingIndicator: {
+    position: 'absolute',
+    zIndex: 1
+  },
   projectImage: {
     width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
+    height: '100%'
   },
-
-  imageLoader: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: [{ translateX: -12 }, { translateY: -12 }],
-  },
-
   projectHeader: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderColor: '#334155',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    backgroundColor: colors.backgroundLight
   },
-
   projectTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#38BDF8',
-    flex: 1,
+    flex: 1
   },
-
   projectDetails: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    backgroundColor: '#10172A',
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    overflow: 'hidden'
   },
-
   projectDescription: {
     fontSize: 15,
-    color: '#E2E8F0',
-    marginBottom: 10,
-    lineHeight: 21,
+    color: colors.textLight,
+    lineHeight: 24,
+    marginBottom: 15
   },
-
   projectTech: {
-    fontSize: 13,
-    color: '#94A3B8',
-    marginBottom: 16,
+    fontSize: 14,
+    color: colors.textLight,
+    marginBottom: 20,
+    lineHeight: 20
   },
-
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 10,
+    marginBottom: 20,
+    gap: 15
   },
-
-  demoButton: {
-    backgroundColor: '#38BDF8',
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 10,
+  actionButton: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 8,
+    gap: 8
   },
-
-  statsButton: {
-    backgroundColor: '#0EA5E9',
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 10,
-    flex: 1,
-    alignItems: 'center',
-  },
-
   buttonText: {
-    color: '#0B1220',
-    fontWeight: '700',
-    fontSize: 14,
-    textAlign: 'center',
-  },
+    color: colors.white,
+    fontWeight: '600',
+    fontSize: 14
+  }
 });

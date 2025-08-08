@@ -7,16 +7,18 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 
-// Make sure these components exist and are properly exported
 import Contact from '../components/Contact';
 import Profile from '../components/Profile';
 import Projects from '../components/Projects';
 import Skills from '../components/Skills';
 
 import styles from '../styles/indexstyles';
+
+const { width } = Dimensions.get('window');
 
 const navItems = [
   { id: 'profile', icon: 'person', label: 'Profile' },
@@ -185,32 +187,39 @@ const Index = () => {
         <Animated.View style={[styles.animatedContainer, {
           opacity: fadeAnim,
           transform: [{ translateY: slideUpAnim }],
-          paddingTop: 80,
         }]}>
           <View
-            style={[styles.section, { backgroundColor: '#ffffff' }]}
-            onLayout={(event) => saveSectionPosition('profile', event.nativeEvent.layout.y)}
+            style={styles.section}
+            onLayout={(event) => {
+              event.nativeEvent.layout.y > 0 && saveSectionPosition('profile', event.nativeEvent.layout.y);
+            }}
           >
             <Profile />
           </View>
 
           <View
-            style={[styles.section, { backgroundColor: '#ffffff' }]}
-            onLayout={(event) => saveSectionPosition('skills', event.nativeEvent.layout.y)}
+            style={styles.section}
+            onLayout={(event) => {
+              event.nativeEvent.layout.y > 0 && saveSectionPosition('skills', event.nativeEvent.layout.y);
+            }}
           >
             <Skills />
           </View>
 
           <View
-            style={[styles.section, { backgroundColor: '#ffffff' }]}
-            onLayout={(event) => saveSectionPosition('projects', event.nativeEvent.layout.y)}
+            style={styles.section}
+            onLayout={(event) => {
+              event.nativeEvent.layout.y > 0 && saveSectionPosition('projects', event.nativeEvent.layout.y);
+            }}
           >
             <Projects />
           </View>
 
           <View
-            style={[styles.section, { backgroundColor: '#ffffff' }]}
-            onLayout={(event) => saveSectionPosition('contact', event.nativeEvent.layout.y)}
+            style={styles.section}
+            onLayout={(event) => {
+              event.nativeEvent.layout.y > 0 && saveSectionPosition('contact', event.nativeEvent.layout.y);
+            }}
           >
             <Contact />
           </View>

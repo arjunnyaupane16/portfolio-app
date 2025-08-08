@@ -1,8 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
   Animated,
   Easing,
   Image,
@@ -11,9 +9,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
+  LayoutAnimation
 } from 'react-native';
 import styles from '../styles/ProjectsStyles';
 
+// Import your project images
 import adminappImg from '../assets/images/admin-app.jpg';
 import driftAndSipImg from '../assets/images/drift-and-sip.jpg';
 import portfolioImg from '../assets/images/portfolio.jpg';
@@ -23,13 +24,12 @@ const projectsData = [
   {
     id: '1',
     title: 'Drift & Sip',
-    description:
-      'Real-time order management app with live tracking, soft delete, dashboards, and API integration.',
+    description: 'Real-time order management app with live tracking, soft delete, dashboards, and API integration.',
     tech: 'React Native, Node.js, MongoDB',
     image: driftAndSipImg,
     demo: 'https://drift-and-sip-user-app.vercel.app/',
-    stats:
-      'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
+    github: 'https://github.com/yourusername/drift-and-sip',
+    color: '#4cc9f0' // Teal
   },
   {
     id: '2',
@@ -38,133 +38,201 @@ const projectsData = [
     tech: 'React.js, CSS3, Vercel',
     image: portfolioImg,
     demo: 'https://chandraprakashnyaupane.vercel.app/',
-    stats:
-      'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
+    github: 'https://github.com/yourusername/portfolio',
+    color: '#4895ef' // Light blue
   },
   {
     id: '3',
     title: 'Task Manager',
-    description:
-      'A task and project management app featuring drag & drop, reminders, and cloud sync.',
+    description: 'A task and project management app featuring drag & drop, reminders, and cloud sync.',
     tech: 'React Native, Firebase, Redux',
     image: taskManagerImg,
     demo: 'https://task-manager-demo.example.com',
-    stats:
-      'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
+    github: 'https://github.com/yourusername/task-manager',
+    color: '#4361ee' // Primary blue
   },
   {
     id: '4',
     title: 'Admin App',
-    description:
-      'Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.',
+    description: 'Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.',
     tech: 'React.js, JavaScript, CSS3, Vercel',
     image: adminappImg,
     demo: 'https://admin-app-rose.vercel.app/',
-    stats:
-      'https://github-readme-stats.vercel.app/api?username=arjunnyaupane16&show_icons=true&theme=radical',
+    github: 'https://github.com/yourusername/admin-app',
+    color: '#3f37c9' // Dark blue
   },
 ];
 
 export default function Projects() {
   const [expandedId, setExpandedId] = useState(null);
-  const animValues = useRef(projectsData.map(() => new Animated.Value(0))).current;
+  const [imageLoaded, setImageLoaded] = useState({});
+
+  // Animation refs
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+  const cardFades = useRef(projectsData.map(() => new Animated.Value(0))).current;
+  const cardScales = useRef(projectsData.map(() => new Animated.Value(0.9))).current;
+  const cardRotations = useRef(projectsData.map(() => new Animated.Value(-10))).current;
   const detailHeights = useRef(projectsData.map(() => new Animated.Value(0))).current;
-  const [imageLoading, setImageLoading] = useState({});
 
   useEffect(() => {
-    const enterAnimations = animValues.map((anim, i) =>
-      Animated.timing(anim, {
+    // Configure LayoutAnimation for smooth expand/collapse
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    // Header animation
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 600,
-        delay: i * 150,
-        easing: Easing.out(Easing.exp),
-        useNativeDriver: true,
+        duration: 800,
+        useNativeDriver: true
+      }),
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        speed: 2,
+        bounciness: 8,
+        useNativeDriver: true
       })
-    );
-    Animated.stagger(100, enterAnimations).start();
-  }, []);
-
+    ]).start();
+Animated.stagger(150, projectsData.map((_, i) =>
+    Animated.parallel([
+      Animated.spring(cardScales[i], {
+        toValue: 1,
+        friction: 5,
+        useNativeDriver: true
+      }),
+      Animated.timing(cardFades[i], {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+      }),
+      Animated.spring(cardRotations[i], {
+        toValue: 0,
+        tension: 60,
+        friction: 7,
+        useNativeDriver: true
+      })
+    ])
+  )).start(); // ✅ This .start() now correctly closes the stagger block
+}, []);
   useEffect(() => {
-    projectsData.forEach((_, idx) => {
-      Animated.timing(detailHeights[idx], {
-        toValue: expandedId === projectsData[idx].id ? 200 : 0,
+    // Animate details height when expandedId changes
+    projectsData.forEach((_, i) => {
+      Animated.timing(detailHeights[i], {
+        toValue: expandedId === projectsData[i].id ? 1 : 0,
         duration: 300,
         easing: Easing.out(Easing.ease),
-        useNativeDriver: false,
+        useNativeDriver: false
       }).start();
     });
   }, [expandedId]);
 
   const handleLinkPress = async (url) => {
-    try {
-      const supported = await Linking.canOpenURL(url);
-      if (supported) await Linking.openURL(url);
-      else Alert.alert('Unsupported URL', `Cannot open this link: ${url}`);
-    } catch (err) {
-      console.error('Linking error:', err);
-      Alert.alert('Error', 'Failed to open the link.');
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.log("Don't know how to open this URL: " + url);
     }
   };
 
   const renderProjectCard = (project, index) => {
     const isExpanded = expandedId === project.id;
-    const opacity = animValues[index];
-    const translateY = opacity.interpolate({
+    const rotateInterpolate = cardRotations[index].interpolate({
       inputRange: [0, 1],
-      outputRange: [50, 0],
+      outputRange: ['-5deg', '0deg']
+    });
+
+    const detailHeightInterpolate = detailHeights[index].interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 200] // Adjust based on your content height
     });
 
     return (
       <Animated.View
         key={project.id}
-        style={[styles.projectCard, { opacity, transform: [{ translateY }] }]}
+        style={[
+          styles.projectCard,
+          {
+            opacity: cardFades[index],
+            transform: [
+              { scale: cardScales[index] },
+              { rotate: rotateInterpolate }
+            ],
+            borderColor: project.color + '40',
+            shadowColor: project.color
+          }
+        ]}
       >
-        <View style={styles.imageWrapper}>
+        {/* Image with loading indicator */}
+        <View style={styles.imageContainer}>
+          {!imageLoaded[project.id] && (
+            <ActivityIndicator
+              style={styles.loadingIndicator}
+              size="large"
+              color={project.color}
+            />
+          )}
           <Image
             source={project.image}
             style={styles.projectImage}
             resizeMode="cover"
-            onLoadStart={() => setImageLoading((prev) => ({ ...prev, [project.id]: true }))}
-            onLoadEnd={() => setImageLoading((prev) => ({ ...prev, [project.id]: false }))}
+            onLoadStart={() => setImageLoaded(prev => ({ ...prev, [project.id]: false }))}
+            onLoadEnd={() => setImageLoaded(prev => ({ ...prev, [project.id]: true }))}
           />
-          {imageLoading[project.id] && (
-            <ActivityIndicator style={styles.imageLoader} size="small" color="#0984e3" />
-          )}
         </View>
 
+        {/* Project header with expand button */}
         <TouchableOpacity
           style={styles.projectHeader}
           onPress={() => setExpandedId(isExpanded ? null : project.id)}
-          activeOpacity={0.85}
+          activeOpacity={0.7}
         >
-          <Text style={styles.projectTitle}>{project.title}</Text>
-          <Ionicons
-            name={isExpanded ? 'chevron-up' : 'chevron-down'}
-            size={24}
-            color="#0984e3"
+          <Text style={[styles.projectTitle, { color: project.color }]}>
+            {project.title}
+          </Text>
+          <MaterialIcons
+            name={isExpanded ? 'expand-less' : 'expand-more'}
+            size={28}
+            color={project.color}
           />
         </TouchableOpacity>
 
-        <Animated.View style={[styles.projectDetails, { height: detailHeights[index] }]}>
-          <ScrollView nestedScrollEnabled style={{ flex: 1 }}>
+        {/* Project details (animated height) */}
+        <Animated.View
+          style={[
+            styles.projectDetails,
+            {
+              height: detailHeightInterpolate,
+              borderTopColor: project.color + '20'
+            }
+          ]}
+        >
+          <ScrollView
+            nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
+          >
             <Text style={styles.projectDescription}>{project.description}</Text>
             <Text style={styles.projectTech}>
-              <Text style={{ fontWeight: '700' }}>Tech:</Text> {project.tech}
+              <Text style={{ fontWeight: '700', color: project.color }}>Tech Stack: </Text>
+              {project.tech}
             </Text>
 
+            {/* Action buttons */}
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                style={styles.demoButton}
+                style={[styles.actionButton, { backgroundColor: project.color }]}
                 onPress={() => handleLinkPress(project.demo)}
               >
+                <Ionicons name="md-open-outline" size={18} color="#fff" />
                 <Text style={styles.buttonText}>Live Demo</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.statsButton}
-                onPress={() => handleLinkPress(project.stats)}
+                style={[styles.actionButton, { backgroundColor: project.color + 'cc' }]}
+                onPress={() => handleLinkPress(project.github)}
               >
-                <Text style={styles.buttonText}>GitHub Stats</Text>
+                <Ionicons name="logo-github" size={18} color="#fff" />
+                <Text style={styles.buttonText}>View Code</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -175,8 +243,25 @@ export default function Projects() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Featured Projects</Text>
-      {projectsData.map(renderProjectCard)}
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }]
+          }
+        ]}
+      >
+        <Text style={styles.title}>Featured Projects</Text>
+        <Text style={styles.subtitle}>My best work and contributions</Text>
+      </Animated.View>
+
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        {projectsData.map((project, index) => renderProjectCard(project, index))}
+      </ScrollView>
     </View>
   );
 }

@@ -1,197 +1,179 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, Image, LayoutAnimation, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Animated,
+  Easing,
+  Image,
+  LayoutAnimation,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import styles from '../styles/SkillsStyles';
-
-const { width } = Dimensions.get('window');
-const isSmallDevice = width < 375;
 
 const skillsData = [
   {
     category: 'Frontend Development',
-    icon: '💻',
-    color: '#6366F1', // Indigo
+    icon: 'code',
+    color: '#4cc9f0',
     items: [
       { name: 'HTML5', icon: require('../assets/icons/html.png'), level: 95 },
       { name: 'CSS3', icon: require('../assets/icons/css.png'), level: 90 },
-      { name: 'JavaScript', icon: require('../assets/icons/javascript.png'), level: 78 },
-      { name: 'TypeScript', icon: require('../assets/icons/typescript.png'), level: 85 },
+      { name: 'JavaScript', icon: require('../assets/icons/javascript.png'), level: 75 },
       { name: 'React', icon: require('../assets/icons/react.png'), level: 90 },
-       { name: 'Python', icon: require('../assets/icons/python.png'), level: 85 },
-      { name: 'React Native', icon: require('../assets/icons/react-native.png'), level: 87 },
+      { name: 'React Native', icon: require('../assets/icons/react-native.png'), level: 85 },
+        { name: 'TypeScript', icon: require('../assets/icons/typescript.png'), level: 65 },
     ],
+
   },
   {
     category: 'Backend & Databases',
-    icon: '🛠️',
-    color: '#10B981', // Emerald
+    icon: 'storage',
+    color: '#4895ef',
     items: [
-      { name: 'Node.js', icon: require('../assets/icons/node.png'), level: 80 },
-      { name: 'Express.js', icon: require('../assets/icons/express.png'), level: 75 },
-      { name: 'MongoDB', icon: require('../assets/icons/mongodb.png'), level: 78 },
-      { name: 'RESTful APIs', icon: require('../assets/icons/api.png'), level: 82 },
+      { name: 'Node.js', icon: require('../assets/icons/node.png'), level: 85 },
+      { name: 'Express', icon: require('../assets/icons/express.png'), level: 80 },
+      { name: 'MongoDB', icon: require('../assets/icons/mongodb.png'), level: 75 },
     ],
   },
   {
     category: 'Tools & Platforms',
-    icon: '🔧',
-    color: 'pink', // Amber
+    icon: 'build',
+    color: '#4361ee',
     items: [
       { name: 'Git', icon: require('../assets/icons/git.png'), level: 90 },
-      { name: 'GitHub', icon: require('../assets/icons/github.png'), level: 93 },
+      { name: 'GitHub', icon: require('../assets/icons/github.png'), level: 85 },
+      { name: 'Firebase', icon: require('../assets/icons/firebase.png'), level: 75 },
       { name: 'Postman', icon: require('../assets/icons/postman.png'), level: 95 },
-      { name: 'Firebase', icon: require('../assets/icons/firebase.png'), level: 80 },
-      { name: 'Vercel', icon: require('../assets/icons/vercel.png'), level: 88 },
-      { name: 'Netlify', icon: require('../assets/icons/netlify.png'), level: 86 },
     ],
   },
 ];
 
-const INITIAL_VISIBLE_ITEMS = 2; // Show only 2 skills initially
+const INITIAL_VISIBLE_ITEMS = 4;
 
 export default function Skills() {
+  const titleFade = useRef(new Animated.Value(0)).current;
+  const titleSlide = useRef(new Animated.Value(-20)).current;
+  const subtitleFade = useRef(new Animated.Value(0)).current;
+
+  const sectionFades = useRef(skillsData.map(() => new Animated.Value(0))).current;
+  const sectionScales = useRef(skillsData.map(() => new Animated.Value(0.9))).current;
+
+  const cardFades = useRef(skillsData.flatMap(s => s.items.map(() => new Animated.Value(0)))).current;
+  const cardScales = useRef(skillsData.flatMap(s => s.items.map(() => new Animated.Value(0.8)))).current;
+  const cardRotations = useRef(skillsData.flatMap(s => s.items.map(() => new Animated.Value(0)))).current;
+  const progressAnims = useRef(skillsData.flatMap(s => s.items.map(() => new Animated.Value(0)))).current;
+
   const [expandedSections, setExpandedSections] = useState({});
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(30)).current;
-  const sectionFade = useRef(skillsData.map(() => new Animated.Value(0))).current;
-  const sectionSlide = useRef(skillsData.map(() => new Animated.Value(20))).current;
-  const cardScale = useRef(skillsData.flatMap(section => section.items.map(() => new Animated.Value(0.9)))).current;
-  const cardOpacity = useRef(skillsData.flatMap(section => section.items.map(() => new Animated.Value(0)))).current;
-  const progressAnim = useRef(skillsData.flatMap(section => section.items.map(() => new Animated.Value(0)))).current;
+
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(titleFade, {
+          toValue: 1,
+          duration: 800,
+          useNativeDriver: true
+        }),
+        Animated.spring(titleSlide, {
+          toValue: 0,
+          speed: 2,
+          bounciness: 8,
+          useNativeDriver: true
+        }),
+      ]),
+      Animated.timing(subtitleFade, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true
+      }),
+
+      Animated.stagger(150, skillsData.map((_, i) =>
+        Animated.parallel([
+          Animated.spring(sectionScales[i], {
+            toValue: 1,
+            friction: 5,
+            useNativeDriver: true
+          }),
+          Animated.timing(sectionFades[i], {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true
+          })
+        ])
+      )),
+
+      Animated.stagger(50, skillsData.flatMap((section, sectionIndex) =>
+        section.items.map((_, itemIndex) => {
+          const flatIndex = skillsData
+            .slice(0, sectionIndex)
+            .reduce((sum, s) => sum + s.items.length, 0) + itemIndex;
+
+          return Animated.parallel([
+            Animated.spring(cardScales[flatIndex], {
+              toValue: 1,
+              friction: 5,
+              tension: 60,
+              useNativeDriver: true
+            }),
+            Animated.timing(cardFades[flatIndex], {
+              toValue: 1,
+              duration: 500,
+              useNativeDriver: true
+            }),
+            Animated.timing(cardRotations[flatIndex], {
+              toValue: 1,
+              duration: 700,
+              easing: Easing.elastic(1),
+              useNativeDriver: true
+            }),
+            Animated.timing(progressAnims[flatIndex], {
+              toValue: 1,
+              duration: 1200,
+              easing: Easing.out(Easing.exp),
+              useNativeDriver: false
+            })
+          ]);
+        })
+      ))
+    ]).start();
+  }, []);
 
   const toggleSection = (sectionIndex) => {
-    LayoutAnimation.configureNext({
-      duration: 300,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity,
-      },
-      update: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpandedSections(prev => ({
       ...prev,
       [sectionIndex]: !prev[sectionIndex]
     }));
   };
 
-  useEffect(() => {
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 600,
-          useNativeDriver: true,
-        }),
-        Animated.spring(slideAnim, {
-          toValue: 0,
-          tension: 60,
-          friction: 8,
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.stagger(
-        150,
-        skillsData.map((_, i) =>
-          Animated.parallel([
-            Animated.timing(sectionFade[i], {
-              toValue: 1,
-              duration: 400,
-              useNativeDriver: true,
-            }),
-            Animated.spring(sectionSlide[i], {
-              toValue: 0,
-              tension: 70,
-              friction: 8,
-              useNativeDriver: true,
-            }),
-          ])
-        )
-      ),
-      Animated.stagger(
-        50,
-        skillsData.flatMap((section, sectionIndex) =>
-          section.items.slice(0, INITIAL_VISIBLE_ITEMS).map((_, itemIndex) => {
-            const flatIndex = skillsData
-              .slice(0, sectionIndex)
-              .reduce((sum, sec) => sum + sec.items.length, 0) + itemIndex;
-
-            return Animated.parallel([
-              Animated.spring(cardScale[flatIndex], {
-                toValue: 1,
-                tension: 70,
-                friction: 7,
-                useNativeDriver: true,
-              }),
-              Animated.timing(cardOpacity[flatIndex], {
-                toValue: 1,
-                duration: 300,
-                useNativeDriver: true,
-              }),
-              Animated.timing(progressAnim[flatIndex], {
-                toValue: 1,
-                duration: 1000,
-                delay: 100,
-                useNativeDriver: false,
-              }),
-            ]);
-          })
-        )
-      ),
-    ]).start();
-  }, []);
-
-  const animateAdditionalCards = (sectionIndex) => {
-    const startIndex = skillsData
-      .slice(0, sectionIndex)
-      .reduce((sum, sec) => sum + sec.items.length, 0) + INITIAL_VISIBLE_ITEMS;
-
-    const endIndex = startIndex + (skillsData[sectionIndex].items.length - INITIAL_VISIBLE_ITEMS);
-
-    Animated.stagger(
-      50,
-      skillsData[sectionIndex].items.slice(INITIAL_VISIBLE_ITEMS).map((_, index) => {
-        const flatIndex = startIndex + index;
-        return Animated.parallel([
-          Animated.spring(cardScale[flatIndex], {
-            toValue: 1,
-            tension: 70,
-            friction: 7,
-            useNativeDriver: true,
-          }),
-          Animated.timing(cardOpacity[flatIndex], {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(progressAnim[flatIndex], {
-            toValue: 1,
-            duration: 800,
-            delay: 100,
-            useNativeDriver: false,
-          }),
-        ]);
-      })
-    ).start();
-  };
-
   const renderSkillCard = (item, section, flatIndex) => {
-    const widthInterpolate = progressAnim[flatIndex].interpolate({
+    const rotateInterpolate = cardRotations[flatIndex].interpolate({
       inputRange: [0, 1],
-      outputRange: ['0%', `${item.level}%`],
+      outputRange: ['-15deg', '0deg']
+    });
+
+    const progressWidth = progressAnims[flatIndex].interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', `${item.level}%`]
     });
 
     return (
       <Animated.View
-        key={`${section.category}-${item.name}`}
+        key={item.name}
         style={[
           styles.card,
           {
-            opacity: cardOpacity[flatIndex],
-            transform: [{ scale: cardScale[flatIndex] }],
+            opacity: cardFades[flatIndex],
+            transform: [
+              { scale: cardScales[flatIndex] },
+              { rotate: rotateInterpolate }
+            ],
             borderColor: section.color + '40',
-            shadowColor: section.color,
-          },
+            shadowColor: section.color
+          }
         ]}
       >
         <View style={styles.cardHeader}>
@@ -201,9 +183,9 @@ export default function Skills() {
               {
                 backgroundColor: section.color + '20',
                 transform: [{
-                  rotate: progressAnim[flatIndex].interpolate({
+                  rotate: cardRotations[flatIndex].interpolate({
                     inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg']
+                    outputRange: ['-180deg', '0deg']
                   })
                 }]
               }
@@ -224,9 +206,9 @@ export default function Skills() {
               style={[
                 styles.progressBar,
                 {
-                  width: widthInterpolate,
-                  backgroundColor: section.color,
-                },
+                  width: progressWidth,
+                  backgroundColor: section.color
+                }
               ]}
             />
           </View>
@@ -235,9 +217,9 @@ export default function Skills() {
               styles.percentText,
               {
                 color: section.color,
-                opacity: progressAnim[flatIndex],
+                opacity: progressAnims[flatIndex],
                 transform: [{
-                  translateX: progressAnim[flatIndex].interpolate({
+                  translateX: progressAnims[flatIndex].interpolate({
                     inputRange: [0, 1],
                     outputRange: [-10, 0]
                   })
@@ -253,81 +235,70 @@ export default function Skills() {
   };
 
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        {
-          opacity: fadeAnim,
-          transform: [{ translateY: slideAnim }],
-        },
-      ]}
-    >
-      <Text style={styles.title}>My Skills & Expertise</Text>
-      <Text style={styles.subtitle}>Technologies I work with daily</Text>
-
+    <View style={styles.container}>
       <ScrollView
-        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
       >
+        <Animated.View
+          style={[
+            styles.header,
+            {
+              opacity: titleFade,
+              transform: [{ translateY: titleSlide }]
+            }
+          ]}
+        >
+          <Text style={styles.title}>My Skills</Text>
+          <Animated.Text style={[styles.subtitle, { opacity: subtitleFade }]}>
+            Technologies I work with daily
+          </Animated.Text>
+        </Animated.View>
+
         {skillsData.map((section, sectionIndex) => (
           <Animated.View
             key={section.category}
             style={[
               styles.section,
               {
-                opacity: sectionFade[sectionIndex],
-                transform: [{ translateY: sectionSlide[sectionIndex] }],
-              },
+                opacity: sectionFades[sectionIndex],
+                transform: [{ scale: sectionScales[sectionIndex] }]
+              }
             ]}
           >
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionIcon}>{section.icon}</Text>
+            <TouchableOpacity
+              onPress={() => toggleSection(sectionIndex)}
+              activeOpacity={0.7}
+              style={styles.sectionHeader}
+            >
+              <MaterialIcons
+                name={section.icon}
+                size={24}
+                color={section.color}
+              />
               <Text style={[styles.sectionTitle, { color: section.color }]}>
                 {section.category}
               </Text>
-            </View>
+              <MaterialIcons
+                name={expandedSections[sectionIndex] ? 'expand-less' : 'expand-more'}
+                size={24}
+                color={section.color}
+              />
+            </TouchableOpacity>
 
             <View style={styles.grid}>
-              {section.items.slice(0, INITIAL_VISIBLE_ITEMS).map((item, itemIndex) => {
-                const flatIndex = skillsData
-                  .slice(0, sectionIndex)
-                  .reduce((sum, sec) => sum + sec.items.length, 0) + itemIndex;
-                return renderSkillCard(item, section, flatIndex);
-              })}
-
-              {expandedSections[sectionIndex] &&
-                section.items.slice(INITIAL_VISIBLE_ITEMS).map((item, itemIndex) => {
+              {section.items
+                .slice(0, expandedSections[sectionIndex] ? section.items.length : INITIAL_VISIBLE_ITEMS)
+                .map((item, itemIndex) => {
                   const flatIndex = skillsData
                     .slice(0, sectionIndex)
-                    .reduce((sum, sec) => sum + sec.items.length, 0) + INITIAL_VISIBLE_ITEMS + itemIndex;
+                    .reduce((sum, s) => sum + s.items.length, 0) + itemIndex;
                   return renderSkillCard(item, section, flatIndex);
-                })
-              }
+                })}
             </View>
-
-            {section.items.length > INITIAL_VISIBLE_ITEMS && (
-              <TouchableOpacity
-                onPress={() => {
-                  toggleSection(sectionIndex);
-                  if (!expandedSections[sectionIndex]) {
-                    animateAdditionalCards(sectionIndex);
-                  }
-                }}
-                style={[styles.showMoreButton, { borderColor: section.color }]}
-              >
-               {expandedSections[sectionIndex] ? (
-  <Text style={[styles.showLessText, { color: section.color }]}>Show Less</Text>
-) : (
-  <Text style={[styles.showMoreText, { color: section.color }]}>
-    Show {section.items.length - INITIAL_VISIBLE_ITEMS} More
-  </Text>
-)}
-
-              </TouchableOpacity>
-            )}
           </Animated.View>
         ))}
       </ScrollView>
-    </Animated.View>
+    </View>
   );
 }

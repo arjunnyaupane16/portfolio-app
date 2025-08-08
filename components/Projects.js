@@ -4,18 +4,17 @@ import {
   Animated,
   Easing,
   Image,
+  LayoutAnimation,
   Linking,
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
-  ActivityIndicator,
-  LayoutAnimation
+  View
 } from 'react-native';
 import styles from '../styles/ProjectsStyles';
 
 // Project data with public image URIs
-  const projectsData = [
+const projectsData = [
   {
     id: '1',
     title: 'Drift & Sip',
@@ -58,10 +57,8 @@ import styles from '../styles/ProjectsStyles';
   },
 ];
 
-
 export default function Projects() {
   const [expandedId, setExpandedId] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState({});
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
@@ -158,19 +155,10 @@ export default function Projects() {
         ]}
       >
         <View style={styles.imageContainer}>
-          {!imageLoaded[project.id] && (
-            <ActivityIndicator
-              style={styles.loadingIndicator}
-              size="large"
-              color={project.color}
-            />
-          )}
           <Image
             source={project.image}
             style={styles.projectImage}
             resizeMode="cover"
-            onLoadStart={() => setImageLoaded(prev => ({ ...prev, [project.id]: false }))}
-            onLoadEnd={() => setImageLoaded(prev => ({ ...prev, [project.id]: true }))}
           />
         </View>
 

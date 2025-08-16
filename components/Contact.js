@@ -275,7 +275,7 @@ export default function Contact() {
           >
             <MaterialIcons name="email" size={24} color="#fff" />
           </TouchableOpacity>
-          
+
 
           <TouchableOpacity
             style={styles.socialButton}
@@ -287,7 +287,7 @@ export default function Contact() {
 
           <TouchableOpacity
             style={styles.socialButton}
-            onPress={() => openLink('https://github.com/arjunnyaupane16/Profile')}
+            onPress={() => openLink('https://github.com/arjunnyaupane16')}
             activeOpacity={0.7}
           >
             <FontAwesome name="github" size={24} color="#fff" />

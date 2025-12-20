@@ -111,7 +111,7 @@ export default function Connection({ contact }: { contact: ContactData }) {
 
                 {/* System Trace Footer */}
                 <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.5em]">
-                    <span className="opacity-20">© 2024 / Arjun Nyaupane</span>
+                    <span className="opacity-20">© 2024 / Chandraprakash "Arjun" Nyaupane</span>
                     <div className="flex items-center gap-2 text-accent-primary">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         <span>Deployment Status: Operational</span>

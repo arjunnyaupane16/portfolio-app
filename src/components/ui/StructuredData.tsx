@@ -5,6 +5,7 @@ export default function StructuredData() {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": portfolioData.name,
+        "alternateName": ["Chandra", "Arjun", "Arjun Nyaupane", "Chandraprakash"],
         "jobTitle": portfolioData.title,
         "url": "https://chandraprakashnyaupane.com.np",
         "sameAs": [

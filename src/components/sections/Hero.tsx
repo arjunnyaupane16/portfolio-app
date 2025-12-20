@@ -49,15 +49,27 @@ export default function Hero({ data }: { data: Pick<PortfolioData, "title" | "na
                     {data.title}
                 </motion.div>
 
-                <motion.h1
-                    initial="hidden"
-                    animate="visible"
-                    variants={fadeInUp}
-                    className="text-7xl sm:text-8xl md:text-[12vw] lg:text-[10vw] font-bold tracking-tighter mb-4 md:mb-8 leading-[0.85] select-none"
-                >
-                    <span className="block italic font-extralight opacity-30">THE</span>
-                    <span className="block text-glow uppercase">Vision</span>
-                </motion.h1>
+                <div className="flex flex-col items-center">
+                    <motion.h1
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeInUp}
+                        className="sr-only"
+                    >
+                        {data.name} - {data.title}
+                    </motion.h1>
+
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeInUp}
+                        className="text-7xl sm:text-8xl md:text-[12vw] lg:text-[10vw] font-bold tracking-tighter mb-4 md:mb-8 leading-[0.85] select-none"
+                        aria-hidden="true"
+                    >
+                        <span className="block italic font-extralight opacity-30 uppercase">THE</span>
+                        <span className="block text-glow uppercase">Vision</span>
+                    </motion.div>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-end text-left mt-10 md:mt-16">
                     <motion.div initial="hidden" animate="visible" variants={fadeInUp} custom={0.4}>

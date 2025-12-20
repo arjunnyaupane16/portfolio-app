@@ -3,11 +3,11 @@ import { PortfolioData } from "../types/portfolio";
 export const portfolioData: PortfolioData = {
     name: "Chandraprakash Nyaupane",
     nickname: "Arjun",
-    title: "Full Stack & Mobile App Developer",
+    title: "MERN Stack & App Developer",
     age: "2006-12-29", // Used to calculate age
     bio: {
-        short: "I am a passionate and detail-oriented Full Stack and Mobile App Developer with expertise in building scalable web applications and native mobile experiences.",
-        full: "I specialize in technologies such as React, React Native, Node.js, Express, and MongoDB. I enjoy crafting clean, maintainable code and delivering intuitive user experiences on both web and mobile platforms. My journey into software development is driven by curiosity and a love for creating impactful, efficient solutions that connect people and technology seamlessly."
+        short: "I am a passionate and detail-oriented MERN Stack and App Developer with expertise in building scalable web applications and native mobile experiences.",
+        full: "I specialize in MERN Stack and App Development. I enjoy crafting clean, maintainable code and delivering intuitive user experiences on both web and mobile platforms. My journey into software development is driven by curiosity and a love for creating impactful, efficient solutions that connect people and technology seamlessly."
     },
     education: [
         {
@@ -66,6 +66,16 @@ export const portfolioData: PortfolioData = {
         },
         {
             id: "2",
+            title: "Admin App",
+            description: "Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.",
+            tech: ["React.js", "JavaScript", "CSS3", "Vercel"],
+            image: "/projects/admin-app.jpg",
+            demo: "https://admin-app-rose.vercel.app/",
+            github: "https://github.com/arjunnyaupane16/admin-app",
+            color: "#4cc9f0"
+        },
+        {
+            id: "3",
             title: "Personal Portfolio",
             description: "Responsive portfolio website showcasing skills and featured projects.",
             tech: ["React.js", "CSS3", "Vercel"],
@@ -75,23 +85,13 @@ export const portfolioData: PortfolioData = {
             color: "#4cc9f0"
         },
         {
-            id: "3",
+            id: "4",
             title: "Task Manager",
             description: "A task and project management app featuring drag & drop, reminders, and cloud sync.",
             tech: ["React Native", "Firebase", "Redux"],
             image: "/projects/task-manager.jpg",
             demo: "https://task-manager-demo.example.com",
             github: "https://github.com/arjunnyaupane16/task-manager",
-            color: "#4cc9f0"
-        },
-        {
-            id: "4",
-            title: "Admin App",
-            description: "Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.",
-            tech: ["React.js", "JavaScript", "CSS3", "Vercel"],
-            image: "/projects/admin-app.jpg",
-            demo: "https://admin-app-rose.vercel.app/",
-            github: "https://github.com/arjunnyaupane16/admin-app",
             color: "#4cc9f0"
         }
     ],

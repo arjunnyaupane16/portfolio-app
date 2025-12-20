@@ -26,12 +26,12 @@ export default function Hero({ data }: { data: Pick<PortfolioData, "title" | "na
             >
                 <div className="relative w-full h-full">
                     <Image
-                        src="/profile.jpg"
+                        src="/avatar.png"
                         alt={`Chandraprakash Nyaupane (Arjun) - ${data.title}`}
                         fill
                         priority
                         quality={100}
-                        className="object-cover object-[center_20%] md:object-[center_15%] grayscale saturate-[0.7] brightness-[0.4] md:brightness-[0.8]"
+                        className="object-cover object-[center_20%] md:object-[center_15%] saturate-[0.9] brightness-[0.4] md:brightness-[0.8]"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-background/20" />
                     <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />

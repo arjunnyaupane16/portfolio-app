@@ -51,16 +51,16 @@ const SkillCard = ({ name, level, category, index }: SkillCardProps) => (
             </div>
         </div>
 
-        <div className="z-10 mt-auto">
+        <div className="z-10 mt-auto w-full">
             <h3 className="text-xl md:text-2xl font-bold tracking-tight group-hover:text-accent-primary transition-colors">
                 {name}
             </h3>
-            <div className="w-full h-px bg-white/5 mt-4 relative md:hidden">
+            <div className="w-full h-[2px] bg-white/5 mt-4 relative overflow-hidden rounded-full">
                 <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${level}%` }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="absolute left-0 top-0 h-full bg-accent-primary"
+                    transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute left-0 top-0 h-full bg-accent-primary/50 group-hover:bg-accent-primary transition-colors"
                 />
             </div>
         </div>

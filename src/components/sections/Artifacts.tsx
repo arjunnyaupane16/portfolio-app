@@ -6,6 +6,7 @@
  */
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Github, ExternalLink, ArrowRight } from "lucide-react";
 import { Project } from "@/types/portfolio";
 import { SectionHeader } from "../ui/SectionHeader";
@@ -20,10 +21,15 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => (
     <motion.div variants={fadeInUp} className="group flex flex-col">
         <div className="relative aspect-[16/11] overflow-hidden rounded-[2.5rem] glass border border-white/5 mb-8 shadow-2xl transition-transform duration-500 hover:-translate-y-2">
             {/* Dynamic Visual Layer */}
-            <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110 saturate-[0.8] brightness-[0.7] group-hover:brightness-100 group-hover:saturate-100"
-                style={{ backgroundImage: `url(${project.image})` }}
-            />
+            <div className="absolute inset-0 transition-transform duration-1000 group-hover:scale-110">
+                <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover saturate-[0.8] brightness-[0.7] group-hover:brightness-100 group-hover:saturate-100 transition-all duration-700"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
             {/* Interactive Controls */}

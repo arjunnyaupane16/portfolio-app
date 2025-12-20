@@ -59,7 +59,7 @@ export const portfolioData: PortfolioData = {
             title: "Drift & Sip",
             description: "Real-time order management app with live tracking, soft delete, dashboards, and API integration.",
             tech: ["React Native", "Node.js", "MongoDB"],
-            image: "https://chandraprakashnyaupane.com.np/images/drift-and-sip.jpg",
+            image: "/projects/drift-and-sip.jpg",
             demo: "https://drift-and-sip-user-app.vercel.app/",
             github: "https://github.com/arjunnyaupane16/drift-and-sip",
             color: "#4cc9f0"
@@ -69,7 +69,7 @@ export const portfolioData: PortfolioData = {
             title: "Personal Portfolio",
             description: "Responsive portfolio website showcasing skills and featured projects.",
             tech: ["React.js", "CSS3", "Vercel"],
-            image: "https://chandraprakashnyaupane.com.np/images/portfolio.jpg",
+            image: "/projects/portfolio.png",
             demo: "https://chandraprakashnyaupane.vercel.app/",
             github: "https://github.com/arjunnyaupane/portfolio",
             color: "#4cc9f0"
@@ -79,7 +79,7 @@ export const portfolioData: PortfolioData = {
             title: "Task Manager",
             description: "A task and project management app featuring drag & drop, reminders, and cloud sync.",
             tech: ["React Native", "Firebase", "Redux"],
-            image: "https://chandraprakashnyaupane.com.np/images/task-manager.jpg",
+            image: "/projects/task-manager.jpg",
             demo: "https://task-manager-demo.example.com",
             github: "https://github.com/arjunnyaupane16/task-manager",
             color: "#4cc9f0"
@@ -89,7 +89,7 @@ export const portfolioData: PortfolioData = {
             title: "Admin App",
             description: "Admin panel for managing orders, dashboards, and staff with authentication and responsive UI.",
             tech: ["React.js", "JavaScript", "CSS3", "Vercel"],
-            image: "https://chandraprakashnyaupane.com.np/images/admin-app.jpg",
+            image: "/projects/admin-app.jpg",
             demo: "https://admin-app-rose.vercel.app/",
             github: "https://github.com/arjunnyaupane16/admin-app",
             color: "#4cc9f0"

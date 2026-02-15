@@ -55,6 +55,16 @@ export const portfolioData: PortfolioData = {
     ],
     projects: [
         {
+            id: "5",
+            title: "Eternal Love",
+            description: "A luxury cinematic digital love letter inspired by Rolls-Royce La Rose Noire Droptail, featuring sophisticated animations and storytelling.",
+            tech: ["React.js", "GSAP", "Lenis", "Framer Motion"],
+            image: "/projects/eternal-love.png",
+            demo: "https://eternal-love-omega.vercel.app/",
+            github: "https://github.com/arjunnyaupane16/Eternal-Love",
+            color: "#ff3366"
+        },
+        {
             id: "1",
             title: "Drift & Sip",
             description: "Real-time order management app with live tracking, soft delete, dashboards, and API integration.",

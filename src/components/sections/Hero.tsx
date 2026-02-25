@@ -26,7 +26,7 @@ export default function Hero({ data }: { data: Pick<PortfolioData, "title" | "na
             >
                 <div className="relative w-full h-full">
                     <Image
-                        src="/avatar.png"
+                        src="/profile.png"
                         alt={`Chandraprakash Nyaupane (Arjun) - ${data.title}`}
                         fill
                         priority

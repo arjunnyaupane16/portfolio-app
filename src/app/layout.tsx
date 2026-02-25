@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import StructuredData from "@/components/ui/StructuredData";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import AnimatedBackground from "@/components/ui/AnimatedBackground";
+import SmoothScroll from "@/components/ui/SmoothScroll";
+import RouteTransition from "@/components/ui/RouteTransition";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -15,8 +20,8 @@ const outfit = Outfit({
 
 const siteConfig = {
   name: "Chandraprakash Nyaupane",
-  title: "MERN Stack & App Developer | Full Stack Engineer",
-  description: "Portfolio of Chandraprakash Nyaupane (Arjun), a high-performance MERN Stack and App Developer specializing in scalable React, React Native, and Node.js ecosystems.",
+  title: "TypeScript Developer & AI/ML Passionate | Full Stack Engineer",
+  description: "Portfolio of Chandraprakash Nyaupane (Arjun), a TypeScript developer and AI/ML passionate developer building scalable web applications and exploring intelligent solutions.",
   url: "https://chandraprakashnyaupane.com.np",
 };
 
@@ -31,15 +36,14 @@ export const metadata: Metadata = {
     "Chandra Nyaupane",
     "Arjun Nyaupane",
     "Chandraprakash",
-    "Nyaupane Chandraprakash",
-    "MERN Stack Developer",
-    "Full Stack Developer Nepal",
-    "React Native Developer India",
+    "TypeScript Developer",
+    "AI ML Passionate",
+    "Full Stack Developer",
     "Next.js Portfolio",
-    "Software Engineer Roorkee",
-    "App Developer Nepal",
+    "Node.js Developer",
+    "Firebase Developer",
+    "Software Engineer",
     "Chandraprakash Portfolio",
-    "Arjun Tech",
   ],
   authors: [{ name: "Chandraprakash Nyaupane" }],
   creator: "Chandraprakash Nyaupane",
@@ -77,9 +81,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    google: "process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION", // Placeholder for actual key
-  },
 };
 
 export default function RootLayout({
@@ -90,13 +91,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased selection:bg-accent-primary selection:text-white`}
+        className={`${inter.variable} ${outfit.variable} antialiased`}
       >
         <StructuredData />
         <div className="bg-noise fixed inset-0 z-50 pointer-events-none" />
-        {children}
+        <SmoothScroll>
+          <AnimatedBackground />
+          <Navbar />
+          <main className="relative min-h-screen">
+            <RouteTransition>
+              {children}
+            </RouteTransition>
+          </main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
 }
-

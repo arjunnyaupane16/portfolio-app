@@ -3,11 +3,11 @@ import { PortfolioData } from "../types/portfolio";
 export const portfolioData: PortfolioData = {
     name: "Chandraprakash Nyaupane",
     nickname: "Arjun",
-    title: "MERN Stack & App Developer",
+    title: "TypeScript Developer & AI/ML Passionate",
     age: "2006-12-29", // Used to calculate age
     bio: {
-        short: "I am a passionate and detail-oriented MERN Stack and App Developer with expertise in building scalable web applications and native mobile experiences.",
-        full: "I specialize in MERN Stack and App Development. I enjoy crafting clean, maintainable code and delivering intuitive user experiences on both web and mobile platforms. My journey into software development is driven by curiosity and a love for creating impactful, efficient solutions that connect people and technology seamlessly."
+        short: "I am a passionate and detail-oriented TypeScript developer exploring AI/ML, with expertise in building scalable web applications and intelligent solutions.",
+        full: "I specialize in TypeScript-driven development across frontend and backend, while actively diving into the world of AI and Machine Learning. I enjoy crafting clean, type-safe, maintainable code and building intuitive user experiences. My journey is fueled by curiosity — from delivering high-performance web apps to exploring how AI/ML can create smarter, more impactful solutions."
     },
     education: [
         {
@@ -28,28 +28,25 @@ export const portfolioData: PortfolioData = {
         {
             category: "Frontend Development",
             items: [
-                { name: "HTML5", level: 95 },
-                { name: "CSS3", level: 90 },
-                { name: "JavaScript", level: 75 },
-                { name: "React", level: 90 },
-                { name: "React Native", level: 85 },
-                { name: "TypeScript", level: 65 }
+                { name: "TypeScript", level: 85 }
             ]
         },
         {
-            category: "Backend & Databases",
+            category: "Backend",
             items: [
-                { name: "Node.js", level: 85 },
-                { name: "Express", level: 80 },
-                { name: "MongoDB", level: 75 }
+                { name: "Node.js", level: 80 }
             ]
         },
         {
             category: "Tools & Platforms",
             items: [
-                { name: "Git", level: 90 },
-                { name: "Firebase", level: 75 },
-                { name: "Postman", level: 95 }
+                { name: "Firebase", level: 75 }
+            ]
+        },
+        {
+            category: "AI / ML",
+            items: [
+                { name: "AI/ML", level: 20 }
             ]
         }
     ],

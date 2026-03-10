@@ -1,10 +1,12 @@
+"use client";
+
 /**
  * @file components/ui/SectionHeader.tsx
- * @description Premium section header with animated underline and letter reveal.
+ * @description Premium section header with staggered letter reveal and shimmer underline.
  */
 
 import { motion } from "framer-motion";
-import { fadeInUp, drawLine } from "../motion/variants";
+import { staggerLetters, letterSlide, drawLine } from "../motion/variants";
 
 interface SectionHeaderProps {
     title: string;
@@ -14,24 +16,58 @@ interface SectionHeaderProps {
     className?: string;
 }
 
+function AnimatedText({ text, className }: { text: string; className?: string }) {
+    return (
+        <motion.span
+            variants={staggerLetters}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className={`inline-flex overflow-hidden ${className}`}
+            style={{ perspective: "800px" }}
+        >
+            {text.split("").map((char, i) => (
+                <motion.span
+                    key={i}
+                    variants={letterSlide}
+                    className="inline-block"
+                    style={{ transformOrigin: "bottom" }}
+                >
+                    {char === " " ? "\u00a0" : char}
+                </motion.span>
+            ))}
+        </motion.span>
+    );
+}
+
 export const SectionHeader = ({ title, subtitle, accent, index, className = "" }: SectionHeaderProps) => (
     <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        variants={fadeInUp}
         className={`mb-16 md:mb-24 ${className}`}
     >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
             <div className="max-w-2xl">
                 <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-4 leading-none uppercase">
-                    {title}{" "}
-                    <span className="gradient-text italic font-extralight">{accent}</span>
+                    <AnimatedText text={title + " "} />
+                    {accent && (
+                        <AnimatedText
+                            text={accent}
+                            className="gradient-text italic font-extralight"
+                        />
+                    )}
                 </h2>
                 {subtitle && (
-                    <p className="text-foreground/40 text-sm md:text-base leading-relaxed">
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.5, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-foreground/40 text-sm md:text-base leading-relaxed"
+                    >
                         {subtitle}
-                    </p>
+                    </motion.p>
                 )}
             </div>
             {index && (
@@ -41,14 +77,17 @@ export const SectionHeader = ({ title, subtitle, accent, index, className = "" }
             )}
         </div>
 
-        {/* Animated underline */}
+        {/* Shimmer underline */}
         <motion.div
             variants={drawLine}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             custom={0.3}
-            className="mt-8 w-full h-px bg-gradient-to-r from-accent-primary/30 via-accent-secondary/20 to-transparent"
+            className="mt-8 w-full h-px shimmer-border rounded-full"
+            style={{
+                background: "linear-gradient(90deg, rgba(99,102,241,0.4), rgba(244,63,94,0.2), transparent)",
+            }}
         />
     </motion.div>
 );

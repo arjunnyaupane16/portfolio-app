@@ -3,11 +3,11 @@ import { PortfolioData } from "../types/portfolio";
 export const portfolioData: PortfolioData = {
     name: "Chandraprakash Nyaupane",
     nickname: "Arjun",
-    title: "TypeScript Developer & AI/ML Passionate",
+    title: "Builder at Web Development × Artificial Intelligence",
     age: "2006-12-29", // Used to calculate age
     bio: {
-        short: "I am a passionate and detail-oriented TypeScript developer exploring AI/ML, with expertise in building scalable web applications and intelligent solutions.",
-        full: "I specialize in TypeScript-driven development across frontend and backend, while actively diving into the world of AI and Machine Learning. I enjoy crafting clean, type-safe, maintainable code and building intuitive user experiences. My journey is fueled by curiosity — from delivering high-performance web apps to exploring how AI/ML can create smarter, more impactful solutions."
+        short: "I'm a passionate builder at the intersection of Web Development and Artificial Intelligence — creating impactful digital experiences and intelligent systems that are not just functional, but meaningful.",
+        full: "Instead of limiting myself to a single technology label, I focus on building products that combine modern web technologies, scalable architectures, and AI-driven ideas. From designing interactive web applications to exploring machine learning and intelligent agents, I enjoy turning ideas into real-world solutions. I believe technology is not just about writing code — it's about solving problems, creating value, and pushing innovation forward."
     },
     education: [
         {
@@ -26,27 +26,39 @@ export const portfolioData: PortfolioData = {
     ],
     skills: [
         {
-            category: "Frontend Development",
+            category: "Frontend",
             items: [
-                { name: "TypeScript", level: 85 }
+                { name: "TypeScript", level: 88 },
+                { name: "React / Next.js", level: 85 },
+                { name: "Framer Motion", level: 80 },
+                { name: "Tailwind CSS", level: 82 }
             ]
         },
         {
             category: "Backend",
             items: [
-                { name: "Node.js", level: 80 }
-            ]
-        },
-        {
-            category: "Tools & Platforms",
-            items: [
+                { name: "Node.js", level: 78 },
+                { name: "REST APIs", level: 80 },
+                { name: "MongoDB", level: 72 },
                 { name: "Firebase", level: 75 }
             ]
         },
         {
-            category: "AI / ML",
+            category: "AI & Intelligence",
             items: [
-                { name: "AI/ML", level: 20 }
+                { name: "Python", level: 65 },
+                { name: "Machine Learning", level: 50 },
+                { name: "LLM Integration", level: 60 },
+                { name: "Intelligent Agents", level: 45 }
+            ]
+        },
+        {
+            category: "Tools & DevOps",
+            items: [
+                { name: "Git / GitHub", level: 85 },
+                { name: "Vercel", level: 80 },
+                { name: "Docker", level: 55 },
+                { name: "Linux", level: 60 }
             ]
         }
     ],

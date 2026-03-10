@@ -1,10 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { BookOpen, GraduationCap, MapPin, Calendar, Code2, Brain } from "lucide-react";
 import Image from "next/image";
+import { useRef } from "react";
 import { portfolioData } from "@/constants/data";
-import { fadeInUp, fadeInRight, staggerContainer, blurIn, drawLine } from "@/components/motion/variants";
+import { fadeInUp, fadeInRight, staggerContainer, blurIn, drawLine, springPop } from "@/components/motion/variants";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import PageTransition from "@/components/ui/PageTransition";
 
@@ -20,9 +21,38 @@ function calculateAge(birthday: string) {
 const highlights = [
     { icon: <Calendar size={20} />, label: "Age", value: `${calculateAge(portfolioData.age)} years` },
     { icon: <MapPin size={20} />, label: "Based In", value: "Roorkee, India" },
-    { icon: <Code2 size={20} />, label: "Focus", value: "TypeScript" },
-    { icon: <Brain size={20} />, label: "Exploring", value: "AI / ML" },
+    { icon: <Code2 size={20} />, label: "Focus", value: "Web × AI" },
+    { icon: <Brain size={20} />, label: "Exploring", value: "Intelligent Agents" },
 ];
+
+// 3D tilt card
+function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
+    const ref = useRef<HTMLDivElement>(null);
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 30 });
+    const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 });
+
+    const handleMove = (e: React.MouseEvent) => {
+        const rect = ref.current?.getBoundingClientRect();
+        if (!rect) return;
+        x.set((e.clientX - rect.left) / rect.width - 0.5);
+        y.set((e.clientY - rect.top) / rect.height - 0.5);
+    };
+    const handleLeave = () => { x.set(0); y.set(0); };
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMove}
+            onMouseLeave={handleLeave}
+            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+            className={`perspective-card ${className}`}
+        >
+            {children}
+        </motion.div>
+    );
+}
 
 export default function AboutPage() {
     return (
@@ -58,11 +88,11 @@ export default function AboutPage() {
                             </div>
                             {/* Floating tag */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.5, type: "spring" }}
+                                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                                transition={{ delay: 0.5, type: "spring", stiffness: 300 }}
                                 viewport={{ once: true }}
-                                className="absolute -bottom-4 -right-4 md:right-8 glass-colored px-6 py-3 rounded-2xl border border-accent-primary/20"
+                                className="absolute -bottom-4 -right-4 md:right-8 glass-colored px-6 py-3 rounded-2xl border border-accent-primary/20 shimmer-border"
                             >
                                 <span className="text-sm font-bold text-accent-primary">Available for work 🚀</span>
                             </motion.div>
@@ -83,19 +113,80 @@ export default function AboutPage() {
                                 {portfolioData.bio.full}
                             </p>
 
-                            {/* Highlight Grid */}
+                            {/* Highlight Grid with tilt */}
                             <div className="grid grid-cols-2 gap-4">
-                                {highlights.map((h) => (
-                                    <div key={h.label} className="glass rounded-2xl p-4 border border-white/5 hover:border-accent-primary/20 transition-all group">
-                                        <div className="text-accent-primary/60 group-hover:text-accent-primary transition-colors mb-2">
-                                            {h.icon}
-                                        </div>
-                                        <span className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/30 block">{h.label}</span>
-                                        <span className="text-sm font-bold mt-1 block">{h.value}</span>
-                                    </div>
+                                {highlights.map((h, i) => (
+                                    <motion.div
+                                        key={h.label}
+                                        variants={springPop}
+                                        custom={i * 0.1}
+                                    >
+                                        <TiltCard className="glass rounded-2xl p-4 border border-white/5 hover:border-accent-primary/20 transition-colors group cursor-default h-full">
+                                            <div className="text-accent-primary/60 group-hover:text-accent-primary transition-colors mb-2">
+                                                {h.icon}
+                                            </div>
+                                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/30 block">{h.label}</span>
+                                            <span className="text-sm font-bold mt-1 block">{h.value}</span>
+                                        </TiltCard>
+                                    </motion.div>
                                 ))}
                             </div>
                         </motion.div>
+                    </motion.div>
+
+                    {/* ═══ Skills Section ═══ */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="mb-32"
+                    >
+                        <motion.h3
+                            variants={fadeInUp}
+                            className="text-4xl md:text-6xl font-bold tracking-tighter mb-4"
+                        >
+                            THE <span className="text-accent-primary italic font-extralight">STACK</span>
+                        </motion.h3>
+                        <motion.div
+                            variants={drawLine}
+                            custom={0.2}
+                            className="w-24 h-0.5 bg-accent-primary mb-16"
+                        />
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {portfolioData.skills.map((category, ci) => (
+                                <motion.div
+                                    key={category.category}
+                                    variants={fadeInUp}
+                                    custom={ci * 0.1}
+                                    whileHover={{ y: -6, boxShadow: "0 20px 60px rgba(99,102,241,0.12)" }}
+                                    className="glass rounded-2xl p-6 border border-white/5 hover:border-accent-primary/20 transition-colors group"
+                                >
+                                    <span className="text-[9px] font-black uppercase tracking-[0.25em] text-accent-primary/60 group-hover:text-accent-primary transition-colors block mb-4">
+                                        {category.category}
+                                    </span>
+                                    <div className="flex flex-col gap-4">
+                                        {category.items.map((item, ii) => (
+                                            <div key={item.name}>
+                                                <div className="flex justify-between items-center mb-1.5">
+                                                    <span className="text-sm font-medium text-foreground/70">{item.name}</span>
+                                                    <span className="text-[10px] text-foreground/30 font-bold">{item.level}%</span>
+                                                </div>
+                                                <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                                                    <motion.div
+                                                        className="h-full rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary"
+                                                        initial={{ width: 0 }}
+                                                        whileInView={{ width: `${item.level}%` }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 1.2, delay: ci * 0.1 + ii * 0.08, ease: "easeOut" }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </motion.div>
 
                     {/* ═══ Education Timeline ═══ */}
@@ -133,21 +224,37 @@ export default function AboutPage() {
                                 <motion.div
                                     key={edu.institution}
                                     variants={fadeInUp}
-                                    className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                                        }`}
+                                    className={`relative flex flex-col md:flex-row gap-8 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
                                 >
-                                    {/* Node */}
-                                    <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-0 w-9 h-9 flex items-center justify-center rounded-full glass border border-accent-secondary/30 z-10 shadow-[0_0_20px_rgba(244,63,94,0.2)] group-hover:scale-125 transition-transform">
-                                        {index === 0 ? (
-                                            <GraduationCap size={16} className="text-accent-secondary" />
-                                        ) : (
-                                            <BookOpen size={16} className="text-accent-secondary" />
-                                        )}
+                                    {/* Node with pulse ring */}
+                                    <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 top-0 z-10">
+                                        <motion.div
+                                            initial={{ scale: 0, opacity: 0 }}
+                                            whileInView={{ scale: 1, opacity: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ type: "spring", stiffness: 400, damping: 20, delay: index * 0.2 }}
+                                            className="w-9 h-9 flex items-center justify-center rounded-full glass border border-accent-secondary/30 shadow-[0_0_20px_rgba(244,63,94,0.2)]"
+                                        >
+                                            {index === 0 ? (
+                                                <GraduationCap size={16} className="text-accent-secondary" />
+                                            ) : (
+                                                <BookOpen size={16} className="text-accent-secondary" />
+                                            )}
+                                        </motion.div>
+                                        {/* Pulse ring */}
+                                        <motion.div
+                                            className="absolute inset-0 rounded-full border border-accent-secondary/30"
+                                            animate={{ scale: [1, 1.8], opacity: [0.4, 0] }}
+                                            transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                                        />
                                     </div>
 
                                     {/* Card */}
                                     <div className={`ml-14 md:ml-0 md:w-[calc(50%-40px)] ${index % 2 === 0 ? "md:text-right md:pr-8" : "md:text-left md:pl-8"}`}>
-                                        <div className="glass rounded-[2rem] p-8 border border-white/5 hover:border-accent-secondary/20 transition-all group">
+                                        <motion.div
+                                            whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(244,63,94,0.1)" }}
+                                            className="glass rounded-[2rem] p-8 border border-white/5 hover:border-accent-secondary/20 transition-colors group"
+                                        >
                                             <span className="inline-block text-[10px] font-black uppercase tracking-[0.2em] text-accent-secondary mb-3 opacity-70 group-hover:opacity-100">
                                                 {edu.date}
                                             </span>
@@ -160,10 +267,10 @@ export default function AboutPage() {
                                                     {edu.highlight}
                                                 </div>
                                             )}
-                                        </div>
+                                        </motion.div>
                                     </div>
 
-                                    {/* Spacer for the other side */}
+                                    {/* Spacer */}
                                     <div className="hidden md:block md:w-[calc(50%-40px)]" />
                                 </motion.div>
                             ))}

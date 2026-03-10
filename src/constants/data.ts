@@ -48,17 +48,14 @@ export const portfolioData: PortfolioData = {
             items: [
                 { name: "Python", level: 65 },
                 { name: "Machine Learning", level: 50 },
-                { name: "LLM Integration", level: 60 },
-                { name: "Intelligent Agents", level: 45 }
+                { name: "LLM Integration", level: 60 }
             ]
         },
         {
             category: "Tools & DevOps",
             items: [
                 { name: "Git / GitHub", level: 85 },
-                { name: "Vercel", level: 80 },
-                { name: "Docker", level: 55 },
-                { name: "Linux", level: 60 }
+                { name: "Vercel", level: 80 }
             ]
         }
     ],

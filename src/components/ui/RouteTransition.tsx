@@ -2,17 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 export default function RouteTransition({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const [isTransitioning, setIsTransitioning] = useState(false);
-
-    useEffect(() => {
-        setIsTransitioning(true);
-        const timer = setTimeout(() => setIsTransitioning(false), 50);
-        return () => clearTimeout(timer);
-    }, [pathname]);
 
     return (
         <AnimatePresence mode="wait">

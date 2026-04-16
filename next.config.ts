@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: 'chandraprakashnyaupane.com.np',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'], // Optimized modern formats
     minimumCacheTTL: 60,
@@ -63,5 +68,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
 

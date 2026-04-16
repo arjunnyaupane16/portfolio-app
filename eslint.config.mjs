@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Archived legacy codebase (not part of active Next.js app)
+    "legacy/**",
   ]),
 ]);
 

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 export const useNavigation = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState("vision");
+    const [activeSection] = useState("vision");
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {

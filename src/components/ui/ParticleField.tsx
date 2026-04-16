@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 /**
  * @file components/ui/ParticleField.tsx
@@ -30,11 +30,7 @@ function generateParticles(): Particle[] {
 }
 
 export default function ParticleField() {
-    const [particles, setParticles] = useState<Particle[]>([]);
-
-    useEffect(() => {
-        setParticles(generateParticles());
-    }, []);
+    const particles = useMemo(() => generateParticles(), []);
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">

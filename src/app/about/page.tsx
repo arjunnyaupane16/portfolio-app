@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { BookOpen, GraduationCap, MapPin, Calendar, Code2, Brain } from "lucide-react";

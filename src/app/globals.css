@@ -360,3 +360,71 @@ h6 {
   background: rgba(99, 102, 241, 0.3);
   color: #fafafa;
 }
+
+.aurora-bg::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(45% 35% at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 70%),
+    radial-gradient(40% 35% at 80% 70%, rgba(244, 63, 94, 0.2) 0%, transparent 70%);
+  animation: aurora-drift 14s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.animated-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: grid-shift 16s linear infinite;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 18s linear infinite;
+}
+
+@keyframes aurora-drift {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(0, -3%, 0) scale(1.04);
+  }
+}
+
+@keyframes grid-shift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(40px, 40px, 0);
+  }
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .aurora-bg::before,
+  .animated-grid,
+  .marquee-track {
+    animation: none !important;
+  }
+}

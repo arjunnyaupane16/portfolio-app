@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { portfolioData } from "@/constants/data";
-import { fadeIn, fadeInUp, scaleIn, blurIn, staggerContainer, springPop } from "@/components/motion/variants";
+import { fadeIn, fadeInUp, blurIn, staggerContainer, springPop } from "@/components/motion/variants";
 import WordCycle from "@/components/ui/WordCycle";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ParticleField from "@/components/ui/ParticleField";
@@ -19,6 +19,8 @@ const STATS = [
   { label: "Tech Stack", value: portfolioData.skills.reduce((a, c) => a + c.items.length, 0), suffix: "+" },
   { label: "Status", value: null, accent: true },
 ];
+
+const TRUSTED_STACK = ["Next.js", "TypeScript", "Framer Motion", "Node.js", "MongoDB", "Vercel"];
 
 // Magnetic button wrapper
 function MagneticButton({ children, className, href }: { children: React.ReactNode; className?: string; href: string }) {
@@ -57,10 +59,12 @@ export default function HomePage() {
     <div className="flex flex-col">
       <ScrollProgress />
 
-      {/* ═══ Hero Section ═══ */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden aurora-bg">
         {/* Particle field */}
         <ParticleField />
+
+        <div className="absolute inset-0 animated-grid opacity-40 pointer-events-none" />
 
         {/* Ambient Glows */}
         <div className="absolute top-1/4 -left-20 w-72 md:w-[500px] h-72 md:h-[500px] bg-accent-primary/8 rounded-full blur-[120px] pointer-events-none animate-float" />
@@ -178,6 +182,28 @@ export default function HomePage() {
               About Me
             </MagneticButton>
           </motion.div>
+
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            custom={0.75}
+            className="mt-10"
+          >
+            <div className="glass rounded-2xl border border-white/10 overflow-hidden">
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5">
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] uppercase tracking-[0.25em] font-black text-foreground/60">Production Ready Stack</span>
+              </div>
+              <div className="marquee-track py-3">
+                {[...TRUSTED_STACK, ...TRUSTED_STACK].map((item, index) => (
+                  <span key={`${item}-${index}`} className="mx-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-[10px] uppercase tracking-[0.16em] font-bold text-foreground/70">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
 
         {/* Scroll cue */}
@@ -196,7 +222,7 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ═══ Quick About Teaser ═══ */}
+      {/* Quick About Teaser */}
       <section className="py-24 md:py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -204,9 +230,9 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-16 items-center"
+            className="max-w-4xl"
           >
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={fadeInUp} className="relative">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-accent-primary mb-4 block">About Me</span>
               <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight">
                 Building tech that <span className="gradient-text">matters</span>
@@ -214,45 +240,30 @@ export default function HomePage() {
               <p className="text-foreground/50 leading-relaxed text-base md:text-lg mb-8">
                 {portfolioData.bio.full}
               </p>
+              <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  "Product Thinking",
+                  "High Performance UI",
+                  "AI-first Workflows",
+                ].map((pill, index) => (
+                  <motion.div
+                    key={pill}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-xs uppercase tracking-[0.16em] font-bold text-foreground/70"
+                  >
+                    {pill}
+                  </motion.div>
+                ))}
+              </div>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-2 text-accent-primary font-bold text-sm uppercase tracking-wider hover:gap-4 transition-all"
               >
                 Read More <ArrowRight size={16} />
               </Link>
-            </motion.div>
-
-            {/* Skill category cards with hover animation */}
-            <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-4">
-              {portfolioData.skills.map((category, i) => (
-                <motion.div
-                  key={category.category}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  whileHover={{ y: -4, boxShadow: "0 16px 40px rgba(99,102,241,0.12)" }}
-                  className="glass rounded-2xl p-6 border border-white/5 hover:border-accent-primary/20 transition-colors group cursor-default"
-                >
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/30 group-hover:text-accent-primary transition-colors">{category.category}</span>
-                  <div className="mt-3 flex flex-col gap-2">
-                    {category.items.map((item) => (
-                      <div key={item.name} className="flex items-center justify-between gap-2">
-                        <span className="text-sm font-medium text-foreground/60">{item.name}</span>
-                        <div className="flex-1 max-w-[60px] h-0.5 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div
-                            className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full"
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${item.level}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: i * 0.1 + 0.3, ease: "easeOut" }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
             </motion.div>
           </motion.div>
         </div>

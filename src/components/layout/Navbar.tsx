@@ -33,10 +33,6 @@ export default function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [handleScroll]);
 
-    useEffect(() => {
-        setIsOpen(false);
-    }, [pathname]);
-
     return (
         <>
             {/* Desktop Navigation */}
@@ -111,6 +107,7 @@ export default function Navbar() {
                                     >
                                         <Link
                                             href={link.href}
+                                            onClick={() => setIsOpen(false)}
                                             className={`text-4xl font-black tracking-tighter uppercase transition-all ${isActive ? "text-accent-primary text-glow" : "text-foreground/60 hover:text-foreground"
                                                 }`}
                                         >

@@ -61,6 +61,16 @@ export const portfolioData: PortfolioData = {
     ],
     projects: [
         {
+            id: "6",
+            title: "Maison Aurelia",
+            description: "A high-end luxury brand experience with cinematic storytelling, smooth transitions, and premium SaaS-style interaction design.",
+            tech: ["Next.js", "TypeScript", "Framer Motion", "GSAP", "Tailwind CSS"],
+            image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1600&q=80",
+            demo: "https://maison-aurelia-amber.vercel.app/",
+            github: "https://github.com/arjunnyaupane16",
+            color: "#f59e0b"
+        },
+        {
             id: "5",
             title: "Eternal Love",
             description: "A luxury cinematic digital love letter inspired by Rolls-Royce La Rose Noire Droptail, featuring sophisticated animations and storytelling.",

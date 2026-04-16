@@ -1,10 +1,5 @@
 "use client";
 
-/**
- * @file components/sections/Connection.tsx
- * @description Final conversion node with social integration and contact logic.
- */
-
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github, ArrowUpRight, Copy, Check } from "lucide-react";
 import { ContactData } from "@/types/portfolio";
@@ -26,7 +21,7 @@ const SocialCard = ({ href, label, title, icon, variant = "secondary" }: SocialC
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className={`glass p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group hover:bg-white/[0.05] transition-all flex flex-col justify-between aspect-square md:aspect-auto md:h-72 border border-white/5 hover:border-accent-primary/30`}
+        className="glass p-6 md:p-10 rounded-[2rem] md:rounded-[2.5rem] group hover:bg-white/[0.05] transition-all flex flex-col justify-between aspect-square md:aspect-auto md:h-72 border border-white/5 hover:border-accent-primary/30"
     >
         <div
             className={`w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform ${variant === "primary" ? "bg-accent-primary/10" : "bg-white/5"
@@ -56,7 +51,6 @@ export default function Connection({ contact }: { contact: ContactData }) {
     return (
         <section id="connection" className="py-24 md:py-32 px-6">
             <div className="max-w-7xl mx-auto glass rounded-[3rem] md:rounded-[5rem] p-6 md:p-24 overflow-hidden relative border border-white/5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
-                {/* Environmental FX */}
                 <div className="absolute top-[-20%] right-[-10%] w-[150%] aspect-square bg-accent-primary/10 rounded-full blur-[120px] pointer-events-none" />
                 <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-accent-secondary/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -109,9 +103,8 @@ export default function Connection({ contact }: { contact: ContactData }) {
                     </div>
                 </motion.div>
 
-                {/* System Trace Footer */}
                 <div className="mt-32 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.5em]">
-                    <span className="opacity-20">© 2024 / Chandraprakash "Arjun" Nyaupane</span>
+                    <span className="opacity-20">(c) 2026 / Chandraprakash &quot;Arjun&quot; Nyaupane</span>
                     <div className="flex items-center gap-2 text-accent-primary">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         <span>Deployment Status: Operational</span>

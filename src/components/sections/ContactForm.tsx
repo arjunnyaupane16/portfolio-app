@@ -5,7 +5,7 @@
  * @description Highly engineered contact portal with integrated verification.
  */
 
-import { useState, useActionState, useEffect } from "react";
+import { useState, useActionState } from "react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { submitContact, ContactState } from "@/app/actions/contact";
 import { Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";

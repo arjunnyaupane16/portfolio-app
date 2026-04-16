@@ -119,15 +119,21 @@ export const portfolioData: PortfolioData = {
             demo: "https://task-manager-demo.example.com",
             github: "https://github.com/arjunnyaupane16/task-manager",
             color: "#4cc9f0"
+        },
+        {
+            id: "7",
+            title: "Cinematic Wedding Film",
+            description: "A stunning cinematic wedding video showcasing the magical moments of love and celebration.",
+            tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
+            image: "/projects/cinematic-wedding-film.jpg",
+            demo: "https://cinematic-wedding-film-website.vercel.app/",
+            github: "https://github.com/arjunnyaupane16/cinematic-wedding-film",
+            color: "#ff6b9d"
         }
     ],
     contact: {
         email: "arjunnyaupane16@gmail.com",
         linkedin: "https://linkedin.com/in/arjunnyaupane16",
-        linkedin: "https://linkedin.com/in/arjunnyaupane16",
         github: "https://github.com/arjunnyaupane16"
     }
 };
-=======
-  {\n    title: 'Cinematic Wedding Film',\n    url: 'https://cinematic-wedding-film-website.vercel.app/',\n    details: 'A stunning cinematic wedding video showcasing the magical moments of love and celebration.'\n  },\n  // Existing projects continue here...\n
->>>>>>> 65fff0004497ab7e32ae16d69f72fe6bb78b575f

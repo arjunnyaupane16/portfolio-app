@@ -125,7 +125,7 @@ export const portfolioData: PortfolioData = {
             title: "Cinematic Wedding Film",
             description: "A stunning cinematic wedding video showcasing the magical moments of love and celebration.",
             tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
-            image: "/projects/cinematic-wedding-film.jpg",
+            image: "/projects/cinematic weeding.png",
             demo: "https://cinematic-wedding-film-website.vercel.app/",
             github: "https://github.com/arjunnyaupane16/cinematic-wedding-film",
             color: "#ff6b9d"

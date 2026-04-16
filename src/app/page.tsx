@@ -112,10 +112,10 @@ export default function HomePage() {
             variants={blurIn}
             className="mb-6"
           >
-            <div className="text-4xl sm:text-5xl md:text-[6vw] lg:text-[5vw] font-bold tracking-tighter leading-[0.9] select-none" aria-hidden="true">
-              <span className="block text-foreground/20 italic font-extralight text-2xl sm:text-3xl md:text-4xl uppercase tracking-[0.3em] mb-4">Hello, I&apos;m</span>
+            <div className="text-3xl sm:text-5xl md:text-[6vw] lg:text-[5vw] font-bold tracking-tighter leading-[0.9] select-none" aria-hidden="true">
+              <span className="block text-foreground/20 italic font-extralight text-lg sm:text-2xl md:text-4xl uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-4">Hello, I&apos;m</span>
               <span className="block gradient-text">{portfolioData.name}</span>
-              <span className="block text-foreground/40 text-xl sm:text-2xl md:text-3xl font-light mt-2 tracking-normal">({portfolioData.nickname})</span>
+              <span className="block text-foreground/40 text-base sm:text-2xl md:text-3xl font-light mt-2 tracking-normal">({portfolioData.nickname})</span>
             </div>
           </motion.h1>
 
@@ -138,9 +138,9 @@ export default function HomePage() {
             animate="visible"
             variants={fadeInUp}
             custom={0.4}
-            className="w-full max-w-xl mx-auto mb-10"
+            className="w-full max-w-xl mx-auto mb-10 px-4 sm:px-0"
           >
-            <div className="glass rounded-2xl px-6 py-4 grid grid-cols-3 gap-4 border border-white/5 neon-glow">
+            <div className="glass rounded-2xl px-6 py-6 sm:py-4 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 border border-white/5 neon-glow">
               {STATS.map((stat, i) => (
                 <div key={stat.label} className="text-center">
                   <div className={`text-xl md:text-2xl font-bold ${stat.accent ? "text-green-400" : "gradient-text"}`}>
@@ -166,7 +166,7 @@ export default function HomePage() {
             animate="visible"
             variants={fadeInUp}
             custom={0.6}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center px-6 sm:px-0"
           >
             <MagneticButton
               href="/projects"

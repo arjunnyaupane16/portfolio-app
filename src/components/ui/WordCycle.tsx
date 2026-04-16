@@ -25,7 +25,7 @@ export default function WordCycle({ words, interval = 2800, className = "" }: Wo
     }, [words.length, interval]);
 
     return (
-        <span className={`relative inline-flex overflow-hidden ${className}`} style={{ minWidth: "18ch" }}>
+        <span className={`relative inline-flex overflow-hidden ${className}`} style={{ minWidth: "12ch" }}>
             <AnimatePresence mode="wait">
                 <motion.span
                     key={index}
@@ -33,7 +33,7 @@ export default function WordCycle({ words, interval = 2800, className = "" }: Wo
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     exit={{ opacity: 0, y: -16, filter: "blur(6px)" }}
                     transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                    className="gradient-text font-bold"
+                    className="gradient-text font-bold whitespace-nowrap"
                 >
                     {words[index]}
                 </motion.span>

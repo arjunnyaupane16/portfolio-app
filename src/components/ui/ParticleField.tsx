@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * @file components/ui/ParticleField.tsx
  * @description Lightweight CSS-animated particle field for hero backgrounds.
  * Uses pure CSS — no canvas, no performance overhead.
- * Particles are generated client-side only to prevent hydration mismatch.
  */
 
 type Particle = {
@@ -30,7 +29,13 @@ function generateParticles(): Particle[] {
 }
 
 export default function ParticleField() {
-    const particles = useMemo(() => generateParticles(), []);
+    // Start with empty array to avoid hydration mismatch
+    const [particles, setParticles] = useState<Particle[]>([]);
+
+    useEffect(() => {
+        // Generate only on client mount
+        setParticles(generateParticles());
+    }, []);
 
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">

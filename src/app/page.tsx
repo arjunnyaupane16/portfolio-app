@@ -92,7 +92,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Content */}
-        <div className="z-10 text-center max-w-5xl">
+        <div className="z-10 text-center w-full max-w-5xl">
           {/* Badge */}
           <motion.div
             initial="hidden"
@@ -112,10 +112,10 @@ export default function HomePage() {
             variants={blurIn}
             className="mb-6"
           >
-            <div className="text-[7.5vw] xs:text-3xl sm:text-5xl md:text-[6vw] lg:text-[5vw] font-bold tracking-tighter leading-[0.9] select-none" aria-hidden="true">
+            <div className="text-[6.5vw] xs:text-3xl sm:text-5xl md:text-[6vw] lg:text-[5vw] font-bold tracking-tighter leading-[0.9] select-none" aria-hidden="true">
               <span className="block text-foreground/20 italic font-extralight text-sm sm:text-2xl md:text-4xl uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-4">Hello, I&apos;m</span>
               <span className="block gradient-text break-words leading-[0.8]">{portfolioData.name}</span>
-              <span className="block text-foreground/40 text-sm sm:text-2xl md:text-3xl font-light mt-2 tracking-normal">({portfolioData.nickname})</span>
+              <span className="block text-foreground/40 text-[clamp(0.75rem,3vw,1.5rem)] sm:text-2xl md:text-3xl font-light mt-2 tracking-normal">({portfolioData.nickname})</span>
             </div>
           </motion.h1>
 

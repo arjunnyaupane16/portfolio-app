@@ -25,7 +25,7 @@ export default function WordCycle({ words, interval = 2800, className = "" }: Wo
     }, [words.length, interval]);
 
     return (
-        <span className={`relative inline-flex overflow-hidden ${className}`} style={{ minWidth: "12ch" }}>
+        <span className={`relative inline-flex overflow-hidden ${className}`} style={{ minWidth: "18ch" }}>
             <AnimatePresence mode="wait">
                 <motion.span
                     key={index}

@@ -4,53 +4,50 @@ import { useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Mail } from "lucide-react";
 import { portfolioData } from "@/constants/data";
 import { fadeIn, fadeInUp, blurIn, staggerContainer, springPop } from "@/components/motion/variants";
-import WordCycle from "@/components/ui/WordCycle";
-import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ParticleField from "@/components/ui/ParticleField";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 
-const CYCLE_WORDS = ["Web Experiences", "AI Systems", "Real-World Solutions", "Intelligent Products"];
-
-const STATS = [
-  { label: "Projects Built", value: portfolioData.projects.length, suffix: "+" },
-  { label: "Tech Stack", value: portfolioData.skills.reduce((a, c) => a + c.items.length, 0), suffix: "+" },
-  { label: "Status", value: null, accent: true },
-];
-
-const TRUSTED_STACK = ["Next.js", "TypeScript", "Framer Motion", "Node.js", "MongoDB", "Vercel"];
+const TRUSTED_STACK = ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"];
 
 // Magnetic button wrapper
-function MagneticButton({ children, className, href }: { children: React.ReactNode; className?: string; href: string }) {
-  const ref = useRef<HTMLAnchorElement>(null);
+function MagneticButton({ children, className, href, onClick }: { children: React.ReactNode; className?: string; href?: string; onClick?: () => void }) {
+  const ref = useRef<HTMLAnchorElement | HTMLButtonElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 300, damping: 20 });
   const springY = useSpring(y, { stiffness: 300, damping: 20 });
 
   const handleMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
+    const rect = (ref.current as HTMLElement)?.getBoundingClientRect();
     if (!rect) return;
     x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
     y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
   };
   const handleLeave = () => { x.set(0); y.set(0); };
 
+  const Component = onClick ? "button" : "a";
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      className={className}
-      style={{ x: springX, y: springY }}
+    <motion.div
+      ref={ref as any}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
+      className={className}
     >
-      {children}
-    </motion.a>
+      {Component === "button" ? (
+        <button onClick={onClick as any} className="w-full h-full">
+          {children}
+        </button>
+      ) : (
+        <a href={href} className="w-full h-full flex items-center justify-center">
+          {children}
+        </a>
+      )}
+    </motion.div>
   );
 }
 
@@ -60,7 +57,7 @@ export default function HomePage() {
       <ScrollProgress />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden aurora-bg">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
         {/* Particle field */}
         <ParticleField />
 
@@ -101,8 +98,7 @@ export default function HomePage() {
             custom={0}
             className="inline-flex items-center gap-2 px-5 py-2 mb-10 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase border border-accent-primary/20 rounded-full glass-colored text-accent-primary shimmer-border"
           >
-            <Sparkles size={14} className="animate-pulse" />
-            Web Dev × AI Builder
+            Web Developer & App Developer
           </motion.div>
 
           {/* Name */}
@@ -119,7 +115,7 @@ export default function HomePage() {
             </div>
           </motion.h1>
 
-          {/* Word Cycle Tagline */}
+          {/* Tagline */}
           <motion.p
             initial="hidden"
             animate="visible"
@@ -127,45 +123,15 @@ export default function HomePage() {
             custom={0.2}
             className="text-base md:text-xl text-foreground/50 max-w-2xl mx-auto mb-12 leading-relaxed font-light px-4"
           >
-            Creating impactful{" "}
-            <WordCycle words={CYCLE_WORDS} className="mx-1" />
-            {" "}at the intersection of technology and intelligence.
+            Building clean, performant web applications and mobile experiences that solve real problems.
           </motion.p>
-
-          {/* Stats Bar */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            custom={0.4}
-            className="w-full max-w-xl mx-auto mb-10 px-6"
-          >
-            <div className="glass rounded-2xl px-6 py-8 md:py-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 border border-white/5 neon-glow">
-              {STATS.map((stat, i) => (
-                <div key={stat.label} className="text-center">
-                  <div className={`text-xl md:text-2xl font-bold ${stat.accent ? "text-green-400" : "gradient-text"}`}>
-                    {stat.accent ? "Active" : (
-                      <AnimatedCounter
-                        value={stat.value!}
-                        suffix={stat.suffix}
-                        duration={1400 + i * 200}
-                      />
-                    )}
-                  </div>
-                  <div className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] opacity-30 mt-1">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            custom={0.6}
+            custom={0.4}
             className="flex flex-col sm:flex-row gap-4 justify-center px-6 sm:px-0"
           >
             <MagneticButton
@@ -176,10 +142,18 @@ export default function HomePage() {
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </MagneticButton>
             <MagneticButton
-              href="/about"
-              className="px-8 py-4 rounded-2xl glass border border-white/10 font-bold text-sm uppercase tracking-wider hover:border-accent-primary/30 hover:bg-white/[0.04] transition-all"
+              onClick={() => window.open("/resume.pdf", "_blank")}
+              className="px-8 py-4 rounded-2xl glass border border-white/10 font-bold text-sm uppercase tracking-wider hover:border-accent-primary/30 hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
             >
-              About Me
+              <Download size={16} />
+              Resume
+            </MagneticButton>
+            <MagneticButton
+              href="/contact"
+              className="px-8 py-4 rounded-2xl glass border border-white/10 font-bold text-sm uppercase tracking-wider hover:border-accent-primary/30 hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
+            >
+              <Mail size={16} />
+              Contact Me
             </MagneticButton>
           </motion.div>
 
@@ -187,13 +161,13 @@ export default function HomePage() {
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            custom={0.75}
-            className="mt-10"
+            custom={0.6}
+            className="mt-12"
           >
             <div className="glass rounded-2xl border border-white/10 overflow-hidden">
               <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.25em] font-black text-foreground/60">Production Ready Stack</span>
+                <span className="text-[10px] uppercase tracking-[0.25em] font-black text-foreground/60">Tech Stack</span>
               </div>
               <div className="marquee-track py-3">
                 {[...TRUSTED_STACK, ...TRUSTED_STACK].map((item, index) => (
@@ -235,16 +209,16 @@ export default function HomePage() {
             <motion.div variants={fadeInUp} className="relative">
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-accent-primary mb-4 block">About Me</span>
               <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight">
-                Building tech that <span className="gradient-text">matters</span>
+                Building products that <span className="gradient-text">work</span>
               </h2>
               <p className="text-foreground/50 leading-relaxed text-base md:text-lg mb-8">
                 {portfolioData.bio.full}
               </p>
               <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
-                  "Product Thinking",
-                  "High Performance UI",
-                  "AI-first Workflows",
+                  "Clean Code",
+                  "User-Focused Design",
+                  "Modern Tech Stack",
                 ].map((pill, index) => (
                   <motion.div
                     key={pill}

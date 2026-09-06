@@ -1,7 +1,7 @@
  "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { BookOpen, GraduationCap, MapPin, Calendar, Code2, Brain } from "lucide-react";
+import { BookOpen, GraduationCap, MapPin, Calendar, Code2 } from "lucide-react";
 import Image from "next/image";
 import { useRef } from "react";
 import { portfolioData } from "@/constants/data";
@@ -21,8 +21,8 @@ function calculateAge(birthday: string) {
 const highlights = [
     { icon: <Calendar size={20} />, label: "Age", value: `${calculateAge(portfolioData.age)} years` },
     { icon: <MapPin size={20} />, label: "Based In", value: "Roorkee, India" },
-    { icon: <Code2 size={20} />, label: "Focus", value: "Web × AI" },
-    { icon: <Brain size={20} />, label: "Exploring", value: "Intelligent Agents" },
+    { icon: <Code2 size={20} />, label: "Focus", value: "Web & App Dev" },
+    { icon: <GraduationCap size={20} />, label: "Education", value: "B.Tech CSE" },
 ];
 
 // 3D tilt card

@@ -136,9 +136,9 @@ export default function SkillsPage() {
                         className="mt-24 glass rounded-[2rem] p-8 md:p-12 border border-white/5 text-center"
                     >
                         <p className="text-foreground/40 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-                            Continuously expanding my technical horizons — currently deep-diving into{" "}
-                            <span className="text-accent-primary font-medium">AI/ML</span> while building with{" "}
-                            <span className="text-accent-primary font-medium">TypeScript</span> across the full stack.
+                            Continuously expanding my technical horizons — building with{" "}
+                            <span className="text-accent-primary font-medium">TypeScript</span> across the full stack and{" "}
+                            <span className="text-accent-primary font-medium">React Native</span> for mobile.
                         </p>
                     </motion.div>
                 </div>

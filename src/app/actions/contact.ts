@@ -77,19 +77,25 @@ export async function submitContact(prevState: ContactState, formData: FormData)
         return { error: "Verification system unreachable. Please try again later." };
     }
 
-    // 4. Secure Delivery (Simulation or Integration)
+    // 4. Email Delivery using Resend
     try {
-        console.log(`[SECURE DELIVERY] From: ${name} (${email}), Message: ${message}`);
-
-        /**
-         * @note 
-         * If RESEND_API_KEY is present in .env, we can use the 'resend' package here:
-         * const resend = new Resend(process.env.RESEND_API_KEY);
-         * await resend.emails.send({ ... });
-         */
-
-        // Simulate network latency
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const resendApiKey = process.env.RESEND_API_KEY;
+        
+        if (resendApiKey) {
+            const { Resend } = await import("resend");
+            const resend = new Resend(resendApiKey);
+            
+            await resend.emails.send({
+                from: process.env.EMAIL_FROM || "Portfolio <onboarding@resend.dev>",
+                to: process.env.EMAIL_TO || "arjunnyaupane16@gmail.com",
+                subject: `Portfolio Contact: ${name}`,
+                text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+                html: `<p><strong>Name:</strong> ${name}</p><p><strong>Email:</strong> ${email}</p><p><strong>Message:</strong> ${message}</p>`,
+            });
+        } else {
+            // Fallback: log to console if no API key
+            console.log(`[CONTACT FORM] From: ${name} (${email}), Message: ${message}`);
+        }
 
         return { success: true };
     } catch (err) {

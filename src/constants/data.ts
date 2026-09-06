@@ -3,11 +3,11 @@ import { PortfolioData } from "../types/portfolio";
 export const portfolioData: PortfolioData = {
     name: "Chandraprakash Nyaupane",
     nickname: "Arjun",
-    title: "Builder at Web Development × Artificial Intelligence",
+    title: "Web Developer & App Developer",
     age: "2006-12-29", // Used to calculate age
     bio: {
-        short: "I'm a passionate builder at the intersection of Web Development and Artificial Intelligence — creating impactful digital experiences and intelligent systems that are not just functional, but meaningful.",
-        full: "Instead of limiting myself to a single technology label, I focus on building products that combine modern web technologies, scalable architectures, and AI-driven ideas. From designing interactive web applications to exploring machine learning and intelligent agents, I enjoy turning ideas into real-world solutions. I believe technology is not just about writing code — it's about solving problems, creating value, and pushing innovation forward."
+        short: "I'm a Web and App Developer focused on building clean, performant, and user-friendly digital products.",
+        full: "I specialize in building modern web applications and mobile experiences using React, TypeScript, and React Native. My approach is straightforward: write clean code, focus on user experience, and deliver products that work well. I enjoy turning ideas into functional applications that solve real problems."
     },
     education: [
         {
@@ -29,33 +29,23 @@ export const portfolioData: PortfolioData = {
             category: "Frontend",
             items: [
                 { name: "TypeScript", level: 88 },
-                { name: "React / Next.js", level: 85 },
-                { name: "Framer Motion", level: 80 },
-                { name: "Tailwind CSS", level: 82 }
+                { name: "React", level: 85 },
+                { name: "Tailwind CSS", level: 82 },
+                { name: "Framer Motion", level: 80 }
             ]
         },
         {
             category: "Backend",
             items: [
                 { name: "Node.js", level: 78 },
-                { name: "REST APIs", level: 80 },
-                { name: "MongoDB", level: 72 },
-                { name: "Firebase", level: 75 }
+                { name: "PostgreSQL", level: 72 }
             ]
         },
         {
-            category: "AI & Intelligence",
+            category: "Mobile",
             items: [
-                { name: "Python", level: 65 },
-                { name: "Machine Learning", level: 50 },
-                { name: "LLM Integration", level: 60 }
-            ]
-        },
-        {
-            category: "Tools & DevOps",
-            items: [
-                { name: "Git / GitHub", level: 85 },
-                { name: "Vercel", level: 80 }
+                { name: "React Native", level: 75 },
+                { name: "Python", level: 65 }
             ]
         }
     ],

@@ -16,6 +16,7 @@ const footerLinks = [
     { name: "About", href: "/about" },
     { name: "Skills", href: "/skills" },
     { name: "Projects", href: "/projects" },
+    { name: "Resume", href: "/resume" },
     { name: "Contact", href: "/contact" },
 ];
 
@@ -45,7 +46,7 @@ export default function Footer() {
                             <span className="gradient-text">Arjun</span>
                         </h3>
                         <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
-                            TypeScript developer exploring the frontiers of AI/ML. Building the future, one line of code at a time.
+                            TypeScript developer building modern web and mobile applications. Clean code, focused on user experience.
                         </p>
                     </motion.div>
 

@@ -1,59 +1,56 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+```
+# Dependencies
 node_modules/
 
-# Expo
-.expo/
+# Build outputs
 dist/
-web-build/
-expo-env.d.ts
+build/
+.next/
+out/
 
-# Native
-.kotlin/
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
+# Environment variables
+.env
+.env.local
+.env.*
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# testing
-/coverage
+# Logs
+*.log
 
-# next.js
-/.next/
-/out/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# production
-/build
-
-# misc
+# Temporary files
+*.tmp
 .DS_Store
-*.pem
+Thumbs.db
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
 
-# env files (can opt-in for committing if needed)
-.env*
+# MyPy cache
+.mypy_cache/
 
-# vercel
-.vercel
+# Pytest cache
+.pytest_cache/
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+Thumbs.db
+```

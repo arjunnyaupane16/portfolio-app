@@ -60,7 +60,7 @@ export default function ContactPage() {
                                     Have a project in <span className="gradient-text">mind?</span>
                                 </h2>
                                 <p className="text-foreground/50 text-base md:text-lg leading-relaxed max-w-md">
-                                    I&apos;m always excited to work on meaningful projects. Whether it&apos;s a web app, a mobile experience, or an AI-powered solution — let&apos;s talk.
+                                    I&apos;m always excited to work on meaningful projects. Whether it&apos;s a web app, a mobile experience, or a full-stack solution — let&apos;s talk.
                                 </p>
                             </motion.div>
 

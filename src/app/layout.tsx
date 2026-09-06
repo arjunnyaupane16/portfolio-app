@@ -20,8 +20,8 @@ const outfit = Outfit({
 
 const siteConfig = {
   name: "Chandraprakash Nyaupane",
-  title: "Builder at Web Development × Artificial Intelligence | Arjun",
-  description: "Portfolio of Chandraprakash Nyaupane (Arjun) — a builder at the intersection of Web Development and AI, crafting impactful digital experiences and intelligent systems.",
+  title: "Web Developer & App Developer | Arjun",
+  description: "Portfolio of Chandraprakash Nyaupane (Arjun) — a Web and App Developer building clean, performant digital products with React, TypeScript, and React Native.",
   url: "https://chandraprakashnyaupane.com.np",
 };
 
@@ -37,11 +37,11 @@ export const metadata: Metadata = {
     "Arjun Nyaupane",
     "Chandraprakash",
     "Web Developer",
-    "AI Developer",
+    "App Developer",
     "Full Stack Developer",
     "Next.js Portfolio",
-    "Machine Learning",
-    "Intelligent Systems",
+    "React Developer",
+    "TypeScript Developer",
     "Software Engineer",
     "Chandraprakash Portfolio",
   ],

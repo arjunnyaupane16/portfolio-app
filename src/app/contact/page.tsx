@@ -1,149 +1,355 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, ArrowUpRight, Copy, Check, Send } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useState } from "react";
+import Image from "next/image";
+import Magnetic from "@/components/ui/Magnetic";
 import { portfolioData } from "@/constants/data";
-import { fadeInUp, staggerContainer, scaleIn } from "@/components/motion/variants";
-import { SectionHeader } from "@/components/ui/SectionHeader";
-import PageTransition from "@/components/ui/PageTransition";
-import ContactForm from "@/components/sections/ContactForm";
-
-const socialCards = [
-    {
-        href: portfolioData.contact.linkedin,
-        icon: <Linkedin size={28} />,
-        label: "Network",
-        title: "LinkedIn",
-        description: "Let's connect professionally",
-    },
-    {
-        href: portfolioData.contact.github,
-        icon: <Github size={28} />,
-        label: "Source",
-        title: "GitHub",
-        description: "Explore my open source work",
-    },
-];
 
 export default function ContactPage() {
-    const [copied, setCopied] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    service: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
 
-    const handleCopy = useCallback(() => {
-        navigator.clipboard.writeText(portfolioData.contact.email);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    }, []);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const mailto = `mailto:${portfolioData.contact.email}?subject=Project Inquiry from ${encodeURIComponent(
+      formData.name
+    )} (${encodeURIComponent(formData.company || "Individual")})&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\nOrganization: ${formData.company}\nService: ${formData.service}\n\nMessage:\n${formData.message}`
+    )}`;
+    window.location.href = mailto;
+    setSubmitted(true);
+  };
 
-    return (
-        <PageTransition>
-            <div className="pt-32 pb-24 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <SectionHeader
-                        title="LET'S"
-                        accent="CONNECT"
-                        subtitle="Available for collaborations, interesting projects, and technical discussions."
-                        index="04"
-                    />
+  return (
+    <div style={{ background: "var(--color-dark)", color: "var(--color-white)", minHeight: "100vh" }}>
+      {/* ── Contact Header ── */}
+      <section
+        style={{
+          padding: "clamp(140px, 18vw, 220px) clamp(24px, 5vw, 90px) clamp(60px, 8vw, 100px)",
+          maxWidth: "1440px",
+          margin: "0 auto",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            flexWrap: "wrap",
+            gap: "32px",
+            borderBottom: "1px solid var(--color-border-light)",
+            paddingBottom: "clamp(40px, 6vw, 80px)",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "clamp(2.8rem, 6.8vw, 7.5rem)",
+              fontWeight: 450,
+              lineHeight: 1.05,
+              letterSpacing: "-0.03em",
+              maxWidth: "850px",
+              color: "var(--color-white)",
+            }}
+          >
+            Let&apos;s start a <br /> project together
+          </h1>
 
-                    <div className="grid lg:grid-cols-2 gap-16 md:gap-24">
-                        {/* Left - Info */}
-                        <motion.div
-                            variants={staggerContainer}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            className="space-y-8"
-                        >
-                            <motion.div variants={fadeInUp}>
-                                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight">
-                                    Have a project in <span className="gradient-text">mind?</span>
-                                </h2>
-                                <p className="text-foreground/50 text-base md:text-lg leading-relaxed max-w-md">
-                                    I&apos;m always excited to work on meaningful projects. Whether it&apos;s a web app, a mobile experience, or a full-stack solution — let&apos;s talk.
-                                </p>
-                            </motion.div>
+          <div
+            style={{
+              position: "relative",
+              width: "clamp(75px, 8vw, 110px)",
+              height: "clamp(75px, 8vw, 110px)",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "2px solid var(--color-border-light)",
+              flexShrink: 0,
+            }}
+          >
+            <Image
+              src="/profile.png"
+              alt={portfolioData.name}
+              fill
+              className="object-cover"
+              sizes="120px"
+              unoptimized
+              priority
+            />
+          </div>
+        </div>
 
-                            {/* Email Copy */}
-                            <motion.div variants={fadeInUp}>
-                                <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-3 block">Direct Channel</span>
-                                <button
-                                    onClick={handleCopy}
-                                    aria-label="Copy email address"
-                                    className="group w-full flex items-center justify-between gap-4 px-6 py-5 rounded-2xl glass border border-white/10 hover:border-accent-primary/50 transition-all text-left"
-                                >
-                                    <div className="flex items-center gap-4 min-w-0 flex-1">
-                                        <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center flex-shrink-0">
-                                            <Mail className="text-accent-primary" size={18} />
-                                        </div>
-                                        <span className="text-base md:text-lg font-bold tracking-tight truncate">{portfolioData.contact.email}</span>
-                                    </div>
-                                    {copied ? (
-                                        <div className="flex items-center gap-2 text-green-400">
-                                            <Check size={16} />
-                                            <span className="text-xs font-bold">Copied!</span>
-                                        </div>
-                                    ) : (
-                                        <Copy className="opacity-20 group-hover:opacity-100 transition-opacity flex-shrink-0" size={16} />
-                                    )}
-                                </button>
-                            </motion.div>
-
-                            {/* Social Cards */}
-                            <motion.div variants={fadeInUp} className="grid grid-cols-2 gap-4">
-                                {socialCards.map((social) => (
-                                    <motion.a
-                                        key={social.title}
-                                        variants={scaleIn}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="glass p-6 rounded-[2rem] group hover:bg-white/[0.04] transition-all border border-white/5 hover:border-accent-primary/30"
-                                    >
-                                        <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center mb-6 text-accent-primary group-hover:scale-110 transition-transform">
-                                            {social.icon}
-                                        </div>
-                                        <span className="text-[9px] font-black uppercase tracking-[0.3em] opacity-30 block mb-1">
-                                            {social.label}
-                                        </span>
-                                        <span className="text-lg font-bold flex items-center justify-between">
-                                            {social.title}
-                                            <ArrowUpRight size={16} className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                                        </span>
-                                        <p className="text-xs text-foreground/30 mt-2">{social.description}</p>
-                                    </motion.a>
-                                ))}
-                            </motion.div>
-                        </motion.div>
-
-                        {/* Right - Form */}
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeInUp}
-                            custom={0.2}
-                        >
-                            <div className="glass rounded-[2.5rem] p-8 md:p-12 border border-white/5 relative overflow-hidden">
-                                {/* Decorative glow */}
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-accent-primary/5 rounded-full blur-[80px] pointer-events-none" />
-
-                                <div className="flex items-center gap-3 mb-8">
-                                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center">
-                                        <Send className="text-accent-primary" size={18} />
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-bold">Send a Message</h3>
-                                        <p className="text-xs text-foreground/40">I&apos;ll get back to you within 24h</p>
-                                    </div>
-                                </div>
-
-                                <ContactForm />
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
+        {/* ── 2-Column Form & Details Layout ── */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1.8fr 1fr",
+            gap: "clamp(48px, 8vw, 120px)",
+            marginTop: "clamp(48px, 6vw, 90px)",
+          }}
+          className="contact-grid-responsive"
+        >
+          {/* Left: Numbered Inquiry Form */}
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+            {/* 01 Name */}
+            <div style={{ borderBottom: "1px solid var(--color-border-light)", paddingBottom: "24px" }}>
+              <span style={{ fontSize: "0.85rem", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                01
+              </span>
+              <label
+                htmlFor="name"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 450, display: "block", marginBottom: "12px", color: "var(--color-white)" }}
+              >
+                What&apos;s your name?
+              </label>
+              <input
+                id="name"
+                type="text"
+                required
+                placeholder="John Doe *"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "var(--color-white)",
+                  fontSize: "1.1rem",
+                }}
+              />
             </div>
-        </PageTransition>
-    );
+
+            {/* 02 Email */}
+            <div style={{ borderBottom: "1px solid var(--color-border-light)", paddingBottom: "24px" }}>
+              <span style={{ fontSize: "0.85rem", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                02
+              </span>
+              <label
+                htmlFor="email"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 450, display: "block", marginBottom: "12px", color: "var(--color-white)" }}
+              >
+                What&apos;s your email?
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                placeholder="john@doe.com *"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "var(--color-white)",
+                  fontSize: "1.1rem",
+                }}
+              />
+            </div>
+
+            {/* 03 Organization */}
+            <div style={{ borderBottom: "1px solid var(--color-border-light)", paddingBottom: "24px" }}>
+              <span style={{ fontSize: "0.85rem", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                03
+              </span>
+              <label
+                htmlFor="company"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 450, display: "block", marginBottom: "12px", color: "var(--color-white)" }}
+              >
+                What&apos;s the name of your organization?
+              </label>
+              <input
+                id="company"
+                type="text"
+                placeholder="Company / Startup &reg;"
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "var(--color-white)",
+                  fontSize: "1.1rem",
+                }}
+              />
+            </div>
+
+            {/* 04 Service */}
+            <div style={{ borderBottom: "1px solid var(--color-border-light)", paddingBottom: "24px" }}>
+              <span style={{ fontSize: "0.85rem", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                04
+              </span>
+              <label
+                htmlFor="service"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 450, display: "block", marginBottom: "12px", color: "var(--color-white)" }}
+              >
+                What services are you looking for?
+              </label>
+              <input
+                id="service"
+                type="text"
+                placeholder="Web Design, Web Development, Mobile App ..."
+                value={formData.service}
+                onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "var(--color-white)",
+                  fontSize: "1.1rem",
+                }}
+              />
+            </div>
+
+            {/* 05 Message */}
+            <div style={{ borderBottom: "1px solid var(--color-border-light)", paddingBottom: "24px" }}>
+              <span style={{ fontSize: "0.85rem", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                05
+              </span>
+              <label
+                htmlFor="message"
+                style={{ fontSize: "clamp(1.2rem, 1.8vw, 1.6rem)", fontWeight: 450, display: "block", marginBottom: "12px", color: "var(--color-white)" }}
+              >
+                Your message
+              </label>
+              <textarea
+                id="message"
+                required
+                rows={4}
+                placeholder={`Hello ${portfolioData.nickname}, can you help me with ... *`}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                style={{
+                  width: "100%",
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  color: "var(--color-white)",
+                  fontSize: "1.1rem",
+                  resize: "vertical",
+                }}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div style={{ marginTop: "16px" }}>
+              <Magnetic strength={0.4}>
+                <button
+                  type="submit"
+                  className="btn-round blue-bg"
+                  style={{ width: "clamp(150px, 15vw, 190px)", height: "clamp(150px, 15vw, 190px)", border: "none" }}
+                >
+                  <div className="btn-round-fill" />
+                  <span className="btn-round-text">Send it!</span>
+                </button>
+              </Magnetic>
+              {submitted && (
+                <p style={{ marginTop: "16px", color: "var(--color-blue)" }}>
+                  Thank you! Opening your email client to send the message.
+                </p>
+              )}
+            </div>
+          </form>
+
+          {/* Right: Contact Details & Socials */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "48px" }}>
+            <div>
+              <span style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                Contact Details
+              </span>
+              <a
+                href={`mailto:${portfolioData.contact.email}`}
+                style={{ color: "var(--color-white)", fontSize: "1.15rem", textDecoration: "none", display: "block", marginBottom: "8px" }}
+              >
+                {portfolioData.contact.email}
+              </a>
+              {portfolioData.contact.phone && (
+                <a
+                  href={`tel:${portfolioData.contact.phone}`}
+                  style={{ color: "var(--color-white)", fontSize: "1.15rem", textDecoration: "none", display: "block" }}
+                >
+                  {portfolioData.contact.phone}
+                </a>
+              )}
+            </div>
+
+            <div>
+              <span style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "#8C8E90", display: "block", marginBottom: "12px" }}>
+                Location
+              </span>
+              <p style={{ fontSize: "1.15rem", color: "var(--color-white)" }}>
+                {portfolioData.contact.location}
+              </p>
+            </div>
+
+            <div>
+              <span style={{ fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.15em", color: "#8C8E90", display: "block", marginBottom: "16px" }}>
+                Socials
+              </span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {portfolioData.socials?.github && (
+                  <a
+                    href={portfolioData.socials.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color-white)", textDecoration: "none", fontSize: "1.05rem" }}
+                  >
+                    GitHub
+                  </a>
+                )}
+                {portfolioData.socials?.linkedin && (
+                  <a
+                    href={portfolioData.socials.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color-white)", textDecoration: "none", fontSize: "1.05rem" }}
+                  >
+                    LinkedIn
+                  </a>
+                )}
+                {portfolioData.socials?.twitter && (
+                  <a
+                    href={portfolioData.socials.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color-white)", textDecoration: "none", fontSize: "1.05rem" }}
+                  >
+                    Twitter
+                  </a>
+                )}
+                {portfolioData.socials?.instagram && (
+                  <a
+                    href={portfolioData.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color-white)", textDecoration: "none", fontSize: "1.05rem" }}
+                  >
+                    Instagram
+                  </a>
+                )}
+                {portfolioData.socials?.facebook && (
+                  <a
+                    href={portfolioData.socials.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--color-white)", textDecoration: "none", fontSize: "1.05rem" }}
+                  >
+                    Facebook
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }

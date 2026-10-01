@@ -28,15 +28,32 @@ export interface Project {
     description: string;
     tech: string[];
     image: string;
-    demo: string;
-    github: string;
-    color: string;
+    demo?: string;
+    github?: string;
+    color?: string;
+    category?: string;
+    year?: string;
+    links?: {
+        live?: string;
+        github?: string;
+    };
+    tags?: string[];
 }
 
 export interface ContactData {
     email: string;
     linkedin: string;
     github: string;
+    phone?: string;
+    location?: string;
+}
+
+export interface SocialsData {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+    instagram?: string;
+    facebook?: string;
 }
 
 export interface BioData {
@@ -54,4 +71,5 @@ export interface PortfolioData {
     skills: SkillCategory[];
     projects: Project[];
     contact: ContactData;
+    socials: SocialsData;
 }

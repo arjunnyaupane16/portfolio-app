@@ -1,107 +1,196 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { fadeInUp, staggerContainer, drawLine } from "../motion/variants";
-
-const socialLinks = [
-    { href: "https://github.com/arjunnyaupane16", icon: <Github size={18} />, label: "GitHub" },
-    { href: "https://linkedin.com/in/arjunnyaupane16", icon: <Linkedin size={18} />, label: "LinkedIn" },
-    { href: "mailto:arjunnyaupane16@gmail.com", icon: <Mail size={18} />, label: "Email" },
-];
-
-const footerLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Skills", href: "/skills" },
-    { name: "Projects", href: "/projects" },
-    { name: "Resume", href: "/resume" },
-    { name: "Contact", href: "/contact" },
-];
+import { usePathname } from "next/navigation";
+import Magnetic from "@/components/ui/Magnetic";
+import { portfolioData } from "@/constants/data";
 
 export default function Footer() {
-    return (
-        <footer className="relative px-6 pb-8 pt-24">
-            {/* Top gradient border */}
-            <motion.div
-                variants={drawLine}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="w-full h-px bg-gradient-to-r from-transparent via-accent-primary/40 to-transparent mb-16"
-            />
+  const pathname = usePathname();
+  const [localTime, setLocalTime] = useState("");
+  const year = new Date().getFullYear();
 
-            <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                className="max-w-7xl mx-auto"
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      // Format time in Asia/Kathmandu (NPT) or Asia/Kolkata (IST)
+      const formatted = new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+        timeZone: "Asia/Kathmandu",
+      }).format(now);
+      setLocalTime(`${formatted} NPT`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <footer className="dennis-footer" style={{ position: "relative", marginTop: "150px" }}>
+      {/* SVG Scroll Curve - matches preceding section background */}
+      <div className="dennis-footer-curve" style={{ position: "absolute", top: "-2px", left: 0, width: "100%", height: "clamp(80px, 12vw, 200px)", zIndex: 1, pointerEvents: "none" }}>
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%", display: "block" }}>
+          <path className="curve-path" d="M0 0 Q50 200 100 0 Z" fill={pathname === "/contact" ? "var(--color-dark)" : "var(--color-white)"} />
+        </svg>
+      </div>
+
+      <div className="dennis-footer-inner" style={{ position: "relative", zIndex: 2, paddingTop: "clamp(40px, 8vw, 80px)" }}>
+        {/* Top: Arrow + Heading with Avatar */}
+        <div className="dennis-footer-top-row">
+          <div className="dennis-footer-heading-wrap">
+            <div className="dennis-footer-avatar">
+              <Image
+                src="/profile.png"
+                alt={portfolioData.name}
+                fill
+                unoptimized
+                priority
+                className="object-cover"
+                style={{ objectPosition: "center 28%" }}
+                sizes="120px"
+              />
+            </div>
+            <div>
+              <h2 className="dennis-footer-heading no-anim">
+                <span>Let&apos;s work</span>
+                <span>together</span>
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        {/* Divider Stripe with Giant "Get in touch" Round Button */}
+        <div className="dennis-footer-cta-row">
+          <Magnetic strength={0.4}>
+            <Link href="/contact" className="btn-round blue-bg">
+              <div className="btn-round-fill" />
+              <span className="btn-round-text">Get in touch</span>
+            </Link>
+          </Magnetic>
+        </div>
+
+        {/* Contact Pill Buttons */}
+        <div className="dennis-footer-contact-buttons">
+          <Magnetic strength={0.3}>
+            <a
+              href={`mailto:${portfolioData.contact.email}`}
+              className="btn-normal dark-theme"
             >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-                    {/* Brand */}
-                    <motion.div variants={fadeInUp}>
-                        <h3 className="text-2xl font-bold tracking-tighter mb-3">
-                            <span className="gradient-text">Arjun</span>
-                        </h3>
-                        <p className="text-foreground/40 text-sm leading-relaxed max-w-xs">
-                            TypeScript developer building modern web and mobile applications. Clean code, focused on user experience.
-                        </p>
-                    </motion.div>
+              <div className="btn-normal-fill" />
+              <span className="btn-normal-text">
+                <span>{portfolioData.contact.email}</span>
+              </span>
+            </a>
+          </Magnetic>
 
-                    {/* Quick Links */}
-                    <motion.div variants={fadeInUp}>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-6">Navigation</h4>
-                        <ul className="flex flex-col gap-3">
-                            {footerLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-sm text-foreground/50 hover:text-accent-primary transition-colors"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
+          {portfolioData.contact.phone && (
+            <Magnetic strength={0.3}>
+              <a
+                href={`tel:${portfolioData.contact.phone}`}
+                className="btn-normal dark-theme"
+              >
+                <div className="btn-normal-fill" />
+                <span className="btn-normal-text">
+                  <span>{portfolioData.contact.phone}</span>
+                </span>
+              </a>
+            </Magnetic>
+          )}
+        </div>
 
-                    {/* Social */}
-                    <motion.div variants={fadeInUp}>
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.4em] opacity-30 mb-6">Connect</h4>
-                        <div className="flex gap-3">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label={social.label}
-                                    className="w-10 h-10 rounded-xl glass border border-white/5 flex items-center justify-center text-foreground/40 hover:text-accent-primary hover:border-accent-primary/30 transition-all hover:scale-110"
-                                >
-                                    {social.icon}
-                                </a>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
+        {/* Bottom Metadata & Social Bar */}
+        <div className="dennis-footer-bottom-bar">
+          {/* Version */}
+          <div className="dennis-footer-col">
+            <span className="dennis-footer-label">Version</span>
+            <span className="dennis-footer-val">{year} &copy; Edition</span>
+          </div>
 
-                {/* Bottom Bar */}
-                <motion.div
-                    variants={fadeInUp}
-                    className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em]"
-                >
-                    <span className="opacity-20 flex items-center gap-1.5">
-                        Made with <Heart size={10} className="text-accent-secondary fill-accent-secondary" /> by Arjun
-                    </span>
-                    <div className="flex items-center gap-2 text-accent-primary/60">
-                        <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                        <span>All Systems Operational</span>
-                    </div>
-                    <span className="opacity-20">© {new Date().getFullYear()}</span>
-                </motion.div>
-            </motion.div>
-        </footer>
-    );
+          {/* Local Time */}
+          <div className="dennis-footer-col">
+            <span className="dennis-footer-label">Local Time</span>
+            <span className="dennis-footer-val">{localTime || "12:00 PM NPT"}</span>
+          </div>
+
+          {/* Socials */}
+          <div className="dennis-footer-col">
+            <span className="dennis-footer-label">Socials</span>
+            <ul className="dennis-footer-socials">
+              {portfolioData.socials?.github && (
+                <li>
+                  <Magnetic strength={0.3}>
+                    <a
+                      href={portfolioData.socials.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GitHub
+                    </a>
+                  </Magnetic>
+                </li>
+              )}
+              {portfolioData.socials?.linkedin && (
+                <li>
+                  <Magnetic strength={0.3}>
+                    <a
+                      href={portfolioData.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      LinkedIn
+                    </a>
+                  </Magnetic>
+                </li>
+              )}
+              {portfolioData.socials?.twitter && (
+                <li>
+                  <Magnetic strength={0.3}>
+                    <a
+                      href={portfolioData.socials.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Twitter
+                    </a>
+                  </Magnetic>
+                </li>
+              )}
+              {portfolioData.socials?.instagram && (
+                <li>
+                  <Magnetic strength={0.3}>
+                    <a
+                      href={portfolioData.socials.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Instagram
+                    </a>
+                  </Magnetic>
+                </li>
+              )}
+              {portfolioData.socials?.facebook && (
+                <li>
+                  <Magnetic strength={0.3}>
+                    <a
+                      href={portfolioData.socials.facebook}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Facebook
+                    </a>
+                  </Magnetic>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }

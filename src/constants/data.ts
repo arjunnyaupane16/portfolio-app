@@ -4,7 +4,7 @@ export const portfolioData: PortfolioData = {
     name: "Chandraprakash Nyaupane",
     nickname: "Arjun",
     title: "Web Developer & App Developer",
-    age: "2006-12-29", // Used to calculate age
+    age: "2006-12-29",
     bio: {
         short: "I'm a Web and App Developer focused on building clean, performant, and user-friendly digital products.",
         full: "I specialize in building modern web applications and mobile experiences using React, TypeScript, and React Native. My approach is straightforward: write clean code, focus on user experience, and deliver products that work well. I enjoy turning ideas into functional applications that solve real problems."
@@ -51,14 +51,21 @@ export const portfolioData: PortfolioData = {
     ],
     projects: [
         {
-            id: "6",
-            title: "Maison Aurelia",
-            description: "A high-end luxury brand experience with cinematic storytelling, smooth transitions, and premium SaaS-style interaction design.",
-            tech: ["Next.js", "TypeScript", "Framer Motion", "GSAP", "Tailwind CSS"],
-            image: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1600&q=80",
-            demo: "https://maison-aurelia-amber.vercel.app/",
+            id: "7",
+            title: "northmediaagency.com",
+            description: "A Kathmandu studio website for photography, film, and brand growth. Engineered with modern aesthetics, fast loading times, and responsive layouts.",
+            tech: ["Next.js", "Tailwind CSS", "TypeScript", "Vercel"],
+            image: "/projects/northmediaagency.png",
+            demo: "https://northmediaagency.com/",
             github: "https://github.com/arjunnyaupane16",
-            color: "#f59e0b"
+            color: "#0a0a0a",
+            category: "Design & Development",
+            year: "2024",
+            tags: ["Next.js", "Agency", "Tailwind CSS"],
+            links: {
+                live: "https://northmediaagency.com/",
+                github: "https://github.com/arjunnyaupane16"
+            }
         },
         {
             id: "5",
@@ -68,7 +75,31 @@ export const portfolioData: PortfolioData = {
             image: "/projects/eternal-love.png",
             demo: "https://eternal-love-omega.vercel.app/",
             github: "https://github.com/arjunnyaupane16/Eternal-Love",
-            color: "#ff3366"
+            color: "#ff3366",
+            category: "Interaction & Design",
+            year: "2024",
+            tags: ["React.js", "GSAP", "Lenis"],
+            links: {
+                live: "https://eternal-love-omega.vercel.app/",
+                github: "https://github.com/arjunnyaupane16/Eternal-Love"
+            }
+        },
+        {
+            id: "6",
+            title: "Maison Aurelia",
+            description: "A high-end luxury brand experience with cinematic storytelling, smooth transitions, and premium SaaS-style interaction design.",
+            tech: ["Next.js", "TypeScript", "Framer Motion", "GSAP", "Tailwind CSS"],
+            image: "/projects/maison-aurelia.jpg",
+            demo: "https://maison-aurelia-amber.vercel.app/",
+            github: "https://github.com/arjunnyaupane16",
+            color: "#f59e0b",
+            category: "Design & Development",
+            year: "2024",
+            tags: ["Next.js", "GSAP", "TypeScript"],
+            links: {
+                live: "https://maison-aurelia-amber.vercel.app/",
+                github: "https://github.com/arjunnyaupane16"
+            }
         },
         {
             id: "1",
@@ -78,7 +109,14 @@ export const portfolioData: PortfolioData = {
             image: "/projects/drift-and-sip.jpg",
             demo: "https://drift-and-sip-user-app.vercel.app/",
             github: "https://github.com/arjunnyaupane16/drift-and-sip",
-            color: "#4cc9f0"
+            color: "#4cc9f0",
+            category: "Mobile & Backend",
+            year: "2024",
+            tags: ["React Native", "Node.js", "MongoDB"],
+            links: {
+                live: "https://drift-and-sip-user-app.vercel.app/",
+                github: "https://github.com/arjunnyaupane16/drift-and-sip"
+            }
         },
         {
             id: "2",
@@ -88,42 +126,28 @@ export const portfolioData: PortfolioData = {
             image: "/projects/admin-app.jpg",
             demo: "https://admin-app-rose.vercel.app/",
             github: "https://github.com/arjunnyaupane16/admin-app",
-            color: "#4cc9f0"
-        },
-        {
-            id: "3",
-            title: "Personal Portfolio",
-            description: "Responsive portfolio website showcasing skills and featured projects.",
-            tech: ["React.js", "CSS3", "Vercel"],
-            image: "/projects/portfolio.png",
-            demo: "https://chandraprakashnyaupane.vercel.app/",
-            github: "https://github.com/arjunnyaupane16/portfolio",
-            color: "#4cc9f0"
-        },
-        {
-            id: "4",
-            title: "Task Manager",
-            description: "A task and project management app featuring drag & drop, reminders, and cloud sync.",
-            tech: ["React Native", "Firebase", "Redux"],
-            image: "/projects/task-manager.jpg",
-            demo: "https://task-manager-demo.example.com",
-            github: "https://github.com/arjunnyaupane16/task-manager",
-            color: "#4cc9f0"
-        },
-        {
-            id: "7",
-            title: "Cinematic Wedding Film",
-            description: "A stunning cinematic wedding video showcasing the magical moments of love and celebration.",
-            tech: ["Next.js", "Tailwind CSS", "Framer Motion"],
-            image: "/projects/cinematic weeding.png",
-            demo: "https://cinematic-wedding-film-website.vercel.app/",
-            github: "https://github.com/arjunnyaupane16/cinematic-wedding-film",
-            color: "#ff6b9d"
+            color: "#4cc9f0",
+            category: "Web Application",
+            year: "2023",
+            tags: ["React", "JavaScript", "Dashboard"],
+            links: {
+                live: "https://admin-app-rose.vercel.app/",
+                github: "https://github.com/arjunnyaupane16/admin-app"
+            }
         }
     ],
     contact: {
         email: "arjunnyaupane16@gmail.com",
         linkedin: "https://linkedin.com/in/arjunnyaupane16",
-        github: "https://github.com/arjunnyaupane16"
+        github: "https://github.com/arjunnyaupane16",
+        phone: "+977 9800000000",
+        location: "India / Nepal"
+    },
+    socials: {
+        github: "https://github.com/arjunnyaupane16",
+        linkedin: "https://linkedin.com/in/arjunnyaupane16",
+        twitter: "https://twitter.com/arjunnyaupane",
+        instagram: "https://www.instagram.com/jaaaaaadduuu/",
+        facebook: "https://www.facebook.com/arjunnyaupane13"
     }
 };

@@ -1,247 +1,526 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Download, Mail } from "lucide-react";
-import { portfolioData } from "@/constants/data";
-import { fadeIn, fadeInUp, blurIn, staggerContainer, springPop } from "@/components/motion/variants";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Magnetic from "@/components/ui/Magnetic";
 import ParticleField from "@/components/ui/ParticleField";
-import ScrollProgress from "@/components/ui/ScrollProgress";
+import { portfolioData } from "@/constants/data";
 
-const TRUSTED_STACK = ["TypeScript", "React", "Next.js", "Node.js", "Tailwind CSS", "PostgreSQL"];
+gsap.registerPlugin(ScrollTrigger);
 
-// Magnetic button wrapper
-function MagneticButton({ children, className, href, onClick }: { children: React.ReactNode; className?: string; href?: string; onClick?: () => void }) {
-  const ref = useRef<HTMLAnchorElement | HTMLButtonElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 20 });
-  const springY = useSpring(y, { stiffness: 300, damping: 20 });
+const SERVICES = [
+  {
+    num: "01",
+    title: "Web Development",
+    desc: "I build modern, scalable, and lightning-fast web applications using React, Next.js, and TypeScript. Focus on performance, micro-interactions, clean architecture, and responsive design.",
+    tags: ["React", "Next.js", "TypeScript", "GSAP", "Tailwind CSS"],
+    icon: (
+      <svg className="service-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </svg>
+    ),
+  },
+  {
+    num: "02",
+    title: "App Development",
+    desc: "Cross-platform mobile applications engineered with React Native. Fluid native gestures, offline-first architectures, real-time synchronization, and seamless user experiences on iOS and Android.",
+    tags: ["React Native", "Expo", "iOS & Android", "Mobile UI", "Offline-first"],
+    icon: (
+      <svg className="service-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+        <line x1="12" y1="18" x2="12.01" y2="18" />
+      </svg>
+    ),
+  },
+  {
+    num: "03",
+    title: "UI/UX Design",
+    desc: "User-centric interface and experience design with refined aesthetic clarity. Visual hierarchy, consistent design systems, interactive prototyping, and pixel-perfect execution.",
+    tags: ["Figma", "Design Systems", "Prototyping", "Micro-interactions", "Wireframes"],
+    icon: (
+      <svg className="service-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 19l7-7 3 3-7 7-3-3z" />
+        <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+        <path d="M2 2l7.586 7.586" />
+        <circle cx="11" cy="11" r="2" />
+      </svg>
+    ),
+  },
+];
 
-  const handleMove = (e: React.MouseEvent) => {
-    const rect = (ref.current as HTMLElement)?.getBoundingClientRect();
-    if (!rect) return;
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.3);
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.3);
-  };
-  const handleLeave = () => { x.set(0); y.set(0); };
+export default function Home() {
+  const [hoveredProject, setHoveredProject] = useState<typeof portfolioData.projects[0] | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLDivElement>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const marqueeTrackRef = useRef<HTMLDivElement>(null);
 
-  const Component = onClick ? "button" : "a";
+  // ── HERO entrance animations ──────────────────────────────────────
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.fromTo(".hanger",          { x: -90, opacity: 0 }, { x: 0, opacity: 1, duration: 1.1 }, 0.15)
+        .fromTo(".header-role-wrap",{ x: 80,  opacity: 0 }, { x: 0, opacity: 1, duration: 1.1 }, 0.25)
+        .fromTo(".personal-image-wrap",{ y: 60, opacity: 0, scale: 0.97 }, { y: 0, opacity: 1, scale: 1, duration: 1.4 }, 0.05)
+        .fromTo(".big-name",        { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2 }, 0.35);
+    });
+    return () => ctx.revert();
+  }, []);
+
+  // ── Scroll-triggered animations (fires once sections enter viewport) ──
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      // Intro headline — word-by-word stagger reveal
+      const headlineEl = document.querySelector(".home-intro-headline");
+      if (headlineEl) {
+        const text = headlineEl.textContent || "";
+        const words = text.split(" ").filter(Boolean);
+        headlineEl.innerHTML = words
+          .map(w => `<span class="word-wrap" style="display:inline-block;overflow:hidden;vertical-align:bottom"><span class="word-inner" style="display:inline-block;transform:translateY(110%)">${w}</span></span>`)
+          .join(" ");
+        gsap.to(".word-inner", {
+          y: 0,
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.055,
+          scrollTrigger: { trigger: ".home-intro-headline", start: "top 82%", once: true },
+        });
+      }
+
+      // Intro desc + button — fade up
+      gsap.fromTo(".home-intro-desc",
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out",
+          scrollTrigger: { trigger: ".home-intro-desc", start: "top 85%", once: true } }
+      );
+      gsap.fromTo(".home-intro-right .btn-round",
+        { y: 30, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)", delay: 0.15,
+          scrollTrigger: { trigger: ".home-intro-right", start: "top 85%", once: true } }
+      );
+
+      // Work section header line wipe
+      gsap.fromTo(".work-header-row",
+        { scaleX: 0, transformOrigin: "left" },
+        { scaleX: 1, duration: 1.1, ease: "power3.out",
+          scrollTrigger: { trigger: ".work-header-row", start: "top 88%", once: true } }
+      );
+
+      // Work rows — staggered slide-up + fade
+      gsap.fromTo(".work-row-item",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", stagger: 0.1,
+          scrollTrigger: { trigger: ".work-section", start: "top 78%", once: true } }
+      );
+
+      // "More work" button pop
+      gsap.fromTo(".btn-normal",
+        { y: 24, opacity: 0, scale: 0.92 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.75, ease: "back.out(1.4)",
+          scrollTrigger: { trigger: ".btn-normal", start: "top 90%", once: true } }
+      );
+
+      // Services headline
+      gsap.fromTo(".services-headline",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.0, ease: "power3.out",
+          scrollTrigger: { trigger: ".services-headline", start: "top 82%", once: true } }
+      );
+
+      // Services cards — stagger slide up from bottom
+      gsap.fromTo(".service-card",
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.12,
+          scrollTrigger: { trigger: ".services-grid", start: "top 80%", once: true } }
+      );
+
+      // Service card num counter spin-in
+      gsap.fromTo(".service-card-num",
+        { rotateX: -90, opacity: 0 },
+        { rotateX: 0, opacity: 1, duration: 0.6, ease: "back.out(2)", stagger: 0.12,
+          scrollTrigger: { trigger: ".services-grid", start: "top 80%", once: true } }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // ── Scroll parallax & Marquee speed-up ──────────────────────────
+  useEffect(() => {
+    let lastScroll = window.scrollY;
+
+    const onScroll = () => {
+      const currentScroll = window.scrollY;
+      const speed = currentScroll - lastScroll;
+      lastScroll = currentScroll;
+
+      if (photoRef.current && currentScroll < window.innerHeight) {
+        photoRef.current.style.transform = `translateX(-50%) translateY(${currentScroll * 0.12}px)`;
+      }
+
+      if (marqueeTrackRef.current) {
+        gsap.to(marqueeTrackRef.current, {
+          x: `-=${speed * 0.65}`,
+          duration: 0.25,
+          ease: "power1.out",
+          overwrite: "auto",
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // ── Dennis physics LERP mouse tracking ──────────────────────────
+  useEffect(() => {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let posXCard = mouseX, posYCard = mouseY;
+    let posXBtn = mouseX, posYBtn = mouseY;
+    let animationFrameId: number;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    const renderLoop = () => {
+      posXCard += (mouseX - posXCard) / 10;
+      posYCard += (mouseY - posYCard) / 10;
+      posXBtn  += (mouseX - posXBtn) / 6;
+      posYBtn  += (mouseY - posYBtn) / 6;
+
+      if (cardRef.current) {
+        cardRef.current.style.left = `${posXCard}px`;
+        cardRef.current.style.top  = `${posYCard}px`;
+      }
+      if (btnRef.current) {
+        btnRef.current.style.left = `${posXBtn}px`;
+        btnRef.current.style.top  = `${posYBtn}px`;
+      }
+
+      animationFrameId = requestAnimationFrame(renderLoop);
+    };
+
+    animationFrameId = requestAnimationFrame(renderLoop);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  // ── Scale In/Out on project hover ────────────────────────────────
+  useEffect(() => {
+    if (!cardRef.current || !btnRef.current) return;
+
+    if (hoveredProject) {
+      gsap.to(cardRef.current, { scale: 1, opacity: 1, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+      gsap.to(btnRef.current,  { scale: 1, opacity: 1, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+    } else {
+      gsap.to(cardRef.current, { scale: 0, opacity: 0, duration: 0.3,  ease: "power2.in",  overwrite: "auto" });
+      gsap.to(btnRef.current,  { scale: 0, opacity: 0, duration: 0.3,  ease: "power2.in",  overwrite: "auto" });
+    }
+  }, [hoveredProject]);
+
+  const recentProjects = portfolioData.projects.slice(0, 3);
+
+
   return (
-    <motion.div
-      ref={ref as any}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      whileHover={{ scale: 1.04 }}
-      whileTap={{ scale: 0.97 }}
-      className={className}
-    >
-      {Component === "button" ? (
-        <button onClick={onClick as any} className="w-full h-full">
-          {children}
-        </button>
-      ) : (
-        <a href={href} className="w-full h-full flex items-center justify-center">
-          {children}
-        </a>
-      )}
-    </motion.div>
-  );
-}
-
-export default function HomePage() {
-  return (
-    <div className="flex flex-col">
-      <ScrollProgress />
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-20 overflow-hidden">
-        {/* Particle field */}
+    <>
+      {/* ═══════════════════════════════════════════════════════════
+          DENNIS SNELLENBERG EXACT HERO HEADER
+          ═══════════════════════════════════════════════════════════ */}
+      <header className="home-header">
+        {/* Luminous Ambient Particle Drift */}
         <ParticleField />
 
-        <div className="absolute inset-0 animated-grid opacity-40 pointer-events-none" />
-
-        {/* Ambient Glows */}
-        <div className="absolute top-1/4 -left-20 w-72 md:w-[500px] h-72 md:h-[500px] bg-accent-primary/8 rounded-full blur-[120px] pointer-events-none animate-float" />
-        <div className="absolute bottom-1/4 -right-20 w-72 md:w-[400px] h-72 md:h-[400px] bg-accent-secondary/8 rounded-full blur-[120px] pointer-events-none animate-float-slow" />
-
-        {/* Background Image */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={fadeIn}
-          className="absolute inset-0 z-0 opacity-20 md:opacity-30 pointer-events-none"
-        >
-          <div className="relative w-full h-full">
-            <Image
-              src="/profile.png"
-              alt={`${portfolioData.name} - ${portfolioData.title}`}
-              fill
-              priority
-              quality={100}
-              className="object-cover object-[center_20%] md:object-[center_15%] saturate-[0.8] brightness-[0.4]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30" />
-            <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
-          </div>
-        </motion.div>
-
-        {/* Content */}
-        <div className="z-10 text-center w-full max-w-5xl">
-          {/* Badge */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={springPop}
-            custom={0}
-            className="inline-flex items-center gap-2 px-5 py-2 mb-10 text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase border border-accent-primary/20 rounded-full glass-colored text-accent-primary shimmer-border"
-          >
-            Web Developer & App Developer
-          </motion.div>
-
-          {/* Name */}
-          <motion.h1
-            initial="hidden"
-            animate="visible"
-            variants={blurIn}
-            className="mb-6"
-          >
-            <div className="text-[6.5vw] xs:text-3xl sm:text-5xl md:text-[6vw] lg:text-[5vw] font-bold tracking-tighter leading-[0.9] select-none" aria-hidden="true">
-              <span className="block text-foreground/20 italic font-extralight text-sm sm:text-2xl md:text-4xl uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-4">Hello, I&apos;m</span>
-              <span className="block gradient-text break-words leading-[0.8]">{portfolioData.name}</span>
-              <span className="block text-foreground/40 text-[clamp(0.75rem,3vw,1.5rem)] sm:text-2xl md:text-3xl font-light mt-2 tracking-normal">({portfolioData.nickname})</span>
-            </div>
-          </motion.h1>
-
-          {/* Tagline */}
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            custom={0.2}
-            className="text-base md:text-xl text-foreground/50 max-w-2xl mx-auto mb-12 leading-relaxed font-light px-4"
-          >
-            Building clean, performant web applications and mobile experiences that solve real problems.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            custom={0.4}
-            className="flex flex-col sm:flex-row gap-4 justify-center px-6 sm:px-0"
-          >
-            <MagneticButton
-              href="/projects"
-              className="group px-8 py-4 rounded-2xl bg-accent-primary text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-3 hover:bg-accent-primary/90 transition-colors hover:shadow-[0_0_40px_rgba(99,102,241,0.4)]"
-            >
-              View Projects
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </MagneticButton>
-            <MagneticButton
-              onClick={() => window.open("/resume.pdf", "_blank")}
-              className="px-8 py-4 rounded-2xl glass border border-white/10 font-bold text-sm uppercase tracking-wider hover:border-accent-primary/30 hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
-            >
-              <Download size={16} />
-              Resume
-            </MagneticButton>
-            <MagneticButton
-              href="/contact"
-              className="px-8 py-4 rounded-2xl glass border border-white/10 font-bold text-sm uppercase tracking-wider hover:border-accent-primary/30 hover:bg-white/[0.04] transition-all flex items-center justify-center gap-2"
-            >
-              <Mail size={16} />
-              Contact Me
-            </MagneticButton>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            custom={0.6}
-            className="mt-12"
-          >
-            <div className="glass rounded-2xl border border-white/10 overflow-hidden">
-              <div className="flex items-center gap-3 px-4 py-3 border-b border-white/5">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] uppercase tracking-[0.25em] font-black text-foreground/60">Tech Stack</span>
-              </div>
-              <div className="marquee-track py-3">
-                {[...TRUSTED_STACK, ...TRUSTED_STACK].map((item, index) => (
-                  <span key={`${item}-${index}`} className="mx-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-1.5 text-[10px] uppercase tracking-[0.16em] font-bold text-foreground/70">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scroll cue */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 hover:opacity-100 transition-opacity cursor-default"
-        >
-          <span className="text-[8px] md:text-[10px] uppercase tracking-[0.4em] font-bold">Scroll</span>
-          <motion.div
-            className="w-px h-12 bg-gradient-to-b from-accent-primary via-accent-primary/50 to-transparent"
-            animate={{ scaleY: [0, 1, 0], originY: 0 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        {/* Personal Portrait Photo — Centered in Studio Gray background */}
+        <div ref={photoRef} className="personal-image-wrap">
+          <Image
+            src="/profile.png"
+            alt={portfolioData.name}
+            width={720}
+            height={1080}
+            priority
+            quality={95}
+            style={{
+              height: "88vh",
+              width: "auto",
+              maxHeight: "880px",
+              objectFit: "contain",
+              objectPosition: "center bottom",
+            }}
           />
-        </motion.div>
-      </section>
+        </div>
 
-      {/* Quick About Teaser */}
-      <section className="py-24 md:py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="max-w-4xl"
-          >
-            <motion.div variants={fadeInUp} className="relative">
-              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-accent-primary mb-4 block">About Me</span>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6 leading-tight">
-                Building products that <span className="gradient-text">work</span>
-              </h2>
-              <p className="text-foreground/50 leading-relaxed text-base md:text-lg mb-8">
-                {portfolioData.bio.full}
-              </p>
-              <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {[
-                  "Clean Code",
-                  "User-Focused Design",
-                  "Modern Tech Stack",
-                ].map((pill, index) => (
-                  <motion.div
-                    key={pill}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-xs uppercase tracking-[0.16em] font-bold text-foreground/70"
-                  >
-                    {pill}
-                  </motion.div>
-                ))}
+        {/* Left Hanger Tab (Attached to left screen edge) */}
+        <div className="hanger">
+          <Magnetic strength={0.25}>
+            <div className="hanger-tab">
+              <div className="hanger-text">
+                <span>Located</span>
+                <span>in</span>
+                <span>India / Nepal</span>
               </div>
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 text-accent-primary font-bold text-sm uppercase tracking-wider hover:gap-4 transition-all"
-              >
-                Read More <ArrowRight size={16} />
-              </Link>
-            </motion.div>
-          </motion.div>
+              <div className="digital-ball">
+                <div className="globe">
+                  <div className="globe-wrap">
+                    <div className="circle" />
+                    <div className="circle" />
+                    <div className="circle" />
+                    <div className="circle-hor" />
+                    <div className="circle-hor-middle" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Magnetic>
+        </div>
+
+        {/* Right Role Section */}
+        <div className="header-role-wrap">
+          <svg
+            className="arrow-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M7 7l10 10" />
+            <path d="M17 7v10H7" />
+          </svg>
+          <div className="role-title">
+            <span>Freelance</span>
+            <span>Designer &amp; Developer</span>
+          </div>
+        </div>
+
+        {/* Floating Rotating Agency Badge */}
+        <div className="absolute right-8 bottom-32 hidden lg:block z-20 pointer-events-auto">
+          <Magnetic strength={0.4}>
+            <div className="relative w-32 h-32 flex items-center justify-center cursor-pointer group">
+              <svg className="w-full h-full animate-[spin_18s_linear_infinite] group-hover:scale-110 transition-transform duration-500" viewBox="0 0 120 120">
+                <path
+                  id="textPath-hero"
+                  d="M 60,60 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0"
+                  fill="none"
+                />
+                <text className="text-[10px] uppercase tracking-[0.24em] fill-white/80 font-medium">
+                  <textPath href="#textPath-hero">
+                    • AVAILABLE FOR WORK • DEV &amp; DESIGN •
+                  </textPath>
+                </text>
+              </svg>
+              <div className="absolute w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-[0_0_15px_#34d399] animate-pulse" />
+            </div>
+          </Magnetic>
+        </div>
+
+        {/* Bottom Infinite Sliding Name Marquee with Scroll-Speed Coupling */}
+        <div className="big-name">
+          <div ref={marqueeTrackRef} className="marquee-track">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} className="marquee-item">
+                {portfolioData.name}
+                <span className="marquee-spacer">—</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      {/* ═══════════════════════════════════════════════════════════
+          DENNIS HOME INTRO — 2-Column Editorial Section
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="home-intro">
+        <div className="home-intro-grid">
+          {/* Left: Big Statement Headline with Clean Line Reveal */}
+          <div>
+            <h2 className="home-intro-headline">
+              Helping brands to stand out in the digital era. Together we will set the
+              new status quo. No nonsense, always on the cutting edge.
+            </h2>
+          </div>
+
+          {/* Right: Short Bio + Round Magnetic "About me" Button */}
+          <div className="home-intro-right">
+            <p className="home-intro-desc">
+              {portfolioData.bio.short} The combination of my passion for design,
+              code &amp; interaction positions me in a unique place in the web and app
+              development world.
+            </p>
+
+            <div>
+              <Magnetic strength={0.4}>
+                <Link href="/about" className="btn-round">
+                  <div className="btn-round-fill" />
+                  <span className="btn-round-text">About me</span>
+                </Link>
+              </Magnetic>
+            </div>
+          </div>
         </div>
       </section>
-    </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          RECENT WORK — Dennis Snellenberg Row Grid with Cursor Preview
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="work-section">
+        <div className="work-section-inner">
+          <div className="work-header-row">
+            <span>Recent work</span>
+            <span>Services</span>
+            <span>Year</span>
+          </div>
+
+          <div style={{ marginTop: "16px" }}>
+            {recentProjects.map((project) => {
+              const projectLink =
+                project.links?.live ||
+                project.demo ||
+                project.links?.github ||
+                project.github ||
+                "/projects";
+              const isExternal = projectLink.startsWith("http");
+
+              return (
+                <Link
+                  key={project.id}
+                  href={projectLink}
+                  target={isExternal ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  className="work-row-item"
+                  onMouseEnter={() => setHoveredProject(project)}
+                  onMouseLeave={() => setHoveredProject(null)}
+                >
+                  <div className="work-row-title">{project.title}</div>
+                  <div className="work-row-services">
+                    {project.category || "Design & Development"} &bull;{" "}
+                    {(project.tags || project.tech || []).slice(0, 2).join(", ")}
+                  </div>
+                  <div className="work-row-year">{project.year || "2024"}</div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* More Work Button */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "clamp(48px, 6vw, 80px)",
+            }}
+          >
+            <Magnetic strength={0.35}>
+              <Link href="/projects" className="btn-normal">
+                <div className="btn-normal-fill" />
+                <span className="btn-normal-text">
+                  <span>More work</span>
+                  <span style={{ opacity: 0.6, fontSize: "0.9em", marginLeft: "4px" }}>
+                    [{portfolioData.projects.length}]
+                  </span>
+                </span>
+              </Link>
+            </Magnetic>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Dennis Snellenberg Exact Floating Card (Black Square with inner media) ── */}
+      <div
+        ref={cardRef}
+        className="dennis-floating-card"
+        style={{
+          transform: "translate(-50%, -50%) scale(0)",
+          opacity: 0,
+        }}
+      >
+        <div className="dennis-floating-card-image">
+          {hoveredProject && hoveredProject.image && (
+            <Image
+              src={hoveredProject.image}
+              alt={hoveredProject.title}
+              fill
+              unoptimized
+              className="object-cover"
+              sizes="(max-width: 768px) 320px, 450px"
+              priority
+            />
+          )}
+        </div>
+      </div>
+
+      {/* ── Dennis Snellenberg Exact Floating "View" Circle Button ── */}
+      <div
+        ref={btnRef}
+        className="dennis-floating-btn"
+        style={{
+          transform: "translate(-50%, -50%) scale(0)",
+          opacity: 0,
+        }}
+      >
+        View
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════
+          SERVICES / CAPABILITIES
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="services-section">
+        <div className="services-inner">
+          <h2 className="services-headline">
+            I can help you with <span style={{ color: "var(--color-blue)" }}>...</span>
+          </h2>
+
+          <div className="services-grid">
+            {SERVICES.map((service) => (
+              <div key={service.num} className="service-card">
+                <div>
+                  <div className="service-card-header">
+                    <div className="service-card-badge">
+                      <span className="service-card-badge-dot" />
+                      <span>{service.num}</span>
+                    </div>
+                    <div className="service-card-icon-wrap">
+                      {service.icon}
+                    </div>
+                  </div>
+                  <h3 className="service-card-title">{service.title}</h3>
+                  <p className="service-card-desc">{service.desc}</p>
+                </div>
+
+                <div>
+                  <div className="service-card-tags">
+                    {service.tags.map((tag) => (
+                      <span key={tag} className="service-card-tag">{tag}</span>
+                    ))}
+                  </div>
+
+                  <div className="service-card-footer">
+                    <span>Explore capability</span>
+                    <svg className="service-card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

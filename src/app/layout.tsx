@@ -4,24 +4,31 @@ import "./globals.css";
 import StructuredData from "@/components/ui/StructuredData";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import SmoothScroll from "@/components/ui/SmoothScroll";
-import RouteTransition from "@/components/ui/RouteTransition";
+import PageCurtain from "@/components/ui/PageCurtain";
+import LoadingScreen from "@/components/ui/LoadingScreen";
+import GlobalAnimations from "@/components/ui/GlobalAnimations";
+import CustomCursor from "@/components/ui/CustomCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import AnimatedBackground from "@/components/ui/AnimatedBackground";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteConfig = {
   name: "Chandraprakash Nyaupane",
-  title: "Web Developer & App Developer | Arjun",
-  description: "Portfolio of Chandraprakash Nyaupane (Arjun) — a Web and App Developer building clean, performant digital products with React, TypeScript, and React Native.",
+  title: "Chandraprakash Nyaupane — Web & App Developer",
+  description:
+    "Portfolio of Chandraprakash Nyaupane (Arjun) — a Web and App Developer building clean, performant digital products with React, TypeScript, and React Native.",
   url: "https://chandraprakashnyaupane.com.np",
 };
 
@@ -33,17 +40,14 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     "Chandraprakash Nyaupane",
-    "Chandra Nyaupane",
     "Arjun Nyaupane",
-    "Chandraprakash",
     "Web Developer",
     "App Developer",
     "Full Stack Developer",
     "Next.js Portfolio",
     "React Developer",
     "TypeScript Developer",
-    "Software Engineer",
-    "Chandraprakash Portfolio",
+    "React Native Developer",
   ],
   authors: [{ name: "Chandraprakash Nyaupane" }],
   creator: "Chandraprakash Nyaupane",
@@ -61,48 +65,39 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     creator: "@arjunnyaupane",
   },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
-  },
+  icons: { icon: "/favicon.ico" },
   metadataBase: new URL(siteConfig.url),
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${outfit.variable} antialiased`}
-      >
+      <body className={`${inter.variable} ${outfit.variable} antialiased`}>
         <StructuredData />
-        <div className="bg-noise fixed inset-0 z-50 pointer-events-none" />
+
+        {/* Global Dennis Magnetic Cursor & Particles */}
+        <CustomCursor />
+
+        {/* Top Scroll Progress Bar */}
+        <ScrollProgress />
+
+        {/* Ambient Gradient Glow Orbs */}
+        <AnimatedBackground />
+
+        {/* Multilingual Preloader */}
+        <LoadingScreen />
+
+        {/* Smooth Page Transition Curtain */}
+        <PageCurtain />
+
         <SmoothScroll>
-          <AnimatedBackground />
+          <GlobalAnimations />
           <Navbar />
-          <main className="relative min-h-screen">
-            <RouteTransition>
-              {children}
-            </RouteTransition>
-          </main>
+          {children}
           <Footer />
         </SmoothScroll>
       </body>
